@@ -1,0 +1,367 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{28682DB8-9662-452D-A5AD-646EA7BC8AD0}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HelloWorld</RootNamespace>
+    <AssemblyName>Example.HelloWorld</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Emgu.CV, Version=2.4.10.1939, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Emgu.CV.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.UI, Version=2.4.10.1939, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Emgu.CV.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.Util, Version=2.4.10.1939, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Emgu.Util.dll</HintPath>
+    </Reference>
+    <Reference Include="InTheHand.Net.Personal">
+      <HintPath>..\..\..\..\Visual Studio 2017\32feet.net.3.5.0\lib\net\InTheHand.Net.Personal.dll</HintPath>
+    </Reference>
+    <Reference Include="LibUsbDotNet">
+      <HintPath>..\..\..\..\Drivers\LibUsbDotNet\LibUsbDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Design, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="RawInput">
+      <HintPath>..\..\..\..\..\..\..\..\Downloads\rawinput_latest\rawinput latest\RawInput\bin\x86\Debug\RawInput.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Messaging" />
+    <Reference Include="System.Runtime.InteropServices.WindowsRuntime" />
+    <Reference Include="System.Runtime.WindowsRuntime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\..\Windows\Microsoft.NET\Framework\v4.0.30319\System.Runtime.WindowsRuntime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.WindowsRuntime.UI.Xaml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\..\Windows\Microsoft.NET\Framework\v4.0.30319\System.Runtime.WindowsRuntime.UI.Xaml.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Windows.Foundation.FoundationContract">
+      <HintPath>..\..\..\..\..\..\..\..\..\..\Program Files (x86)\Windows Kits\10\References\10.0.17763.0\Windows.Foundation.FoundationContract\3.0.0.0\Windows.Foundation.FoundationContract.winmd</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Windows.Foundation.UniversalApiContract">
+      <HintPath>..\..\..\..\..\..\..\..\..\..\Program Files (x86)\Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\Windows.Foundation.UniversalApiContract.winmd</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\CommonAssemblyInfo.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form2.Designer.cs">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form3.Designer.cs">
+      <DependentUpon>Form3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form4.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form4.Designer.cs">
+      <DependentUpon>Form4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form5.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form5.Designer.cs">
+      <DependentUpon>Form5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HV_settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>HV_settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.cs" />
+    <Compile Include="Settings1.cs" />
+    <Compile Include="Settings1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings1.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Stage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Stage.Designer.cs">
+      <DependentUpon>Stage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StageForm.Designer.cs">
+      <DependentUpon>StageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UnmanagedFileLoader .cs" />
+    <Compile Include="FormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMain.Designer.cs">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImageForm.Designer.cs">
+      <DependentUpon>ImageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PictureForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PictureForm.Designer.cs">
+      <DependentUpon>PictureForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl1.Designer.cs">
+      <DependentUpon>UserControl1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl2.Designer.cs">
+      <DependentUpon>UserControl2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserSettings.cs" />
+    <Compile Include="User_Settings.cs" />
+    <Compile Include="User_Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>User_Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form2.resx">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form3.resx">
+      <DependentUpon>Form3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form4.resx">
+      <DependentUpon>Form4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form5.resx">
+      <DependentUpon>Form5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMain.resx">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImageForm.resx">
+      <DependentUpon>ImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PictureForm.resx">
+      <DependentUpon>PictureForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Stage.resx">
+      <DependentUpon>Stage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StageForm.resx">
+      <DependentUpon>StageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl1.resx">
+      <DependentUpon>UserControl1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl2.resx">
+      <DependentUpon>UserControl2.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="HV_settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>HV_settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Properties\DataSources\Analyse.datasource" />
+    <None Include="Properties\DataSources\Form1.datasource" />
+    <None Include="Properties\DataSources\FormMain.datasource" />
+    <None Include="Properties\DataSources\HelloWorld.Properties.Resources.datasource" />
+    <None Include="Properties\DataSources\HelloWorld.Properties.Settings.datasource" />
+    <None Include="Properties\DataSources\HV_settings.datasource" />
+    <None Include="Properties\DataSources\ImageForm.datasource" />
+    <None Include="Properties\DataSources\PictureForm.datasource" />
+    <None Include="Properties\DataSources\Program.datasource" />
+    <None Include="Properties\DataSources\Settings1.datasource" />
+    <None Include="Properties\DataSources\Stage.datasource" />
+    <None Include="Properties\DataSources\StageForm.datasource" />
+    <None Include="Properties\DataSources\UnmanagedFileLoader.datasource" />
+    <None Include="Properties\DataSources\UserControl1.datasource" />
+    <None Include="Properties\DataSources\UserControl2.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Settings1.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="User_Settings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>User_Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\images %281%29.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pad.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pad1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ruler.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Drawing %281%29.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\well.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\QuantaEyeBackground1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bn.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\greenbuttonoff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\greenbuttonon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\QuantaEye.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\QuantaEyeIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\empty512.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Connection.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
