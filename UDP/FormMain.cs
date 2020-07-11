@@ -34,13 +34,13 @@ namespace HelloWorld
         string UserInfo = "";
         public string UserName = "";
         int nMaxCharacters = 26; // 25 Characters + 1 \r = 26
-        int count=0,counter=0;
-        StageForm sf = new StageForm();
-        double overallMotionPixelCount=0;
+        int count = 0, counter = 0;
+        StageForm stageform = new StageForm();
+        double overallMotionPixelCount = 0;
         Emgu.CV.UI.ImageBox ViewPort;
         bool StartClick = false;
         bool StartMove = false;
-        Point P1,P2;
+        Point P1, P2;
         Point[] SelectionRec = new Point[4];
         Point[] SelectionRec2 = new Point[4];
         ImageForm imageform;
@@ -54,12 +54,12 @@ namespace HelloWorld
         System.Diagnostics.Stopwatch watch = System.Diagnostics.Stopwatch.StartNew();
         IPAddress LocalHost = IPAddress.Parse("190.100.101.2"); //My IP
         IPAddress ServerHost = IPAddress.Parse("190.100.101.1"); //My IP
-      //  IPAddress LocalHost = IPAddress.Parse("192.168.1.101"); //My IP
-       // IPAddress ServerHost = IPAddress.Parse("192.168.1.101"); //My IP
+                                                                 //  IPAddress LocalHost = IPAddress.Parse("192.168.1.101"); //My IP
+                                                                 // IPAddress ServerHost = IPAddress.Parse("192.168.1.101"); //My IP
         IPEndPoint EIP;
         IPEndPoint TCPEIP;
-		int VideoPort = 23;
-        int ControllerPort =  152;
+        int VideoPort = 23;
+        int ControllerPort = 152;
         Image<Gray, byte> frame = new Image<Gray, byte>(512, 512, new Gray(0));
         int x = 0;
         int y = 0;
@@ -67,17 +67,17 @@ namespace HelloWorld
         public int iY = 0;
         public int nX = 512;
         public int nY = 512;
-        int nRow =  512;
-        double FPS=0;
-        Int16 old_row = 32000 , row = 0 , row_ready =0;
+        int nRow = 512;
+        double FPS = 0;
+        Int16 old_row = 32000, row = 0, row_ready = 0;
         UInt16 image_size = 512;
-        UInt16 multiply = 1, changed_multiply = 0 , multiply_count = 0 , line_ready=0;
+        UInt16 multiply = 1, changed_multiply = 0, multiply_count = 0, line_ready = 0;
         UInt16 sum = 0;
         int package_number = 0;
         public byte[] receivedData = new byte[512 * 512 * 128];
         byte[] receivedData_frame = new byte[512 * 512];
         int[] window_row = new int[512 * 128];
-        byte[] Packet = new byte[512+2];
+        byte[] Packet = new byte[512 + 2];
         MCvFont format = new MCvFont(FONT.CV_FONT_HERSHEY_PLAIN, 1, 1); //Create the font
         //Terminal Tab Begin
         bool isAllowToTick = true;
@@ -96,7 +96,7 @@ namespace HelloWorld
 
         //Settings Tab Begin
         int NumberOfDevices = 0;
-        int MaximumNumberOfDevices=20;
+        int MaximumNumberOfDevices = 20;
         string[] Device_names = new string[20];
         string[] Port_names = new string[20];
         string ReadToChar = "\r";
@@ -107,7 +107,7 @@ namespace HelloWorld
         bool isGunAlignment = false;
         double LastIntensity = 0;
         //Gun Alignment End
-        
+
         //Single Shot
         decimal oldspeedVal = 200;
         int SingleShotnStep = 512;
@@ -145,18 +145,23 @@ namespace HelloWorld
         // Emgu.CV.im
         int HVProfileLastIndex;
         int MicroscopyModeLastIndex;
+        //<<<<<<< master
+        //=======
         bool isUDPConnected = false;
+        //>>>>>>> master
+
+        
 
         public FormMain()
         {
             InitializeComponent();
             HVProfileLastIndex = HVProfile.SelectedIndex;
-            MicroscopyModeLastIndex = MicroscopyMode.SelectedIndex; 
+            MicroscopyModeLastIndex = MicroscopyMode.SelectedIndex;
             SetCustomBorder();
 
             int NumberOfHVProfile = HVProfile.Items.Count;
-            for (int i=0; i<NumberOfHVProfile; i++) AllUserSettings.Add(new UserSettings());
-            
+            for (int i = 0; i < NumberOfHVProfile; i++) AllUserSettings.Add(new UserSettings());
+
             Form1 f1 = new Form1();
             f1.Show();
             f1.Refresh();
@@ -179,18 +184,18 @@ namespace HelloWorld
             ViewPort.Image = null;
             ViewPort.Location = new System.Drawing.Point(0, 0);
             ViewPort.Name = "ViewPort";
-            ViewPort.Size = new System.Drawing.Size((int)(512),(int)(512));
+            ViewPort.Size = new System.Drawing.Size((int)(512), (int)(512));
             //ViewPort.Size = new System.Drawing.Size(100, 100);
             ViewPort.TabIndex = 2;
             //ViewPort.Dock = System.Windows.Forms.DockStyle.Fill;
             ViewPort.SetZoomScale(1, Point.Empty);
-            ViewPort.FunctionalMode = Emgu.CV.UI.ImageBox.FunctionalModeOption.RightClickMenu;
+            ViewPort.FunctionalMode = Emgu.CV.UI.ImageBox.FunctionalModeOption.Minimum;
             ViewPort.DoubleClick += new System.EventHandler(this.ViewPort_DoubleClick);
             ViewPort.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ViewPort_MouseDown);
             ViewPort.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ViewPort_MouseMove);
             ViewPort.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ViewPort_MouseUp);
 
-           
+
 
             // Emgu.CV.UI.Operation a;
             EIP = new IPEndPoint(LocalHost, VideoPort);
@@ -225,7 +230,7 @@ namespace HelloWorld
             Settings_image.Image = new Bitmap(@".\Src\QV.bmp");
             Render_image.Image = new Bitmap(@".\Src\QV.bmp");
             Help_image.Image = new Bitmap(@".\Src\QV.bmp");
-            
+
             InitializeUDP();
             imgfrm = new PictureForm();
             this.panel1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseWheel);
@@ -250,7 +255,7 @@ namespace HelloWorld
                 //l.SetPin(BluetoothAddress.Parse("80:19:34:94:30:58"), "0000");
                 // bt_socket = l.Server;
             }
-            catch(Exception e)
+            catch (Exception e)
             { }
             textBox3.Text = "listening...     ";
             //  RawInput rawinput = new RawInput(this.Handle,true);
@@ -266,7 +271,7 @@ namespace HelloWorld
             //  UnmanagedFileLoader loader = new UnmanagedFileLoader("\\\\?\\hid#vid_046d&pid_c408#7&2a268dad&0&0000#{4d1e55b2-f16f-11cf-88cb-001111000030}");
             //loader.
             // LibUsbDotNet.
-            
+
 
             this.BackgroundImage = new Bitmap(Properties.Resources.QuantaEyeBackground1);
             //System.Drawing.Image.FromFile("./QuantaEyeBackground1.png");
@@ -275,14 +280,14 @@ namespace HelloWorld
             Border.Image = System.Drawing.Image.FromFile("./bn.gif");
             Border.SizeMode = PictureBoxSizeMode.StretchImage;
 
-            
+
             //EnterFullScreenMode();
 
             //Title.BackColor = System.Drawing.Color.Transparent;
             //group1.BackColor = Color.Transparent;
             //group2.BackColor = Color.Transparent;
             //group3.BackColor = Color.Transparent;
-            
+
             ZoomLight.SizeMode = PictureBoxSizeMode.StretchImage;
             FocusLight.SizeMode = PictureBoxSizeMode.StretchImage;
             IMLCenteringLight.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -300,26 +305,42 @@ namespace HelloWorld
             AllOff();
             TabControl_Main.TabPages[6].VerticalScroll.Enabled = true;
             TabControl_Main.TabPages[6].VerticalScroll.Visible = true;
-            
+            //<<<<<<< master
+            //            track_ball_enumeration();
+            //=======
+            //            
+            //>>>>>>> master
 
 
             //group3.VerticalScroll.SmallChange = 300;
             numericUpDown_imagepercent_ValueChanged(null, null);
 
             //stage
-            sf.TopLevel = false;
-            sf.Parent = this;
+            //<<<<<<< master
+            // stageform.TopLevel = false;
+            // stageform.Parent = this;
             button_stage_Click(this, null);
 
+            //leftpanel.AutoScroll = false;
+            //=======
+            //            sf.TopLevel = false;
+            //            sf.Parent = this;
+            //            button_stage_Click(this, null);
+            //
             leftpanel.AutoScroll = false;
+            //>>>>>>> master
 
             ApplyGeneralSettings();
         }
 
+        //<<<<<<< master
+        //        private void ApplyGeneralSettings()
+        //=======
         public void ApplyGeneralSettings()
+        //>>>>>>> master
         {
             num_stig_x.Minimum = Settings1.Default.num_stig_min;
-            num_stig_x.Maximum= Settings1.Default.num_stig_max;
+            num_stig_x.Maximum = Settings1.Default.num_stig_max;
             num_gain_x.Minimum = Settings1.Default.num_gain_min;
             num_gain_x.Maximum = Settings1.Default.num_gain_max;
             num_obj_x.Minimum = Settings1.Default.num_obj_min;
@@ -330,9 +351,12 @@ namespace HelloWorld
             num_gunshift_x.Maximum = Settings1.Default.num_gunshift_max;
             num_guntilt_x.Minimum = Settings1.Default.num_guntilt_min;
             num_guntilt_x.Maximum = Settings1.Default.num_guntilt_max;
+            //<<<<<<< master
+            //=======
 
             UD_HV_HV.Maximum = Settings1.Default.hv_raw_max;
             UD_HV_Filament.Maximum = Settings1.Default.fb_raw_max;
+            //>>>>>>> master
         }
 
         private void SetCustomBorder()
@@ -352,12 +376,12 @@ namespace HelloWorld
             Border.MouseDown += ToolsPicture_MouseDown;
             Border.MouseMove += ToolsPicture_MouseMove;
             Border.MouseUp += ToolsPicture_MouseUp;
-            
+
             Font drawFont2 = new Font("Marlett", 10, FontStyle.Bold);
 
             Button MinimizeButton = new Button();
             MinimizeButton.Parent = Buttons;
-            MinimizeButton.Size = new Size(Border.Height-3, Border.Height-3);
+            MinimizeButton.Size = new Size(Border.Height - 3, Border.Height - 3);
             MinimizeButton.FlatStyle = FlatStyle.Flat;
             MinimizeButton.FlatAppearance.BorderSize = 0;
             MinimizeButton.Dock = DockStyle.Right;
@@ -369,11 +393,11 @@ namespace HelloWorld
 
             Button RestoreButton = new Button();
             RestoreButton.Parent = Buttons;
-            RestoreButton.Size = new Size(Border.Height-3, Border.Height-3);
+            RestoreButton.Size = new Size(Border.Height - 3, Border.Height - 3);
             RestoreButton.FlatStyle = FlatStyle.Flat;
             RestoreButton.FlatAppearance.BorderSize = 0;
             RestoreButton.Dock = DockStyle.Right;
-            
+
             RestoreButton.Font = drawFont2;
             RestoreButton.ForeColor = Color.White;
             if (this.WindowState == FormWindowState.Maximized)
@@ -386,7 +410,7 @@ namespace HelloWorld
 
             Button CloseButton = new Button();
             CloseButton.Parent = Buttons;
-            CloseButton.Size = new Size(Border.Height-3, Border.Height-3);
+            CloseButton.Size = new Size(Border.Height - 3, Border.Height - 3);
             CloseButton.FlatStyle = FlatStyle.Flat;
             CloseButton.FlatAppearance.BorderSize = 0;
             CloseButton.Dock = DockStyle.Right;
@@ -396,7 +420,7 @@ namespace HelloWorld
             CloseButton.Text = c.ToString();
             CloseButton.Click += CloseButton_Click;
 
-            
+
             //LeaveFullScreenMode();
             //EnterFullScreenMode();
 
@@ -416,7 +440,7 @@ namespace HelloWorld
                 {
 
                 }
-                
+
                 /*if (System.Windows.Forms.Application.MessageLoop)
                 {
                     // WinForms app
@@ -509,7 +533,11 @@ namespace HelloWorld
 
         private void TurnOff(PictureBox light)
         {
+            //<<<<<<< master
+            //            SelectedLightControl = -1;
+            //=======
             //SelectedLightControl = -1;
+            //>>>>>>> master
             light.Image = new Bitmap(Properties.Resources.greenbuttonoff);
             light.Parent.BackColor = light.Parent.Parent.BackColor;
             //System.Drawing.Image.FromFile("./greenbuttonoff.png");
@@ -564,7 +592,11 @@ namespace HelloWorld
                 y0 = StdGetSelectedCtrl2D().Parent.Location.Y;
 
             bool isStoped = false;
+            //<<<<<<< master
+            //            if (y0 > BestY && y0 < BestY + 50)
+            //=======
             if (y0 > BestY && y0 < BestY + 70)
+            //>>>>>>> master
             {
                 isStoped = true;
                 AnimationTimer.Stop();
@@ -576,7 +608,7 @@ namespace HelloWorld
 
             if (!isStoped)
             {
-                int R = groupBox_focus.Height*5;
+                int R = groupBox_focus.Height * 5;
                 int newx = groupBox_focus.Location.X;
                 int newy = groupBox_focus.Location.Y + shift;
                 if (newy > leftpanel.Size.Height) newy = newy - R;
@@ -625,38 +657,78 @@ namespace HelloWorld
         private void track_ball_enumeration()
         {
             // Get a new device list each time the device dropdown is opened
-           // cboDevices.Items.Clear();
-            LibUsbDotNet.Main.UsbRegDeviceList mRegDevices = UsbDevice.AllDevices;
-
-            foreach (LibUsbDotNet.Main.UsbRegistry regDevice in mRegDevices)
+            //<<<<<<< master
+            // cboDevices.Items.Clear();
+            try
             {
-                // add the Vid, Pid, and usb device description to the dropdown display.
-                // NOTE: There are many more properties available to provide you with more device information.
-                // See the LibUsbDotNet.Main.SPDRP enumeration.
-                string sItem = String.Format("Vid:{0} Pid:{1} {2}|{3}/n",
-                                             regDevice.Vid.ToString("X4"),
-                                             regDevice.Pid.ToString("X4"),
-                                             regDevice.FullName,
-                                             regDevice.Device.Info.ProductString
-                                           //  regDevice.Device.SymbolicName
-                                             );
-            
-                //if (regDevice.Name == ("QuantaEye USB Trackball"))
-                if (regDevice.Name.Contains("QuantaEye"))
-                        regDevice.Device.Open();
-                    trackball_Reader = regDevice.Device.OpenEndpointReader((LibUsbDotNet.Main.ReadEndpointID)(1|0x80));
-                //  mEpReader = mUsbDevice.OpenEndpointReader((ReadEndpointID)(epNum | 0x80));
-                //mEpWriter = mUsbDevice.OpenEndpointWriter((WriteEndpointID)epNum);
-                trackball_Reader.DataReceived += trackball_DataReceived;
-                trackball_Reader.Flush();
-                trackball_Reader.DataReceivedEnabled = true;
-                //trackball_Reader.
+                LibUsbDotNet.Main.UsbRegDeviceList mRegDevices = UsbDevice.AllDevices;
 
-                //   foreach (var p in regDevice.DeviceProperties)
-                //      sItem += p.Key.ToString() + "---->" + p.Value.ToString() + "\n";
-                //   MessageBox.Show(sItem);
+                foreach (LibUsbDotNet.Main.UsbRegistry regDevice in mRegDevices)
+                {
+                    // add the Vid, Pid, and usb device description to the dropdown display.
+                    // NOTE: There are many more properties available to provide you with more device information.
+                    // See the LibUsbDotNet.Main.SPDRP enumeration.
+                    string sItem = String.Format("Vid:{0} Pid:{1} {2}|{3}/n",
+                                                 regDevice.Vid.ToString("X4"),
+                                                 regDevice.Pid.ToString("X4"),
+                                                 regDevice.FullName,
+                                                 regDevice.Device.Info.ProductString
+                                                 //  regDevice.Device.SymbolicName
+                                                 );
+
+                    //if (regDevice.Name == ("QuantaEye USB Trackball"))
+                    if (regDevice.Name.Contains("QuantaEye"))
+                        regDevice.Device.Open();
+                    trackball_Reader = regDevice.Device.OpenEndpointReader((LibUsbDotNet.Main.ReadEndpointID)(1 | 0x80));
+                    //  mEpReader = mUsbDevice.OpenEndpointReader((ReadEndpointID)(epNum | 0x80));
+                    //mEpWriter = mUsbDevice.OpenEndpointWriter((WriteEndpointID)epNum);
+                    trackball_Reader.DataReceived += trackball_DataReceived;
+                    trackball_Reader.Flush();
+                    trackball_Reader.DataReceivedEnabled = true;
+                    //trackball_Reader.
+
+                    //   foreach (var p in regDevice.DeviceProperties)
+                    //      sItem += p.Key.ToString() + "---->" + p.Value.ToString() + "\n";
+                    //   MessageBox.Show(sItem);
+                }
+                //tsNumDevices.Text = cboDevices.Items.Count.ToString();
             }
-            //tsNumDevices.Text = cboDevices.Items.Count.ToString();
+            catch (Exception e)
+            { MessageBox.Show(e.Message); }
+            //=======
+            //           // cboDevices.Items.Clear();
+            //            LibUsbDotNet.Main.UsbRegDeviceList mRegDevices = UsbDevice.AllDevices;
+            //
+            //            foreach (LibUsbDotNet.Main.UsbRegistry regDevice in mRegDevices)
+            //            {
+            //                // add the Vid, Pid, and usb device description to the dropdown display.
+            //                // NOTE: There are many more properties available to provide you with more device information.
+            //                // See the LibUsbDotNet.Main.SPDRP enumeration.
+            //                string sItem = String.Format("Vid:{0} Pid:{1} {2}|{3}/n",
+            //                                             regDevice.Vid.ToString("X4"),
+            //                                             regDevice.Pid.ToString("X4"),
+            //                                             regDevice.FullName,
+            //                                             regDevice.Device.Info.ProductString
+            //                                           //  regDevice.Device.SymbolicName
+            //                                             );
+            //            
+            //                //if (regDevice.Name == ("QuantaEye USB Trackball"))
+            //                if (regDevice.Name.Contains("QuantaEye"))
+            //                        regDevice.Device.Open();
+            //                    trackball_Reader = regDevice.Device.OpenEndpointReader((LibUsbDotNet.Main.ReadEndpointID)(1|0x80));
+            //                //  mEpReader = mUsbDevice.OpenEndpointReader((ReadEndpointID)(epNum | 0x80));
+            //                //mEpWriter = mUsbDevice.OpenEndpointWriter((WriteEndpointID)epNum);
+            //                trackball_Reader.DataReceived += trackball_DataReceived;
+            //                trackball_Reader.Flush();
+            //                trackball_Reader.DataReceivedEnabled = true;
+            //                //trackball_Reader.
+            //
+            //                //   foreach (var p in regDevice.DeviceProperties)
+            //                //      sItem += p.Key.ToString() + "---->" + p.Value.ToString() + "\n";
+            //                //   MessageBox.Show(sItem);
+            //            }
+            //            //tsNumDevices.Text = cboDevices.Items.Count.ToString();
+            //>>>>>>> master
         }
 
         private void trackball_DataReceived(object sender, LibUsbDotNet.Main.EndpointDataEventArgs e)
@@ -682,7 +754,7 @@ namespace HelloWorld
             //richTextBox1.Text = e.Buffer[0].ToString() + "\r" + richTextBox1.Text;
             int deltax = (int)((double)((sbyte)e.Buffer[1]) / (11 - GetSelectedDCtrlVal()));
             int seltay = (int)((double)((sbyte)e.Buffer[2]) / (11 - GetSelectedDCtrlVal()));
-            if (deltax != 0 && seltay!=0) ChangeSelectedCtrlVal(deltax, seltay);
+            if (deltax != 0 && seltay != 0) ChangeSelectedCtrlVal(deltax, seltay);
 
             //GetSelectedCtrl2D().X += (int)((double)((sbyte)e.Buffer[1]) / (11 - GetSelectedDCtrlVal()));
             //GetSelectedCtrl2D().Y += (int)((double)((sbyte)e.Buffer[2]) / (11 - GetSelectedDCtrlVal()));
@@ -768,7 +840,7 @@ namespace HelloWorld
                 StdGetSelectedDCtrl().Value = val;
             }
         }
-        
+
         private TrackBar StdGetSelectedCtrl1D()
         {
             TrackBar Sel;
@@ -914,31 +986,31 @@ namespace HelloWorld
                 //
                 String ID = devices.ElementAt(0).Id;
                 Windows.Foundation.IAsyncOperation<HidDevice> async_hid;
-                async_hid = HidDevice.FromIdAsync(ID,FileAccessMode.Read);
+                async_hid = HidDevice.FromIdAsync(ID, FileAccessMode.Read);
                 while (async_hid.Status != Windows.Foundation.AsyncStatus.Completed) ;
                 HidDevice device = async_hid.GetResults();
-               // device.
+                // device.
                 if (device != null)
                 {
                     // Input reports contain data from the device.
                     device.InputReportReceived += new Windows.Foundation.TypedEventHandler<HidDevice, HidInputReportReceivedEventArgs>(hid_report);
 
-                        //+=  (sender, args) =>
+                    //+=  (sender, args) =>
                     {
-                      /*  HidInputReport inputReport = args.Report;
-                        Windows.Storage.Streams.IBuffer buffer = inputReport.Data;*/
+                        /*  HidInputReport inputReport = args.Report;
+                          Windows.Storage.Streams.IBuffer buffer = inputReport.Data;*/
 
                         // Create a DispatchedHandler as we are interracting with the UI directly and the
                         // thread that this function is running on might not be the UI thread; 
                         // if a non-UI thread modifies the UI, an exception is thrown.
 
-                       /* await this.Dispatcher.RunAsync(
-                            CoreDispatcherPriority.Normal,
-                            new DispatchedHandler(() =>
-                            {
-                                info.Text += "\nHID Input Report: " + inputReport.ToString() +
-                                "\nTotal number of bytes received: " + buffer.Length.ToString();
-                            }));*/
+                        /* await this.Dispatcher.RunAsync(
+                             CoreDispatcherPriority.Normal,
+                             new DispatchedHandler(() =>
+                             {
+                                 info.Text += "\nHID Input Report: " + inputReport.ToString() +
+                                 "\nTotal number of bytes received: " + buffer.Length.ToString();
+                             }));*/
                     };
                 }
 
@@ -946,17 +1018,22 @@ namespace HelloWorld
             else
             {
                 // There were no HID devices that met the selector criteria.
-               // info.Text = "HID device not found";
+                // info.Text = "HID device not found";
             }
         }
         private void hid_report(HidDevice device, HidInputReportReceivedEventArgs arg)
         {
-           // HidInputReport inputReport = arg.Report;
-          //  Windows.Storage.Streams.IBuffer buffer = inputReport.Data;
-          //  hidstring = inputReport.ToString();
-          //  if (!backgroundWorker1.IsBusy)
-           //     backgroundWorker1.RunWorkerAsync();
+            // HidInputReport inputReport = arg.Report;
+            //  Windows.Storage.Streams.IBuffer buffer = inputReport.Data;
+            //  hidstring = inputReport.ToString();
+            //  if (!backgroundWorker1.IsBusy)
+            //     backgroundWorker1.RunWorkerAsync();
         }
+        //<<<<<<< master
+        //            private void BtnStart_Click(object sender, EventArgs e)
+        //        {
+        //            dactimer(1);
+        //=======
 
         private void BtnStart_Click(object sender, EventArgs e)
         {
@@ -966,6 +1043,7 @@ namespace HelloWorld
             else
                 isUDPConnected = isOK;
 
+            //>>>>>>> master
             Play();
             //System.Threading.Thread myThread;
             //myThread = new System.Threading.Thread(new System.Threading.ThreadStart(Play));
@@ -999,6 +1077,11 @@ namespace HelloWorld
         {
             //LabelUDPConnected.Visible = true;
             //LabelUDPConnected.Update();
+            //<<<<<<< master
+            //          //  int nreceivedData = socket.Receive(Packet);
+            //            socket.ReceiveBufferSize = (512 + 2)*512;
+            //            socket.BeginReceive(Packet, 0, 512 + 2, SocketFlags.None, new AsyncCallback(RecieveComplete), socket);
+            //=======
             //  int nreceivedData = socket.Receive(Packet);
             socket.ReceiveBufferSize = (512 + 2) * 512;
             try
@@ -1009,29 +1092,30 @@ namespace HelloWorld
             {
 
             }
+            //>>>>>>> master
             timer1.Start();
-            
-      //     Application.Idle += new EventHandler(ProcessFrame);
+
+            //     Application.Idle += new EventHandler(ProcessFrame);
         }
         public void RecieveComplete(IAsyncResult result)
         {
             try
             {
-            //    if (  >= 514)
+                //    if (  >= 514)
                 {
                     socket.EndReceive(result);
                     ;
-                     row = (Int16)(Packet[nX + 1] | (Packet[nX] << 8));
-                    
+                    row = (Int16)(Packet[nX + 1] | (Packet[nX] << 8));
+
                     //int nxm = nX/ multiply;
                     if ((old_row == row))
                         multiply_count++;
                     else
                         multiply_count = 0;
                     if (multiply_count >= multiply) multiply_count = 0;
-                    if (row<old_row)
+                    if (row < old_row)
                     {
-                        
+
                         watch.Stop();
                         FPS += 1000.0 / watch.ElapsedMilliseconds;
                         FPS /= 2;
@@ -1041,53 +1125,53 @@ namespace HelloWorld
                     old_row = row;
 
                     if (row < 0 || row >= nY)
-                     row = 0;
-            /*        int imatx = 0;
-                    int imaty = 0;
-                    if (SingleShotMode)
-                    {
-                        for (int ic = 0; ic < 512; ic++)
-                        {
-                            if (MultiShotMode)
+                        row = 0;
+                    /*        int imatx = 0;
+                            int imaty = 0;
+                            if (SingleShotMode)
                             {
-                                int nm = (int)numericUpDown2.Value;
-                                imatx = ((iMultiScan - 1) % nm);
-                                imaty = (int)((iMultiScan - 1 - imatx ) / nm);
-                                if (SingleShotMode) myMatrix[SSPacketCnt + imatx * SingleShotnStep, SSRow + imaty * SingleShotnStep] = Packet[ic];
-                            }
-                            else
-                            {
-                                if (SingleShotMode) myMatrix[SSPacketCnt, SSRow] = Packet[ic];
-                            }
-                            SSPacketCnt++;
-                            if (SSPacketCnt > SingleShotnStep - 1)
-                            {
-                                SSPacketCnt = 0;
-                                SSRow++;
-
-                                if (SSRow > SingleShotnStep - 1)
+                                for (int ic = 0; ic < 512; ic++)
                                 {
-                                    SingleShotMode = false;
-                                    if (!MultiShotMode)
+                                    if (MultiShotMode)
                                     {
-                                        //ChangeSpeed(oldspeedVal);
+                                        int nm = (int)numericUpDown2.Value;
+                                        imatx = ((iMultiScan - 1) % nm);
+                                        imaty = (int)((iMultiScan - 1 - imatx ) / nm);
+                                        if (SingleShotMode) myMatrix[SSPacketCnt + imatx * SingleShotnStep, SSRow + imaty * SingleShotnStep] = Packet[ic];
                                     }
                                     else
                                     {
-                                        if (iMultiScan == MultiShotnStep)
+                                        if (SingleShotMode) myMatrix[SSPacketCnt, SSRow] = Packet[ic];
+                                    }
+                                    SSPacketCnt++;
+                                    if (SSPacketCnt > SingleShotnStep - 1)
+                                    {
+                                        SSPacketCnt = 0;
+                                        SSRow++;
+
+                                        if (SSRow > SingleShotnStep - 1)
                                         {
-                                            MultiShotMode = false;
-                                            //ChangeSpeed(oldspeedVal);
+                                            SingleShotMode = false;
+                                            if (!MultiShotMode)
+                                            {
+                                                //ChangeSpeed(oldspeedVal);
+                                            }
+                                            else
+                                            {
+                                                if (iMultiScan == MultiShotnStep)
+                                                {
+                                                    MultiShotMode = false;
+                                                    //ChangeSpeed(oldspeedVal);
+                                                }
+                                            }
+                                            break;
                                         }
                                     }
-                                    break;
                                 }
                             }
-                        }
-                    }
-                    */
-                   // int pos = (row + iY) * 512  + iX;// + nX * multiply_count;// * multiply;// + nX* multiply_count;
-                   // int pos = row + nX * multiply_count;
+                            */
+                    // int pos = (row + iY) * 512  + iX;// + nX * multiply_count;// * multiply;// + nX* multiply_count;
+                    // int pos = row + nX * multiply_count;
                     /*   for(int i=0;i<multiply;i++)
                        {
 
@@ -1113,13 +1197,13 @@ namespace HelloWorld
                                sum += Packet[j+i*multiply];
                            receivedData[pos + i] = (byte)(sum / multiply);
                        }*/
-                      // for(int i;i<nX;i++)
-                    Buffer.BlockCopy(Packet, 0, receivedData, package_number*512 , nX);
-                    window_row[package_number] = row; 
+                    // for(int i;i<nX;i++)
+                    Buffer.BlockCopy(Packet, 0, receivedData, package_number * 512, nX);
+                    window_row[package_number] = row;
                     if (multiply_count == (multiply - 1)) line_ready = multiply;
                     if (line_ready > 0)
                     {
-                        int num=0;
+                        int num = 0;
                         int linestart = (package_number - line_ready + 1);// * 512;
                         if (linestart < 0) linestart += 65536;// 33554432;
                         int pos = (row + iY) * 512 + iX;
@@ -1129,8 +1213,8 @@ namespace HelloWorld
                             sum = 0;
                             for (int j = 0; j < line_ready; j++)
                             {
-                                sum += receivedData[linestart*512 + num];
-                                if((++num)>=nX){ num = 0; linestart++; if (linestart >= 65536) linestart = 0; }
+                                sum += receivedData[linestart * 512 + num];
+                                if ((++num) >= nX) { num = 0; linestart++; if (linestart >= 65536) linestart = 0; }
                             }
                             receivedData_frame[pos + i] = (byte)(sum / line_ready);
                         }
@@ -1152,25 +1236,25 @@ namespace HelloWorld
                                 button3_Click(null, null);
                             }
                         }*/
-                    if ((++package_number)>= 65536) package_number=0;
+                    if ((++package_number) >= 65536) package_number = 0;
 
                 }
-               // watch.Reset(); watch.Start();// label26.Text= watch.ElapsedMilliseconds.ToString();
+                // watch.Reset(); watch.Start();// label26.Text= watch.ElapsedMilliseconds.ToString();
                 socket.BeginReceive(Packet, 0, 512 + 2, SocketFlags.None, new AsyncCallback(RecieveComplete), socket);
             }
             catch (Exception Exception)
             {
-               MessageBox.Show(Exception.Message);
+                MessageBox.Show(Exception.Message);
             }
 
         }
 
         private void Stop()
-        { 
+        {
             //LabelUDPConnected.Visible = true;
             //LabelUDPConnected.Update();
             timer1.Stop();
-         //   Application.Idle -= new EventHandler(ProcessFrame);
+            //   Application.Idle -= new EventHandler(ProcessFrame);
         }
 
         private void ProcessFrame1(object sender, EventArgs e)
@@ -1193,26 +1277,26 @@ namespace HelloWorld
             try
             {
 
-             //   if (ready == 0)
-             //   return;
-             //   ready = 0;
+                //   if (ready == 0)
+                //   return;
+                //   ready = 0;
                 //socket.Send(new byte[1]);
                 //receivedData = udp.Receive(ref EIP);
-               // watch.Stop();
-                
-              //  var watch = System.Diagnostics.Stopwatch.StartNew();
-                
-            /*    for (int block = 0; block < nRow; block++)
-                {
-                    int nreceivedData = socket.Receive(Packet);
-                    Int16 row = (Int16)(Packet[513] | (Packet[512] << 8));
-                    Buffer.BlockCopy(Packet, 0, receivedData, row * nY, 512);
-                    //int nreceivedData = socket.Receive(receivedData, count * nX * nY, nX * nY, SocketFlags.None);
-                    //count = count + 1;
-                    //if (count > 511) count = 0;
-                }*/
+                // watch.Stop();
+
+                //  var watch = System.Diagnostics.Stopwatch.StartNew();
+
+                /*    for (int block = 0; block < nRow; block++)
+                    {
+                        int nreceivedData = socket.Receive(Packet);
+                        Int16 row = (Int16)(Packet[513] | (Packet[512] << 8));
+                        Buffer.BlockCopy(Packet, 0, receivedData, row * nY, 512);
+                        //int nreceivedData = socket.Receive(receivedData, count * nX * nY, nX * nY, SocketFlags.None);
+                        //count = count + 1;
+                        //if (count > 511) count = 0;
+                    }*/
                 frame.Bytes = receivedData;
-             //   ViewPort.Image = frame;
+                //   ViewPort.Image = frame;
                 //Buffer.BlockCopy(receivedData, 0, frame.Bytes, count * nX * nY, nreceivedData);
                 //count = count + 1;
                 overallMotionPixelCount = overallMotionPixelCount + 1;
@@ -1245,27 +1329,92 @@ namespace HelloWorld
                     else
                         FPS = 1000.0 / n;
                 }
-                
+
                 if (StartMove)
                 {
                     frame.DrawPolyline(SelectionRec, true, new Gray(255), 1);
                     frame.DrawPolyline(SelectionRec2, true, new Gray(1), 1);
                 }
-               // string info = String.Format("{0:0.0}FPS", FPS);
+                // string info = String.Format("{0:0.0}FPS", FPS);
                 frame.Draw("hiiiiii", ref format, new System.Drawing.Point(100, 100), new Gray(200)); //Draw on the image using the specific font
-                
+
+                frame = SetFilter(frame);
                 ViewPort.Image = frame;
-               // watch.Reset(); watch.Start();
+                // watch.Reset(); watch.Start();
                 //UpdateText(info);
             }
             catch (Exception e)
             {
                 Stop();
-                log.Text = e.Message+ "\r" + log.Text;
-               // MessageBox.Show(e.Message);
+                log.Text = e.Message + "\r" + log.Text;
+                // MessageBox.Show(e.Message);
             }
         }
 
+        double Filter_Brightness_Val = 1.0;
+        double Filter_Contrast_Val = 1.0;
+        bool Filter_FLIP_HORIZONTAL = false;
+        bool Filter_FLIP_VERTICAL = false;
+        bool Filter_EqualizeHist = false;
+        bool Filter_Bilatral = false;
+        int Filter_Bilatral_KernelSize = 1;
+        int Filter_Bilatral_ColorSigma = 1;
+        int Filter_Bilatral_SpaceSigma = 1;
+        bool Filter_EdgeDetector = false;
+        int Filter_EdgeDetector_Thresh = 100;
+        int Filter_EdgeDetector_Linking = 60;
+        bool Filter_Median = false;
+        int Filter_Median_Size = 1;
+        private Image<Gray, Byte> SetFilter(Image<Gray, Byte> frame)
+        {
+            Image<Gray, Byte> outFrame = frame;
+
+            outFrame._Mul(Filter_Brightness_Val);
+            outFrame._GammaCorrect(Filter_Contrast_Val);
+
+            if (Filter_Bilatral)
+                outFrame = outFrame.SmoothBilatral(Filter_Bilatral_KernelSize, Filter_Bilatral_ColorSigma, Filter_Bilatral_SpaceSigma);
+
+            if (Filter_Median)
+                outFrame = outFrame.SmoothMedian(Filter_Median_Size);
+
+            if (Filter_EqualizeHist) outFrame._EqualizeHist();
+
+            /*
+            if (Filter_Smooth.Checked)
+            {
+                Image<Gray, Byte> smallGrayFrame = frame.PyrDown();
+                outFrame = smallGrayFrame.PyrUp();
+            }
+            else if (Filter_EdgeDetector.Checked)
+            {
+                Image<Gray, Byte> smallGrayFrame = frame.PyrDown();
+                Image<Gray, Byte> smoothedGrayFrame = smallGrayFrame.PyrUp();
+                outFrame = smoothedGrayFrame.Canny(100, 60);
+            }
+            else //isFilterNormal
+            {
+                outFrame = frame;
+            }
+
+            if (Filter_Normal.Checked)
+            {
+                Filter_Normal.Checked = true;
+            }*/
+
+            if (Filter_EdgeDetector)
+            {
+                //Image<Gray, Byte> smallGrayFrame = frame.PyrDown();
+                //Image<Gray, Byte> smoothedGrayFrame = smallGrayFrame.PyrUp();
+                //outFrame = smoothedGrayFrame.Canny(Filter_EdgeDetector_Thresh, Filter_EdgeDetector_Linking);
+                outFrame = outFrame.Canny(Filter_EdgeDetector_Thresh, Filter_EdgeDetector_Linking);
+            }
+
+            if (Filter_FLIP_HORIZONTAL) outFrame._Flip(FLIP.HORIZONTAL);
+            if (Filter_FLIP_VERTICAL) outFrame._Flip(FLIP.VERTICAL);
+
+            return outFrame;
+        }
         private void UpdateText(String text)
         {
             if (InvokeRequired && !IsDisposed)
@@ -1298,23 +1447,26 @@ namespace HelloWorld
                 //ViewPort.Size = new System.Drawing.Size(700, 700);
                 //string info = String.Format("Quanta");
                 //frame.Draw(info, ref f, new System.Drawing.Point(227, 247), new Gray(200)); //Draw on the image using a specific font
-                Image<Rgb,byte> frame0 = new Image<Rgb, byte>(new Bitmap(Properties.Resources.empty512));
+                Image<Rgb, byte> frame0 = new Image<Rgb, byte>(new Bitmap(Properties.Resources.empty512));
                 frame = frame0.Convert<Gray, Byte>();
+
+                frame = SetFilter(frame);
+
                 ViewPort.Image = frame;//.PyrUp();
-                
+
                 ViewPort.SetZoomScale(1.1, Point.Empty);
-                 
+
                 //frame.DrawPolyline()
-                           }
+            }
             catch (NullReferenceException ex)
             {
-               // MessageBox.Show(excpt.Message);
+                // MessageBox.Show(excpt.Message);
                 log.Text = ex.Message + "\r" + log.Text;
             }
         }
 
         void InitializeUDP()
-		{
+        {
             //udp = new UdpClient(EIP);
             //udp.Client.ReceiveBufferSize = 65000;
             try
@@ -1332,8 +1484,8 @@ namespace HelloWorld
             }
             //socket.BeginReceive(new AsyncCallback(ReceiveCallback), null);
             //socket.Connect(EIP);
-			//udp.BeginReceive(new AsyncCallback(ReceiveCallback),null);
-		}
+            //udp.BeginReceive(new AsyncCallback(ReceiveCallback),null);
+        }
 
         void InitializeTCP()
         {
@@ -1354,12 +1506,12 @@ namespace HelloWorld
 
         private void terminalHistory_MouseLeave(object sender, EventArgs e)
         {
-            History.Size = new Size(History.Size.Width,17);
+            History.Size = new Size(History.Size.Width, 17);
         }
 
         private void terminalHistory_Leave(object sender, EventArgs e)
         {
-            History.Size = new Size(History.Size.Width,17);
+            History.Size = new Size(History.Size.Width, 17);
         }
 
         private void terminalHistory_Click(object sender, EventArgs e)
@@ -1382,7 +1534,7 @@ namespace HelloWorld
                 TBOrder.Text = History.Items[HistoryIndex].ToString();
                 return;
             }
-            
+
             string order = TBOrder.Text;
 
             string[] parts = order.Split('.');
@@ -1501,7 +1653,7 @@ namespace HelloWorld
                     TBOutput.Text = TBOutput.Text + TBOrder.Text + "\n" + ">>> ";
                 else
                     TBOutput.Text = TBOutput.Text + order + "\n" + ">>> ";
-                
+
                 ScrollToEnd();
                 TBOrder.Text = "";
 
@@ -1655,16 +1807,29 @@ namespace HelloWorld
                     //u6itmode(1);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 //notifyIcon1.ShowBalloonTip(2000, "Error", ex.Message, ToolTipIcon.Error);
                 log.Text = ex.Message + "\r" + log.Text;
-               // MessageBox.Show(ex.Message);
+                // MessageBox.Show(ex.Message);
             }
         }
 
         private void Btn_TCPDisconnect_Click(object sender, EventArgs e)
         {
+            //<<<<<<< master
+            //            try
+            //            {
+            //                //tcp.Close();
+            //                tcp.Client.Disconnect(true);
+            //                LabelTCPConnected.Visible = false;
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //                //notifyIcon1.ShowBalloonTip(2000, "Error", ex.Message, ToolTipIcon.Error);
+            //                log.Text = ex.Message + "\r" + log.Text;
+            //               // MessageBox.Show(ex.Message);
+            //=======
             if (tcp != null)
             {
                 try
@@ -1683,6 +1848,7 @@ namespace HelloWorld
             else
             {
                 log.Text = "LAN is not connected ...";
+                //>>>>>>> master
             }
         }
 
@@ -1716,16 +1882,20 @@ namespace HelloWorld
 
         private bool dacper(decimal period)
         {
-            string CompleteOrder = "dacper " + period.ToString()+ " " + (((speedper.Value) * period) / 100).ToString() + "\r";
-            label_rate.Text = "rate: " + ((double)108000000 / (double)(period+1) / nX / nY).ToString("0.00000") + " / line rate: " + ((double)108000000 / (double)(period+1) / nX).ToString("0.00000"); 
+            string CompleteOrder = "dacper " + period.ToString() + " " + (((speedper.Value) * period) / 100).ToString() + "\r";
+            label_rate.Text = "rate: " + ((double)108000000 / (double)(period + 1) / nX / nY).ToString("0.00000") + " / line rate: " + ((double)108000000 / (double)(period + 1) / nX).ToString("0.00000");
             return SendAndReceiveOK(CompleteOrder);
         }
 
-        internal  bool SendAndReceiveOK(string CompleteOrder)
+        internal bool SendAndReceiveOK(string CompleteOrder)
         {
             bool isOK = false;
+            //<<<<<<< master
+            //            // return true; //uncomment for offline test //return
+            //=======
             //return true; //uncomment for offline test //return
             if (!tcp.Connected) return true;
+            //>>>>>>> master
 
             if (!CompleteOrder.StartsWith("COM"))
             {
@@ -1775,7 +1945,7 @@ namespace HelloWorld
                 string COMName = Parts[0];
                 string DeviceName = Parts[1];
                 string Command = Parts[2];
-               // Command = DeviceName + "." + Command;
+                // Command = DeviceName + "." + Command;
 
                 int index = -1;
                 foreach (SerialPort p in ComPorts)
@@ -1809,8 +1979,11 @@ namespace HelloWorld
         {
             if (!CompleteOrder.StartsWith("COM"))
             {
+                //<<<<<<< master
+                //=======
                 if (TCPnetworkStream == null) return "null";
 
+                //>>>>>>> master
                 try
                 {
                     byte[] buffer = PrepareBuffer(CompleteOrder);
@@ -1826,7 +1999,7 @@ namespace HelloWorld
                     if (isAdmin)
                         //notifyIcon1.ShowBalloonTip(2000,"Admin Error",e.Message + "\r\r" + "Function: SendAndReceiveOK(string CompleteOrder)",ToolTipIcon.Error);
                         log.Text = "SendAndReceiveResponse:\r" + e.Message + "\r" + log.Text;
-                        //MessageBox.Show("Admin Error: The 'ok' and 'er' command are not received.\r" + e.Message + "\r\r" + "Function: SendAndReceiveOK(string CompleteOrder)");
+                    //MessageBox.Show("Admin Error: The 'ok' and 'er' command are not received.\r" + e.Message + "\r\r" + "Function: SendAndReceiveOK(string CompleteOrder)");
                     else
                         //notifyIcon1.ShowBalloonTip(2000, "Error", e.Message , ToolTipIcon.Error);
                         MessageBox.Show("Error: Controller connection is not correctly connected.");
@@ -1844,7 +2017,7 @@ namespace HelloWorld
                 string Command = Parts[2];
                 //Command = DeviceName + "." + Command;
 
-                int index=-1;
+                int index = -1;
                 foreach (SerialPort p in ComPorts)
                 {
                     index++;
@@ -1896,7 +2069,7 @@ namespace HelloWorld
             int Fine = (int)UD_DetectorTrim_Fine.Value;
             if (RB_Det_Port1.Checked)
             {
-                dtrim(0,coarse);
+                dtrim(0, coarse);
                 dtrim(1, Fine);
             }
             else if (RB_Det_Port2.Checked)
@@ -2222,13 +2395,13 @@ namespace HelloWorld
                         ComPorts.Remove(p);
                     }
                 }
-                
+
                 try
                 {
 
                     if (NumberOfDevices > 0)
                     {
-                        string[] lines = new string[NumberOfDevices-1];
+                        string[] lines = new string[NumberOfDevices - 1];
                         int j = -1;
                         for (int i = 0; i < NumberOfDevices; i++)
                         {
@@ -2247,9 +2420,13 @@ namespace HelloWorld
             }
         }
 
-        private string CreateChildCommand(string Device_name, string command)
+        //<<<<<<< master
+        internal string CreateChildCommand(string Device_name, string command)
+        //=======
+        //        private string CreateChildCommand(string Device_name, string command)
+        //>>>>>>> master
         {
-            string TotalCommand="";
+            string TotalCommand = "";
             int device_ind = -1;
             for (int i = 0; i < NumberOfDevices; i++)
             {
@@ -2342,13 +2519,13 @@ namespace HelloWorld
         private bool hv_wehnelt(decimal value)
         {
             string CompleteOrder = CreateChildCommand("hv", "wehnelt " + value.ToString() + "\r");
-            return  SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder);
         }
 
         private bool hv_filament(decimal value)
         {
             string CompleteOrder = CreateChildCommand("hv", "filament " + (255 - value).ToString() + "\r");
-            return  SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder);
         }
 
         private void UD_HV_HV_ValueChanged(object sender, EventArgs e)
@@ -2361,11 +2538,13 @@ namespace HelloWorld
             }
             else
             {
-                this.UD_HV_HV.ValueChanged -= new System.EventHandler(this.UD_HV_HV_ValueChanged); 
+                this.UD_HV_HV.ValueChanged -= new System.EventHandler(this.UD_HV_HV_ValueChanged);
                 UD_HV_HV.Value = Decimal.Parse(UD_HV_HV.Tag.ToString());
                 this.UD_HV_HV.ValueChanged += new System.EventHandler(this.UD_HV_HV_ValueChanged);
             }
-            
+            //<<<<<<< master
+            //=======
+
             //int val2 = (int)Math.Round((double)UD_HV_HV.Value * (double)numericHV.Maximum/ (double)Settings1.Default.hv_raw_max);
             //if (val2 > numericHV.Maximum) val2 = (int)numericHV.Maximum;
             //if (val2 < numericHV.Minimum) val2 = (int)numericHV.Minimum;
@@ -2373,6 +2552,7 @@ namespace HelloWorld
             //numericHV.ValueChanged -= numericHV_ValueChanged;
             //numericHV.Value = val2;
             //numericHV.ValueChanged += numericHV_ValueChanged;
+            //>>>>>>> master
         }
 
         private void UD_dHV_HV_ValueChanged(object sender, EventArgs e)
@@ -2415,15 +2595,18 @@ namespace HelloWorld
                 UD_HV_Filament.Value = Decimal.Parse(UD_HV_Filament.Tag.ToString());
                 this.UD_HV_Filament.ValueChanged += new System.EventHandler(this.UD_HV_Filament_ValueChanged);
             }
+            //<<<<<<< master
+            //=======
 
 
             //int val2 = (int)Math.Round((double)UD_HV_Filament.Value * (double)numericUpDown13.Maximum / (double)Settings1.Default.fb_raw_max);
             //if (val2 > numericUpDown13.Maximum) val2 = (int)numericUpDown13.Maximum;
             //if (val2 < numericUpDown13.Minimum) val2 = (int)numericUpDown13.Minimum;
-            
+
             //numericUpDown13.ValueChanged -= numericUpDown13_ValueChanged;
             //numericUpDown13.Value = val2;
             //numericUpDown13.ValueChanged += numericUpDown13_ValueChanged;
+            //>>>>>>> master
         }
 
         private void UD_dHV_Filament_ValueChanged(object sender, EventArgs e)
@@ -2524,7 +2707,7 @@ namespace HelloWorld
                 double val = (2.5 / (2 * 0.62) / 1.0) / (double)UD_Lens_CON1.Maximum * (double)UD_Lens_CON1.Value;
                 L_Lens_CON1.Text = String.Format("{0:0.00} A,{1:0.0} V", val, val * 2 * 0.62);
                 UD_Lens_CON1.Tag = UD_Lens_CON1.Value.ToString();
-                UD_Lens_CON2.Value = (decimal)(int)(    (double)UD_Lens_CON1.Value * 3.0 / (2.0 * 0.62) / ((double)numericUpDown7.Value-(0.12/10.0)*((double)numericUpDown11.Value - 10))    );
+                UD_Lens_CON2.Value = (decimal)(int)((double)UD_Lens_CON1.Value * 3.0 / (2.0 * 0.62) / ((double)numericUpDown7.Value - (0.12 / 10.0) * ((double)numericUpDown11.Value - 10)));
             }
             else
             {
@@ -2547,8 +2730,8 @@ namespace HelloWorld
         {
             if (lens_con2(UD_Lens_CON2.Value))
             {
-                double val = (2.5 / (3.0) ) / (double)UD_Lens_CON2.Maximum * (double)UD_Lens_CON2.Value;
-                L_Lens_CON2.Text = String.Format("{0:0.00} A,{1:0.0} V", val,val*3.0);
+                double val = (2.5 / (3.0)) / (double)UD_Lens_CON2.Maximum * (double)UD_Lens_CON2.Value;
+                L_Lens_CON2.Text = String.Format("{0:0.00} A,{1:0.0} V", val, val * 3.0);
                 UD_Lens_CON2.Tag = UD_Lens_CON2.Value.ToString();
             }
             else
@@ -2573,7 +2756,7 @@ namespace HelloWorld
             if (lens_iml(UD_Lens_IML.Value))
             {
                 double val = 2.0 / (double)UD_Lens_IML.Maximum * (double)UD_Lens_IML.Value;
-                L_Lens_IML.Text = String.Format("{0:0.00} A,{1:0.0} V", val/(0.62*2.0), val);
+                L_Lens_IML.Text = String.Format("{0:0.00} A,{1:0.0} V", val / (0.62 * 2.0), val);
                 UD_Lens_IML.Tag = UD_Lens_IML.Value.ToString();
             }
             else
@@ -2593,8 +2776,13 @@ namespace HelloWorld
         {
             if (lens_obj(UD_Lens_OBJ.Value))
             {
-                double val = 2.0 / (double)UD_Lens_OBJ.Maximum * (double)UD_Lens_OBJ.Value;
-                L_Lens_OBJ.Text = String.Format("{0:0.00} A,{1:0.0} V", val/0.62, val);
+                //<<<<<<< master
+                double val = (double)UD_Lens_OBJ.Value * Settings1.Default.Coef_res_fine + (double)numericUpDown_objc.Value * Settings1.Default.Coef_res_course;//2.0 / (double)UD_Lens_OBJ.Maximum * (double)UD_Lens_OBJ.Value;
+                L_Lens_OBJ.Text = String.Format("{0:0.00} A|{1:0.0} V\nI^2:{2:0.00}", val, val * 0.62, val * val);
+                //=======
+                //                double val = 2.0 / (double)UD_Lens_OBJ.Maximum * (double)UD_Lens_OBJ.Value;
+                //                L_Lens_OBJ.Text = String.Format("{0:0.00} A,{1:0.0} V", val/0.62, val);
+                //>>>>>>> master
                 UD_Lens_OBJ.Tag = UD_Lens_OBJ.Value.ToString();
             }
             else
@@ -2672,20 +2860,23 @@ namespace HelloWorld
 
         private void Btn_UDPDisconnect_Click(object sender, EventArgs e)
         {
-            
+
             dactimer(0);
-           // Array.Clear(receivedData, 2, 512);
+            // Array.Clear(receivedData, 2, 512);
             Thread.Sleep(100); Stop();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             // ProcessFrame(null, null);
-             string info="";
-            
+            string info = "";
+
             frame.Bytes = receivedData_frame;
             if (isAcquire)
+            {
+                frame = SetFilter(frame);
                 imageform.ViewPort.Image = frame;
+            }
             else
             {
                 if (StartMove)
@@ -2696,10 +2887,12 @@ namespace HelloWorld
                 if (overallMotionPixelCount++ == 10)
                 {
                     overallMotionPixelCount = -10;
-                   
+
                 }
-                 info = String.Format("{0:0000.0}FPS", FPS);
+                info = String.Format("{0:0000.0}FPS", FPS);
                 frame.Draw(info, ref format, new System.Drawing.Point(1, 500), new Gray(200)); //Draw on the image using the specific font
+
+                frame = SetFilter(frame);
 
                 if (isformmode)
                     formmode.ViewPort.Image = frame;
@@ -2721,14 +2914,14 @@ namespace HelloWorld
             }
             else
             if (button1.Text == "Stop")
+            {
+                string CompleteOrder = CreateChildCommand("se", "kv 0" + "\r");
+                if (SendAndReceiveOK(CompleteOrder))
                 {
-                    string CompleteOrder = CreateChildCommand("se", "kv 0" + "\r");
-                    if (SendAndReceiveOK(CompleteOrder))
-                    {
-                        button1.Text = "Start";
-                        button1.BackColor = Color.Azure;
-                    }
+                    button1.Text = "Start";
+                    button1.BackColor = Color.Azure;
                 }
+            }
 
         }
 
@@ -2753,9 +2946,9 @@ namespace HelloWorld
                         Port.ReadTimeout = 5000;
                         Port.Open();
                         ComPorts.Add(Port);
-                       log.Text=("Device " + Device_names[i] + " is connected successfully.");
+                        log.Text = ("Device " + Device_names[i] + " is connected successfully.");
                     }
-                    catch (Exception e2) 
+                    catch (Exception e2)
                     {
 
                         if (isAdmin)
@@ -2781,15 +2974,15 @@ namespace HelloWorld
         private bool sisel(int state)
         {
             string CompleteOrder = "sisel " + state.ToString() + "\r";
-             SendAndReceiveOK(CompleteOrder);
-             return true;
+            SendAndReceiveOK(CompleteOrder);
+            return true;
         }
 
         private bool strim(int state, int val)
         {
             string CompleteOrder = "strim " + state.ToString() + " " + val.ToString() + "\r";
-             SendAndReceiveOK(CompleteOrder);
-             return true;
+            SendAndReceiveOK(CompleteOrder);
+            return true;
         }
 
         private bool dtrim(int state, int val)
@@ -2817,7 +3010,7 @@ namespace HelloWorld
             int y2trim = (int)UD_STrim_Val6.Value + 2047;
             sisel(state);
             strim(0, xtrim);
-            strim(1, xtrimf); 
+            strim(1, xtrimf);
             strim(2, ytrim);
             strim(3, ytrimf);
             strim(4, x2trim);
@@ -2893,7 +3086,7 @@ namespace HelloWorld
 
         private void Btn_Acquire_Click(object sender, EventArgs e)
         {
-            ChangeWindow(0, 0, 512, 512);  
+            ChangeWindow(0, 0, 512, 512);
 
             /*
             isAcquire = true;
@@ -2938,7 +3131,7 @@ namespace HelloWorld
         {
             userControl15.X = (int)this.UD_Lens_tiltx.Value;
             if (!(CON1lock.Checked))
-            Set_ShiftAndTilt(false);
+                Set_ShiftAndTilt(false);
         }
 
         private void UD_dLens_dx_ValueChanged(object sender, EventArgs e)
@@ -2950,7 +3143,7 @@ namespace HelloWorld
         {
             userControl15.Y = (int)this.UD_Lens_tilty.Value;
             if (!(CON1lock.Checked))
-            Set_ShiftAndTilt(false);
+                Set_ShiftAndTilt(false);
         }
 
         private void UD_dLens_dy_ValueChanged(object sender, EventArgs e)
@@ -2965,7 +3158,7 @@ namespace HelloWorld
             double teta = (double)ic_teta.Value;
 
             int ux = (int)(Math.Cos(Math.PI * teta / 180.0) * x + Math.Sin(Math.PI * teta / 180.0) * y);
-            int uy =(int)(-Math.Sin(Math.PI * teta / 180.0) * x + Math.Cos(Math.PI * teta / 180.0) * y);
+            int uy = (int)(-Math.Sin(Math.PI * teta / 180.0) * x + Math.Cos(Math.PI * teta / 180.0) * y);
             if (ux >= -2048 && ux <= 2047 && uy >= -2048 && uy <= 2047)
             {
                 if (lens_ic(ux, uy))
@@ -3007,7 +3200,7 @@ namespace HelloWorld
         {
             userControl11.X = (int)this.UD_Lens_icx.Value;
             if (!(IMLLock.Checked))
-            Set_Lens_icxAndy();
+                Set_Lens_icxAndy();
         }
 
         private void UD_dLens_icx_ValueChanged(object sender, EventArgs e)
@@ -3019,7 +3212,7 @@ namespace HelloWorld
         {
             userControl11.Y = (int)this.UD_Lens_icy.Value;
             if (!(IMLLock.Checked))
-            Set_Lens_icxAndy();
+                Set_Lens_icxAndy();
         }
 
         private void UD_dLens_icy_ValueChanged(object sender, EventArgs e)
@@ -3080,7 +3273,7 @@ namespace HelloWorld
 
         private void TB_Wobbler_Scroll(object sender, EventArgs e)
         {
-            if (lens_wobble(5*(Decimal)TB_Wobbler.Value))
+            if (lens_wobble(5 * (Decimal)TB_Wobbler.Value))
             {
                 //decimal val = 100 / TB_Wobbler.Maximum * TB_Wobbler.Value;
                 //L_Lens_stigy.Text = String.Format("{0:0.0} %", val);
@@ -3096,15 +3289,15 @@ namespace HelloWorld
 
         private void ConvertToUD(ref int shift, ref int tilt, ref int u, ref int d)
         {
-           /* if (shift < -2047)
-                shift = -2047;
-            else if (shift > 2048)
-                shift = 2048;
-            
-            if (tilt < -4095)
-                tilt = -4095;
-            else if (tilt > 4095)
-                tilt = 4095;*/
+            /* if (shift < -2047)
+                 shift = -2047;
+             else if (shift > 2048)
+                 shift = 2048;
+
+             if (tilt < -4095)
+                 tilt = -4095;
+             else if (tilt > 4095)
+                 tilt = 4095;*/
 
             d = 2047 + tilt - shift;
             /*if (d < 0)
@@ -3136,10 +3329,10 @@ namespace HelloWorld
             double shY = (double)UD_Lens_shifty.Value;
             double ttY = (double)UD_Lens_tilty.Value;
             double teta = (double)ga_teta.Value;
-          //  this.UD_Lens_tiltx.ValueChanged -= new System.EventHandler(this.UD_Lens_dx_ValueChanged);
-           // this.UD_Lens_tilty.ValueChanged -= new System.EventHandler(this.UD_Lens_dy_ValueChanged);
-           // this.UD_Lens_icx.ValueChanged -= new System.EventHandler(this.UD_Lens_icx_ValueChanged);
-           // this.UD_Lens_icy.ValueChanged -= new System.EventHandler(this.UD_Lens_icy_ValueChanged);
+            //  this.UD_Lens_tiltx.ValueChanged -= new System.EventHandler(this.UD_Lens_dx_ValueChanged);
+            // this.UD_Lens_tilty.ValueChanged -= new System.EventHandler(this.UD_Lens_dy_ValueChanged);
+            // this.UD_Lens_icx.ValueChanged -= new System.EventHandler(this.UD_Lens_icx_ValueChanged);
+            // this.UD_Lens_icy.ValueChanged -= new System.EventHandler(this.UD_Lens_icy_ValueChanged);
             try
             {
                 if (CON1lock.Checked)
@@ -3173,10 +3366,10 @@ namespace HelloWorld
             }
             catch (Exception ee)
             { }
-           // this.UD_Lens_tiltx.ValueChanged += new System.EventHandler(this.UD_Lens_dx_ValueChanged);
-           // this.UD_Lens_tilty.ValueChanged += new System.EventHandler(this.UD_Lens_dy_ValueChanged);
-           // this.UD_Lens_icx.ValueChanged += new System.EventHandler(this.UD_Lens_icx_ValueChanged);
-           // this.UD_Lens_icy.ValueChanged += new System.EventHandler(this.UD_Lens_icy_ValueChanged);
+            // this.UD_Lens_tiltx.ValueChanged += new System.EventHandler(this.UD_Lens_dx_ValueChanged);
+            // this.UD_Lens_tilty.ValueChanged += new System.EventHandler(this.UD_Lens_dy_ValueChanged);
+            // this.UD_Lens_icx.ValueChanged += new System.EventHandler(this.UD_Lens_icx_ValueChanged);
+            // this.UD_Lens_icy.ValueChanged += new System.EventHandler(this.UD_Lens_icy_ValueChanged);
             shiftX = (int)(Math.Cos(Math.PI * teta / 180.0) * shX + Math.Sin(Math.PI * teta / 180.0) * shY);
             tiltX = (int)(Math.Cos(Math.PI * teta / 180.0) * ttX + Math.Sin(Math.PI * teta / 180.0) * ttY);
             shiftY = (int)(-Math.Sin(Math.PI * teta / 180.0) * shX + Math.Cos(Math.PI * teta / 180.0) * shY);
@@ -3287,7 +3480,7 @@ namespace HelloWorld
             int tilty = (int)UD_Lens_tilty.Value;
 
             bool isFound = false;
-            int it=0;
+            int it = 0;
             while (!isFound || (it < MaxIttrGunAlignment))
             {
                 it++;
@@ -3371,8 +3564,8 @@ namespace HelloWorld
         private void ViewPort_DoubleClick(object sender, EventArgs e)
         {
             Point p = ViewPort.PointToClient(Cursor.Position);
-          //  MessageBox.Show(p.X.ToString() + "   " + p.Y.ToString());
-            ChangeWindow(0,0,512,512);//(decimal)p.X, (decimal)p.Y);
+            //  MessageBox.Show(p.X.ToString() + "   " + p.Y.ToString());
+            ChangeWindow(0, 0, 512, 512);//(decimal)p.X, (decimal)p.Y);
         }
 
         private void ViewPort_MouseDown(object sender, MouseEventArgs e)
@@ -3404,24 +3597,24 @@ namespace HelloWorld
                 SelectionRec[1] = new Point(x1, y2);
                 SelectionRec[2] = new Point(x2, y2);
                 SelectionRec[3] = new Point(x2, y1);
-                SelectionRec2[0] = new Point(x1-1, y1-1);
-                SelectionRec2[1] = new Point(x1+1, y2-1);
-                SelectionRec2[2] = new Point(x2+1, y2+1);
-                SelectionRec2[3] = new Point(x2-1, y1+1);
+                SelectionRec2[0] = new Point(x1 - 1, y1 - 1);
+                SelectionRec2[1] = new Point(x1 + 1, y2 - 1);
+                SelectionRec2[2] = new Point(x2 + 1, y2 + 1);
+                SelectionRec2[3] = new Point(x2 - 1, y1 + 1);
                 StartMove = true;
             }
         }
 
         private void ViewPort_MouseUp(object sender, MouseEventArgs e)
         {
-            
+
             StartClick = false;
-            if (StartMove && (SelectionRec[2].X > SelectionRec[0].X ) && (SelectionRec[2].Y > SelectionRec[0].Y))
+            if (StartMove && (SelectionRec[2].X > SelectionRec[0].X) && (SelectionRec[2].Y > SelectionRec[0].Y))
             {
                 StartMove = false;
                 ChangeWindow(SelectionRec[0].X, SelectionRec[0].Y, SelectionRec[2].X - SelectionRec[0].X, SelectionRec[2].Y - SelectionRec[0].Y);
             }
-         }
+        }
 
         private bool window(decimal wix, decimal wiy, decimal wnx, decimal wny)
         {
@@ -3434,7 +3627,7 @@ namespace HelloWorld
         {
             try
             {
-        //        dactimer(0);
+                //        dactimer(0);
                 bool isOK = window(wix, wiy, wnx, wny);
                 if (!isOK) throw new Exception("Error in changing window");
 
@@ -3445,7 +3638,7 @@ namespace HelloWorld
                 nY = (int)wny;
                 //nRow = (int)wny;
 
-          //      dactimer(1);
+                //      dactimer(1);
                 return true;
             }
             catch (Exception ex)
@@ -3462,7 +3655,7 @@ namespace HelloWorld
             if (button4.Text == "HV is OFF")
             {
                 CompleteOrder = CreateChildCommand("hv", "kv 1" + "\r");
-                   if (SendAndReceiveOK(CompleteOrder) == true)
+                if (SendAndReceiveOK(CompleteOrder) == true)
                 {
                     button4.Text = "HV is ON";
                     button4.BackColor = Color.Coral;
@@ -3470,22 +3663,22 @@ namespace HelloWorld
             }
             else
                 if (button4.Text == "HV is ON")
+            {
+                CompleteOrder = CreateChildCommand("hv", "kv 0" + "\r");
+                if (SendAndReceiveOK(CompleteOrder) == true)
                 {
-                    CompleteOrder = CreateChildCommand("hv", "kv 0" + "\r");
-                      if (SendAndReceiveOK(CompleteOrder) == true)
-                    {
-                        button4.Text = "HV is OFF";
-                        button4.BackColor = SystemColors.Menu;
-                    }
+                    button4.Text = "HV is OFF";
+                    button4.BackColor = SystemColors.Menu;
                 }
+            }
 
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-          //  UD_HV_Filament.Value = 0;
+            //  UD_HV_Filament.Value = 0;
             string CompleteOrder;// = CreateChildCommand("hv", " filament 255" + "\r");
-           // SendAndReceiveOK(CompleteOrder);
+                                 // SendAndReceiveOK(CompleteOrder);
             if (button5.Text == "FB is OFF")
             {
                 CompleteOrder = CreateChildCommand("hv", "fb 1" + "\r");
@@ -3497,29 +3690,29 @@ namespace HelloWorld
             }
             else
                 if (button5.Text == "FB is ON")
+            {
+                CompleteOrder = CreateChildCommand("hv", "fb 0" + "\r");
+                if (SendAndReceiveOK(CompleteOrder) == true)
                 {
-                    CompleteOrder = CreateChildCommand("hv", "fb 0" + "\r");
-                    if (SendAndReceiveOK(CompleteOrder) == true)
-                    {
-                        button5.Text = "FB is OFF";
-                        button5.BackColor = SystemColors.Menu;
-                    }
+                    button5.Text = "FB is OFF";
+                    button5.BackColor = SystemColors.Menu;
                 }
+            }
             UD_HV_Filament.Value = 0;
         }
 
         private void blink_timer_Tick(object sender, EventArgs e)
         {
             //
-            if(button4.Text == "HV is ON")
-            button4.BackColor = Color.FromArgb((Math.Abs(counter) * 255) / 50 + 50 ,255, 0 , 0 );
-            if(button5.Text == "FB is ON")
-            button5.BackColor = Color.FromArgb((Math.Abs(counter) * 255) / 50 + 50 , 0 ,255, 0 );
+            if (button4.Text == "HV is ON")
+                button4.BackColor = Color.FromArgb((Math.Abs(counter) * 255) / 50 + 50, 255, 0, 0);
+            if (button5.Text == "FB is ON")
+                button5.BackColor = Color.FromArgb((Math.Abs(counter) * 255) / 50 + 50, 0, 255, 0);
             if (buttonHV.Text == "HV is ON")
                 buttonHV.BackColor = Color.FromArgb((Math.Abs(counter) * 255) / 50 + 50, 255, 0, 0);
             if (buttonFB.Text == "HEAT is ON")
                 buttonFB.BackColor = Color.FromArgb((Math.Abs(counter) * 255) / 50 + 50, 0, 255, 0);
-            if ((counter++)>=25) counter=-25;
+            if ((counter++) >= 25) counter = -25;
         }
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -3537,7 +3730,7 @@ namespace HelloWorld
         private void ic_teta_ValueChanged(object sender, EventArgs e)
         {
             UD_Lens_icx_ValueChanged(sender, e);
-           // UD_Lens_icy_ValueChanged(sender, e);
+            // UD_Lens_icy_ValueChanged(sender, e);
         }
 
         private void ga_teta_ValueChanged(object sender, EventArgs e)
@@ -3576,13 +3769,13 @@ namespace HelloWorld
             //imgfrm.pictureBox1.Image = bmp;
             //
             if (imgfrm.IsDisposed)
-            imgfrm = new PictureForm();
+                imgfrm = new PictureForm();
             imgfrm.Size = new Size(500, 500);
             imgfrm.Show();
             imgfrm.BringToFront();
             //imgfrm.Update();
             //imgfrm.Refresh();
-            
+
         }
 
         private void SwipSecondTerminal(int ix, int iy, int n)
@@ -3611,9 +3804,9 @@ namespace HelloWorld
                 SwipSecondTerminal(imatx, imaty, nm);
             }
 
-           // decimal SSSpeedValue = SSSpeed.Value;
-           // UD_Speed.Value = SSSpeedValue;
-           // Thread.Sleep(10000);
+            // decimal SSSpeedValue = SSSpeed.Value;
+            // UD_Speed.Value = SSSpeedValue;
+            // Thread.Sleep(10000);
             decimal terminal = (decimal)0;
             if (radioButton0.Checked) terminal = (decimal)1;
             else if (radioButton1.Checked) terminal = (decimal)0;
@@ -3757,23 +3950,23 @@ namespace HelloWorld
 
         private void Uitmode_CheckedChanged(object sender, EventArgs e)
         {
-          //  if (U2itmode.Checked)
-                u2itmode(1);
-          //  else
-                u2itmode(0);
+            //  if (U2itmode.Checked)
+            u2itmode(1);
+            //  else
+            u2itmode(0);
         }
 
         private void Upitmode_CheckedChanged(object sender, EventArgs e)
         {
-          //  if (U6itmode.Checked)
-                u6itmode(1);
-          //  else
-                u6itmode(0);
+            //  if (U6itmode.Checked)
+            u6itmode(1);
+            //  else
+            u6itmode(0);
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
-           // log.Update();
+            // log.Update();
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -3830,8 +4023,8 @@ namespace HelloWorld
 
         private void panel20_Scroll(object sender, ScrollEventArgs e)
         {
-            
-            
+
+
         }
 
         private void panel20_Paint(object sender, PaintEventArgs e)
@@ -3841,9 +4034,9 @@ namespace HelloWorld
 
         private void panel20_MouseCaptureChanged(object sender, EventArgs e)
         {
-            counter ++;
-            if(counter>255 || counter<0) counter =0;
-           // IML_Pad.BackColor = Color.FromArgb(255,counter, 100);
+            counter++;
+            if (counter > 255 || counter < 0) counter = 0;
+            // IML_Pad.BackColor = Color.FromArgb(255,counter, 100);
         }
 
         private void radioButton0_CheckedChanged(object sender, EventArgs e)
@@ -3917,7 +4110,7 @@ namespace HelloWorld
         private void button9_Click(object sender, EventArgs e)
         {
             UD_Lens_stigx.Value = 0;
-                   
+
         }
 
         private void button10_Click(object sender, EventArgs e)
@@ -3961,14 +4154,14 @@ namespace HelloWorld
         }
         private void panel1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-           // System.Windows.Input.Touch a;
-            this.Text = e.X.ToString() + "|" + e.X.ToString()+"|" + e.Delta.ToString() + "|" + e.Clicks.ToString();
-            
+            // System.Windows.Input.Touch a;
+            this.Text = e.X.ToString() + "|" + e.X.ToString() + "|" + e.Delta.ToString() + "|" + e.Clicks.ToString();
+
         }
 
         private void userControl1BindingSource_CurrentChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void groupBox2_Enter(object sender, EventArgs e)
@@ -3978,19 +4171,19 @@ namespace HelloWorld
 
         private void userControl1BindingSource1_CurrentChanged(object sender, EventArgs e)
         {
-           
+
         }
 
         private void userControl11_Load(object sender, EventArgs e)
         {
-            
+
         }
         private void u1_valueChanged(object sender, EventArgs e)
         {
-        //    this.Text = userControl11.X.ToString() +"|" +userControl11.Y.ToString();
+            //    this.Text = userControl11.X.ToString() +"|" +userControl11.Y.ToString();
             this.UD_Lens_icx.Value = userControl11.X;
             this.UD_Lens_icy.Value = userControl11.Y;
-            
+
         }
         private void u2_valueChanged(object sender, EventArgs e)
         {
@@ -4050,33 +4243,33 @@ namespace HelloWorld
             //int n;
             // btstream.ReadAsync(bt_buf, 1, 2);remoteDevice.Available
             // textBox3.Text += "a";
-           // int x[3];//, y;
+            // int x[3];//, y;
             //int i = 0;
-         /*   while (btstream.DataAvailable)
-            {
-                if (index == 0)
-                {
-                    if (btstream.ReadByte() == 127)
-                        index = 2;
-                }
-                else
-                {
-                    bt_buf[index--] = (sbyte)btstream.ReadByte();
-                    if(index == 0)
-                    {
-                        userControl21.X -= 2*((int)bt_buf[2]);
-                        userControl21.Y -= 2*((int)bt_buf[1]);
-                        textBox3.Text += (sbyte)bt_buf[2] + "|";
-                    }
-                }
-               
-                //bt_buf[i++] = (char)btstream.ReadByte();
-              //  textBox3.Text += btstream.ReadByte() + "_";
-                // MessageBox.Show("jjj");
-               // i++;
-            }*/
-          //  if (i==3) 
-           //textBox3.Text += "|";//.ToString();*/
+            /*   while (btstream.DataAvailable)
+               {
+                   if (index == 0)
+                   {
+                       if (btstream.ReadByte() == 127)
+                           index = 2;
+                   }
+                   else
+                   {
+                       bt_buf[index--] = (sbyte)btstream.ReadByte();
+                       if(index == 0)
+                       {
+                           userControl21.X -= 2*((int)bt_buf[2]);
+                           userControl21.Y -= 2*((int)bt_buf[1]);
+                           textBox3.Text += (sbyte)bt_buf[2] + "|";
+                       }
+                   }
+
+                   //bt_buf[i++] = (char)btstream.ReadByte();
+                 //  textBox3.Text += btstream.ReadByte() + "_";
+                   // MessageBox.Show("jjj");
+                  // i++;
+               }*/
+            //  if (i==3) 
+            //textBox3.Text += "|";//.ToString();*/
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -4089,14 +4282,14 @@ namespace HelloWorld
 
         }
 
-        
+
         void AcceptConnection(IAsyncResult result)
         {
-           // textBox3.Text += result.ToString();
-           // MessageBox.Show(result.ToString());
+            // textBox3.Text += result.ToString();
+            // MessageBox.Show(result.ToString());
             if (result.IsCompleted)
             {
-                if(btstream != null)
+                if (btstream != null)
                 {
                     //btstream.EndRead(result);
                     //btstream.Dispose();
@@ -4106,38 +4299,38 @@ namespace HelloWorld
                     remoteDevice.Close();
                     remoteDevice.Dispose();
                 }
-                
-                
+
+
                 remoteDevice = ((BluetoothListener)result.AsyncState).EndAcceptBluetoothClient(result);
 
 
                 // textBox3.Text += remoteDevice.RemoteMachineName + " | ";
                 // MessageBox.Show(remoteDevice.RemoteMachineName);
                 //remoteDevice.RemoteEndPoint
-               // MessageBox.Show();
-               
+                // MessageBox.Show();
+
                 //notifyIcon1.Text = 
-                notifyIcon1.BalloonTipText ="Connected to:" + remoteDevice.RemoteMachineName;
+                notifyIcon1.BalloonTipText = "Connected to:" + remoteDevice.RemoteMachineName;
                 notifyIcon1.ShowBalloonTip(2000);
-               // bt_buf[0] = (char)50;
-              //  remoteDevice.Client.Send(bt_buf);
-               // remoteDevice.SetPin("0000");
+                // bt_buf[0] = (char)50;
+                //  remoteDevice.Client.Send(bt_buf);
+                // remoteDevice.SetPin("0000");
                 //MessageBox.Show(remoteDevice.InquiryAccessCode.ToString() + remoteDevice.LinkPolicy.ToString());
                 btstream = remoteDevice.GetStream();
                 btstream.ReadTimeout = 100;
-               // bt_streamreader = new StreamReader(btstream);
+                // bt_streamreader = new StreamReader(btstream);
                 btstream.BeginRead(bt_buf, 0, 1, new AsyncCallback(bt_RecieveComplete), btstream);
-                
+
             }
             ((BluetoothListener)result.AsyncState).BeginAcceptBluetoothClient(new AsyncCallback(AcceptConnection), (BluetoothListener)result.AsyncState);
         }
 
-        
+
         public void bt_RecieveComplete(IAsyncResult result)
         {
             btstream.EndRead(result);
 
-            if ((index>=10) )
+            if ((index >= 10))
             {
                 index = 1;
                 remoteDevice.Close();
@@ -4171,7 +4364,7 @@ namespace HelloWorld
 
         private void speedper_ValueChanged(object sender, EventArgs e)
         {
-            UDSpeed_ValueChanged(sender,e);
+            UDSpeed_ValueChanged(sender, e);
         }
 
         private void label90_Click(object sender, EventArgs e)
@@ -4181,8 +4374,8 @@ namespace HelloWorld
 
         private void clkdelay_ValueChanged(object sender, EventArgs e)
         {
-            string CompleteOrder = "adctime " + clkdelay.Value.ToString() +" "+ clkdelay.Value.ToString() + "\r";
-             SendAndReceiveOK(CompleteOrder);
+            string CompleteOrder = "adctime " + clkdelay.Value.ToString() + " " + clkdelay.Value.ToString() + "\r";
+            SendAndReceiveOK(CompleteOrder);
         }
 
         private void numericUpDown11_ValueChanged(object sender, EventArgs e)
@@ -4230,7 +4423,7 @@ namespace HelloWorld
 
         private void ToolsPicture_Paint(object sender, PaintEventArgs e)
         {
-            
+
             // Create string to draw.
             String drawString = "SEM Technology" + UserInfo;
 
@@ -4255,16 +4448,20 @@ namespace HelloWorld
             e.Graphics.DrawImage(new Bitmap(Properties.Resources.QuantaEye), (int)x0, (int)y0, 50, 20);
         }
 
+        bool FirstDoubleClick = false;
         private void ToolsPicture_DoubleClick(object sender, EventArgs e)
         {
-            if (this.WindowState == FormWindowState.Maximized)
-                LeaveFullScreenMode();
-            else
-                EnterFullScreenMode();
+            if (FirstDoubleClick)
+            {
+                if (this.WindowState == FormWindowState.Maximized)
+                    LeaveFullScreenMode();
+                else
+                    EnterFullScreenMode();
+            }
 
-
+            FirstDoubleClick = !FirstDoubleClick;
         }
-        
+
         private void EnterFullScreenMode()
         {
             //this.Hide();
@@ -4285,24 +4482,30 @@ namespace HelloWorld
             this.WindowState = FormWindowState.Normal;
         }
 
-        int mouseX=0; int mouseY = 0; bool isMove = false;
-        private double Image_multiply=1.1;
+        int mouseX = 0; int mouseY = 0; int thisLocationX = 0; int thisLocationY = 0; bool isMove = false;
+        private double Image_multiply = 1.1;
         private int counter_hv;
 
         private void ToolsPicture_MouseDown(object sender, MouseEventArgs e)
         {
             isMove = true;
-            mouseX = e.X;
-            mouseY = e.Y;
+            //mouseX = e.X;
+            //mouseY = e.Y;
+            mouseX = System.Windows.Forms.Control.MousePosition.X;
+            mouseY = System.Windows.Forms.Control.MousePosition.Y;
+            thisLocationX = this.Location.X;
+            thisLocationY = this.Location.Y;
         }
 
         private void ToolsPicture_MouseMove(object sender, MouseEventArgs e)
         {
             if (isMove)
             {
-                int dx = e.X - mouseX;
-                int dy = e.Y - mouseY;
-                this.SetDesktopLocation(this.Location.X + dx, this.Location.Y + dy);
+                int dx = System.Windows.Forms.Control.MousePosition.X - mouseX;
+                int dy = System.Windows.Forms.Control.MousePosition.Y - mouseY;
+                //richTextBox1.AppendText(mouseX.ToString() + " " + mouseY.ToString() + " " + System.Windows.Forms.Control.MousePosition.X.ToString() + " " + System.Windows.Forms.Control.MousePosition.Y.ToString() + " " + dx.ToString() + " " + dy.ToString() + "\n");
+                //this.SetDesktopLocation(this.Location.X + dx, this.Location.Y + dy);
+                this.Location = new Point(thisLocationX + dx, thisLocationY + dy);
             }
         }
 
@@ -4362,11 +4565,11 @@ namespace HelloWorld
             formmode.isthisviewport = true;
             formmode.Text = "Render";
             formmode.Show();
-          /*  MCvFont f = new MCvFont(FONT.CV_FONT_HERSHEY_COMPLEX, 0.4, .4);
-            string info = String.Format("viewport");
-            frame.Draw(info, ref f, new System.Drawing.Point(227, 247), new Gray(200)); //Draw on the image using the specific font
-            formmode.ViewPort.Image = frame;
-            */
+            /*  MCvFont f = new MCvFont(FONT.CV_FONT_HERSHEY_COMPLEX, 0.4, .4);
+              string info = String.Format("viewport");
+              frame.Draw(info, ref f, new System.Drawing.Point(227, 247), new Gray(200)); //Draw on the image using the specific font
+              formmode.ViewPort.Image = frame;
+              */
         }
 
         private void Btn_Acquire_MouseEnter(object sender, EventArgs e)
@@ -4378,7 +4581,7 @@ namespace HelloWorld
         {
             Btn_Acquire.ForeColor = Color.White;
         }
-        
+
         private void Ctrl1D_Zoom_Enter(object sender, EventArgs e)
         {
             TurnOn(ZoomLight, 1);
@@ -4408,10 +4611,10 @@ namespace HelloWorld
         {
             TurnOff(GainLight);
         }
-        
+
         private void Ctrl2D_IMLCentering_Enter(object sender, EventArgs e)
         {
-            TurnOn(IMLCenteringLight,5);
+            TurnOn(IMLCenteringLight, 5);
         }
 
         private void Ctrl2D_IMLCentering_Leave(object sender, EventArgs e)
@@ -4421,7 +4624,7 @@ namespace HelloWorld
 
         private void Ctrl2D_Stig_Enter(object sender, EventArgs e)
         {
-            TurnOn(StigLight,2);
+            TurnOn(StigLight, 2);
         }
 
         private void Ctrl2D_Stig_Leave(object sender, EventArgs e)
@@ -4431,7 +4634,7 @@ namespace HelloWorld
 
         private void Ctrl2D_ObjectCentering_Enter(object sender, EventArgs e)
         {
-            TurnOn(ObjectCenteringLight,4);
+            TurnOn(ObjectCenteringLight, 4);
         }
 
         private void Ctrl2D_ObjectCentering_Leave(object sender, EventArgs e)
@@ -4441,7 +4644,7 @@ namespace HelloWorld
 
         private void Ctrl2D_GunShift_Enter(object sender, EventArgs e)
         {
-            TurnOn(GunShiftLight,6);
+            TurnOn(GunShiftLight, 6);
         }
 
         private void Ctrl2D_GunShift_Leave(object sender, EventArgs e)
@@ -4451,7 +4654,7 @@ namespace HelloWorld
 
         private void Ctrl2D_GunTilt_Enter(object sender, EventArgs e)
         {
-            TurnOn(GunTiltLight,7);
+            TurnOn(GunTiltLight, 7);
         }
 
         private void Ctrl2D_GunTilt_Leave(object sender, EventArgs e)
@@ -4467,7 +4670,7 @@ namespace HelloWorld
                 isAdvancedMode = false;
                 TabControl_Main.Visible = false;
                 tabPage3.AutoScroll = true;
-               // leftpanel.Width = 376;
+                // leftpanel.Width = 376;
                 nLightControl = 8;
                 button17.Text = "Advanced mode";
             }
@@ -4475,7 +4678,7 @@ namespace HelloWorld
             {
                 isAdvancedMode = true;
                 TabControl_Main.Visible = true;
-               // leftpanel.Width = 5;
+                // leftpanel.Width = 5;
                 nLightControl = 5;
                 button17.Text = "Standard mode";
             }
@@ -4570,7 +4773,7 @@ namespace HelloWorld
 
         private void group3_Scroll(object sender, ScrollEventArgs e)
         {
-            
+
         }
 
         private void leftpanel_Paint(object sender, PaintEventArgs e)
@@ -4632,9 +4835,9 @@ namespace HelloWorld
             //double I= Settings1.Default.I_max *vf/ Settings1.Default.vf_max;
             if (mode == 0) //Resolution mode
             {
-                double I_log = Math.Log10( vf / AllUserSettings[HVindex].WD_real * Settings1.Default.scan_d / Settings1.Default.vf_max / Math.Sqrt(Settings1.Default.kV_max) * Math.Pow(10, Settings1.Default.LogI_Max_Resolution) * Math.Sqrt(AllUserSettings[HVindex].HV));
+                double I_log = Math.Log10(vf / AllUserSettings[HVindex].WD_real * Settings1.Default.scan_d / Settings1.Default.vf_max / Math.Sqrt(Settings1.Default.kV_max) * Math.Pow(10, Settings1.Default.LogI_Max_Resolution) * Math.Sqrt(AllUserSettings[HVindex].HV));
                 scanner_current_log(I_log);
-                zoom = (I_log - Settings1.Default.LogI_Max_Resolution) * Ctrl1D_Zoom.Maximum/ (-Settings1.Default.LogI_Max_Resolution + Settings1.Default.LogI_Min_Resolution);
+                zoom = (I_log - Settings1.Default.LogI_Max_Resolution) * Ctrl1D_Zoom.Maximum / (-Settings1.Default.LogI_Max_Resolution + Settings1.Default.LogI_Min_Resolution);
             }
             else if (mode == 1) //Wide-Field mode
             {
@@ -4675,7 +4878,7 @@ namespace HelloWorld
 
             Scanner_ISelect.SelectedIndex = newindex;
 
-            UD_Zoom.Value =(decimal) (4095 * I / (Settings1.Default.I_scale_max * Math.Pow(10, Scanner_ISelect.SelectedIndex)));
+            UD_Zoom.Value = (decimal)(4095 * I / (Settings1.Default.I_scale_max * Math.Pow(10, Scanner_ISelect.SelectedIndex)));
         }
 
         private double Calculate_Iobj()
@@ -4737,12 +4940,12 @@ namespace HelloWorld
                 //if (q_1 <= (1.0 / Settings1.Default.q_max)) q_1 = 1.0 / Settings1.Default.q_max;
                 double f_1 = q_1 + (1.0 / Settings1.Default.p);
                 double IObj_max = Settings1.Default.Coef_res_fine * Settings1.Default.Focus_Max_res_fine + Settings1.Default.Coef_res_course * Settings1.Default.Focus_Max_res_course;
-                IObj= Math.Pow(f_1 * (Settings1.Default.kV) / (Settings1.Default.kV_max)* Math.Pow(IObj_max, 2) * Settings1.Default.f_min , 0.5);
+                IObj = Math.Pow(f_1 * (Settings1.Default.kV) / (Settings1.Default.kV_max) * Math.Pow(IObj_max, 2) * Settings1.Default.f_min, 0.5);
                 int FocusFineMiddle = (int)(Ctrl1D_Focus.Maximum / 2);
                 FocusCourse = (int)Math.Round((IObj - Settings1.Default.Coef_res_fine * FocusFineMiddle) / Settings1.Default.Coef_res_course);
                 FocusFine = (int)((IObj - Settings1.Default.Coef_res_course * FocusCourse) / Settings1.Default.Coef_res_fine);
             }
-            else if(mode == 1) //Wide-Field mode
+            else if (mode == 1) //Wide-Field mode
             {
                 FocusFine = (int)(IIML / Settings1.Default.Coef_IML_fine);
             }
@@ -4754,7 +4957,7 @@ namespace HelloWorld
             {
                 FocusFine = (int)(IIML / Settings1.Default.Coef_IML_fine);
             }
-            
+
         }
 
         private double WDReal_To_WDPrint(int mode, double WD_real)
@@ -4764,7 +4967,7 @@ namespace HelloWorld
                 WD_print = WD_real - Settings1.Default.WD_offset_OBJ;
             else //Field, Wide-Field and Rokveld modes
                 WD_print = WD_real - Settings1.Default.WD_offset_IML;
-            
+
             return WD_print;
         }
 
@@ -4849,18 +5052,30 @@ namespace HelloWorld
                 {
                     buttonHV.Text = "HV is ON";
                     buttonHV.BackColor = Color.Coral;
+                    //<<<<<<< master
+                    //                    hv_init();
+                    //                }
+                    //            }
+                    //            else
+                    //                if (buttonHV.Text == "HV is ON")
+                    //=======
                     buttonFB_Click(null, null);
                     hv_init();
                 }
             }
             else if (buttonHV.Text == "HV is ON")
+            //>>>>>>> master
             {
                 CompleteOrder = CreateChildCommand("hv", "kv 0" + "\r");
                 if (SendAndReceiveOK(CompleteOrder) == true)
                 {
                     buttonHV.Text = "HV";
+                    //<<<<<<< master
+                    //                    buttonHV.BackColor = SystemColors.Menu;
+                    //=======
                     buttonHV.BackColor = Color.Transparent;
                     progressBar_HV.Value = 0;
+                    //>>>>>>> master
                 }
             }
         }
@@ -4871,6 +5086,10 @@ namespace HelloWorld
             UD_SE_Faraday.Value = 1000;
             UD_SE_PMT.Value = 2500;
             counter_hv = 0;
+            //<<<<<<< master
+            //            buttonFB_Click(null, null);
+            //=======
+            //>>>>>>> master
             timer_hv.Start();
         }
 
@@ -4886,6 +5105,13 @@ namespace HelloWorld
                 {
                     buttonFB.Text = "HEAT is ON";
                     buttonFB.BackColor = Color.Coral;
+                    //<<<<<<< master
+                    //                }
+                    //            }
+                    //            else
+                    //                if (buttonFB.Text == "HEAT is ON")
+                    //            {
+                    //=======
                     hv_init();
                 }
             }
@@ -4893,16 +5119,25 @@ namespace HelloWorld
             {
                 if (buttonHV.Text == "HV is ON") return; //Do not allow to turn of Heat when HV is ON ...
 
+                //>>>>>>> master
                 CompleteOrder = CreateChildCommand("hv", "fb 0" + "\r");
                 if (SendAndReceiveOK(CompleteOrder) == true)
                 {
                     buttonFB.Text = "HEAT";
+                    //<<<<<<< master
+                    //                    buttonFB.BackColor = SystemColors.Menu;
+                    //                }
+                    //            }
+                    //            UD_HV_Filament.Value = 0;
+                    //           // button5_Click(sender,e);
+                    //=======
                     buttonFB.BackColor = Color.Transparent;
                     progressBar_FB.Value = 0;
                 }
             }
             UD_HV_Filament.Value = 0;
             // button5_Click(sender,e);
+            //>>>>>>> master
         }
 
         private void buttompanel_Paint(object sender, PaintEventArgs e)
@@ -4913,7 +5148,7 @@ namespace HelloWorld
         private void numericUpDown_imagepercent_ValueChanged(object sender, EventArgs e)
         {
             Image_multiply = (double)numericUpDown_imagepercent.Value;
-            panel1.Size = new Size((int)((Image_multiply >= 1) ? 512 * Image_multiply + 1 : 512 + 1), (int)((Image_multiply >= 1) ? (512 * Image_multiply + 35) : (512+35) ));
+            panel1.Size = new Size((int)((Image_multiply >= 1) ? 512 * Image_multiply + 1 : 512 + 1), (int)((Image_multiply >= 1) ? (512 * Image_multiply + 35) : (512 + 35)));
             ViewPort.Size = new Size((int)((Image_multiply >= 1) ? 512 * Image_multiply : 512), (int)((Image_multiply >= 1) ? (512 * Image_multiply) : (512)));
             ViewPort.SetZoomScale(Image_multiply, Point.Empty);
         }
@@ -4938,15 +5173,15 @@ namespace HelloWorld
             f1.nY = nY;
 
             //f1.chart1.Series[0].Points.AddXY
-           // Thread.Sleep(6000);
-           // f1.Close();
+            // Thread.Sleep(6000);
+            // f1.Close();
         }
 
         private void numericUpDown_objc_ValueChanged(object sender, EventArgs e)
         {
             if (lens_objc(numericUpDown_objc.Value))
             {
-              
+
             }
             else
             {
@@ -4958,21 +5193,38 @@ namespace HelloWorld
 
         private void button_stage_Click(object sender, EventArgs e)
         {
-            button2_Click(this, null);
-            if (!sf.Visible)
+            //<<<<<<< master
+            //button2_Click(this, null);
+            //stageform.Show();
+            if (!stageform.Visible)
             {
-                sf.Show();
+                stageform.Show(this);
+                stageform.mainform = this;
             }
             else
             {
-                sf.Hide();
+                stageform.Hide();
+                //=======
+                //            button2_Click(this, null);
+                //            if (!sf.Visible)
+                //            {
+                //                sf.Show();
+                //            }
+                //            else
+                //            {
+                //                sf.Hide();
+                //>>>>>>> master
             }
 
         }
 
         private void numericUpDown13_ValueChanged(object sender, EventArgs e)
         {
+            //<<<<<<< master
+            //
+            //=======
             if (buttonFB.Text == "HEAT is ON") TimerFBUpdater.Start();
+            //>>>>>>> master
         }
 
         private void backgroundWorker4_DoWork(object sender, DoWorkEventArgs e)
@@ -5021,6 +5273,25 @@ namespace HelloWorld
 
                 if ((counter_hv <= 20) && (counter_hv > 10))
                 {
+                    //<<<<<<< master
+                    //                    fb = (int)((numericFilament.Value * (counter_hv - 10)) / 10);
+                    //                    progressBar_FB.Value = fb;
+                    //                    if (!(hv_filament(fb * 256 / 100))) throw new Exception("filament");
+                    //                }
+                    //                else
+                    //                if ((counter_hv <= 30) && (counter_hv > 20))
+                    //                { 
+                    //                hv = (int)((numericHV.Value * (counter_hv - 20)) / 10);
+                    //                progressBar_HV.Value = hv;
+                    //                if (hv > 20) hv = 20;
+                    //                if (!(hv_hv(hv * (Settings1.Default.hv_raw_max) / 30))) throw new Exception("hv");
+                    //                }
+                    //                else
+                    //                if (counter_hv > 30) timer_hv.Stop();
+                    //            }
+                    //            catch { timer_hv.Stop();MessageBox.Show("?"); }
+                    //             
+                    //=======
                     //fb = (int)((numericFilament.Value * (counter_hv - 10)) / 10);
                     //progressBar_FB.Value = fb;
                     //if (!(hv_filament(fb * 256 / 100))) throw new Exception("filament");
@@ -5055,11 +5326,25 @@ namespace HelloWorld
             }
             catch { timer_hv.Stop(); MessageBox.Show("Something went wrong. Try again!"); }
 
+            //>>>>>>> master
         }
 
         private void trackBar_focus_course_Scroll(object sender, EventArgs e)
         {
             int mode = MicroscopyMode.SelectedIndex;
+            //<<<<<<< master
+            //            int HVindex = HVProfile.SelectedIndex;
+            //            double WD_real = Focus_To_WDreal(mode);
+            //            AllUserSettings[HVindex].WD_real = WD_real;
+            //            numericFocus.ValueChanged -= numericFocus_ValueChanged;
+            //            numericFocus.Value = (decimal)WDReal_To_WDPrint(mode, WD_real);
+            //            numericFocus.ValueChanged += numericFocus_ValueChanged;
+            //            if (mode == 0)
+            //                numericUpDown_objc.Value = trackBar_focus_course.Value;
+            //            else
+            //                numericUpDown_objc.Value = trackBar_focus_course.Value;
+            //            UpdateZoom();
+            //=======
             if (mode == 0)
             {
                 int HVindex = HVProfile.SelectedIndex;
@@ -5071,11 +5356,16 @@ namespace HelloWorld
                 numericUpDown_objc.Value = trackBar_focus_course.Value;
                 UpdateZoom();
             }
+            //>>>>>>> master
         }
 
         private void button_settings_Click(object sender, EventArgs e)
         {
+            //<<<<<<< master
+            //         Settings sf = new Settings();
+            //=======
             Settings sf = new Settings(this);
+            //>>>>>>> master
             sf.Show();
         }
 
@@ -5117,13 +5407,13 @@ namespace HelloWorld
 
                 fs.Close();
             }
-            
-           // panel1.DrawToBitmap()
+
+            // panel1.DrawToBitmap()
         }
 
         private void trackBar_gamma_Scroll(object sender, EventArgs e)
         {
-            frame._GammaCorrect((trackBar_gamma.Value)/100.0 * 1.5 + 0.5);
+            frame._GammaCorrect((trackBar_gamma.Value) / 100.0 * 1.5 + 0.5);
         }
 
         private void trackBar__Scroll(object sender, EventArgs e)
@@ -5148,8 +5438,8 @@ namespace HelloWorld
 
             userControl12.Value = Ctrl2D_Stig.Value;
             // u2_valueChanged( sender,  e);  
-          //  this.UD_Lens_stigx.Value = userControl12.X;
-           // this.UD_Lens_stigy.Value = userControl12.Y;
+            //  this.UD_Lens_stigx.Value = userControl12.X;
+            // this.UD_Lens_stigy.Value = userControl12.Y;
         }
 
         private void userControl12_Load(object sender, EventArgs e)
@@ -5239,10 +5529,14 @@ namespace HelloWorld
         {
             this.Text = String.Empty;
             EnterFullScreenMode();
+            //<<<<<<< master
+            //           // button20_Click(null, null);
+            //=======
 
             track_ball_enumeration();
 
             button20_Click(null, null);
+            //>>>>>>> master
         }
 
         private void button20_Click(object sender, EventArgs e)
@@ -5285,7 +5579,7 @@ namespace HelloWorld
             {
                 AllUserSettings[i].HVProfile = HVProfile.SelectedIndex;
             }
-            
+
             AllUserSettings[HVindex].MicroscopyMode = MicroscopyMode.SelectedIndex;
 
             HVProfileLastIndex = HVProfile.SelectedIndex;
@@ -5301,7 +5595,7 @@ namespace HelloWorld
             else if (microscopy_mode == 3)
                 AllUserSettings[HVindex].FocusFine_Rokveld = Ctrl1D_Focus.Value;
             AllUserSettings[HVindex].DFocus = dCtrl1D_Focus.Value;
-            
+
             if (microscopy_mode == 0)
                 AllUserSettings[HVindex].Vf_Resolution = Ctrl1D_Zoom.Value;
             else if (microscopy_mode == 1)
@@ -5328,7 +5622,7 @@ namespace HelloWorld
             AllUserSettings[HVindex].IMLCentering_x = Ctrl2D_IMLCentering.X;
             AllUserSettings[HVindex].IMLCentering_y = Ctrl2D_IMLCentering.Y;
             AllUserSettings[HVindex].DIMLCentering = dCtrl2D_IMLCentering.Value;
-            
+
             AllUserSettings[HVindex].GunShift_x = Ctrl2D_GunShift.X;
             AllUserSettings[HVindex].GunShift_y = Ctrl2D_GunShift.Y;
             AllUserSettings[HVindex].DGunShift = dCtrl2D_GunShift.Value;
@@ -5340,10 +5634,14 @@ namespace HelloWorld
             AllUserSettings[HVindex].Heat = (int)numericFilament.Value;
             AllUserSettings[HVindex].HV = (int)numericHV.Value;
 
+            //<<<<<<< master
+            //            AllUserSettings[HVindex].PC = (int)numeric_PCF.Value;
+            //=======
             AllUserSettings[HVindex].PC1 = (int)numeric_PCF.Value;
             AllUserSettings[HVindex].PC2 = (int)numericUpDown12.Value;
             AllUserSettings[HVindex].PC1Coef = (double)numericUpDown14.Value;
             AllUserSettings[HVindex].PC2Coef = (int)numericUpDown13.Value;
+            //>>>>>>> master
             AllUserSettings[HVindex].Speed = (int)numeric_Speed.Value;
         }
 
@@ -5360,17 +5658,23 @@ namespace HelloWorld
 
             try
             {
+                //<<<<<<< master
+                //                Btn_TCPConnect_Click(null, null);
+                //=======
                 Form5 cf = new Form5(this);
                 cf.StartPosition = FormStartPosition.CenterParent;
                 cf.ShowDialog();
+                //>>>>>>> master
             }
             catch
             {
 
             }
-            
+
         }
 
+        //<<<<<<< master
+        //=======
         public bool Connect_TCP()
         {
             Btn_TCPConnect_Click(null, null);
@@ -5420,6 +5724,7 @@ namespace HelloWorld
             return true;
         }
 
+        //>>>>>>> master
         public void UpdateUserName(bool isSwitchBetweenMode)
         {
             UserInfo = "  |  Logged in as: " + UserName;
@@ -5465,7 +5770,7 @@ namespace HelloWorld
                 //Ctrl1D_Zoom.Minimum = Settings1.Default.Zoom_Min_IML;
                 //Ctrl1D_Zoom.Maximum = Settings1.Default.Zoom_Max_IML;
             }
-            
+
             trackBar_focus_course.Value = AllUserSettings[HVindex].Focus_course;
             if (microscopy_mode == 0)
                 Ctrl1D_Focus.Value = AllUserSettings[HVindex].FocusFine_Resolution;
@@ -5476,7 +5781,7 @@ namespace HelloWorld
             else if (microscopy_mode == 3)
                 Ctrl1D_Focus.Value = AllUserSettings[HVindex].FocusFine_Rokveld;
             dCtrl1D_Focus.Value = AllUserSettings[HVindex].DFocus;
-            
+
             if (microscopy_mode == 0)
                 Ctrl1D_Zoom.Value = AllUserSettings[HVindex].Vf_Resolution;
             else if (microscopy_mode == 1)
@@ -5521,14 +5826,18 @@ namespace HelloWorld
             numericFilament.Value = AllUserSettings[HVindex].Heat;
             numericHV.Value = AllUserSettings[HVindex].HV;
 
+            //<<<<<<< master
+            //            numeric_PCF.Value = AllUserSettings[HVindex].PC;
+            //=======
             numeric_PCF.Value = AllUserSettings[HVindex].PC1;
             numericUpDown12.Value = AllUserSettings[HVindex].PC2;
             numericUpDown14.Value = (decimal)AllUserSettings[HVindex].PC1Coef;
             numericUpDown13.Value = AllUserSettings[HVindex].PC2Coef;
-            
+
+            //>>>>>>> master
             numeric_Speed.Value = AllUserSettings[HVindex].Speed;
         }
-        
+
         public void Logout()
         {
             if (UserName != "") SaveCurrentAccountSettings();
@@ -5594,8 +5903,13 @@ namespace HelloWorld
 
         private void userControl11_MouseHover(object sender, EventArgs e)
         {
+            //<<<<<<< master
+            //            label118.Text = userControl11.X.ToString();
+            //            label119.Text = userControl11.Y.ToString();
+            //=======
             //label118.Text = userControl11.X.ToString();
             //label119.Text = userControl11.Y.ToString();
+            //>>>>>>> master
         }
 
         private void numericFocus_ValueChanged(object sender, EventArgs e)
@@ -5748,6 +6062,11 @@ namespace HelloWorld
             speed_multiply.Value = numeric_Speed.Value;
         }
 
+        //<<<<<<< master
+        //        private void label44_Click(object sender, EventArgs e)
+        //        {
+        //
+        //=======
         private bool GetDirection(int oldind, int newind)
         {
             int dp = newind - oldind;
@@ -5860,11 +6179,88 @@ namespace HelloWorld
                 int val = (int)Math.Round((double)newFB * (double)Settings1.Default.fb_raw_max / (double)numericFilament.Maximum);
                 if (val > Settings1.Default.fb_raw_max) val = (int)Settings1.Default.fb_raw_max;
                 if (val < 0) val = 0;
-                
+
                 UD_HV_Filament.Value = val;
                 progressBar_FB.Value = newFB;
                 progressBar_FB.Refresh();
             }
+            //>>>>>>> master
+        }
+
+        private void Filter_Brightness_Scroll(object sender, EventArgs e)
+        {
+            Filter_Brightness_Val = 2.0 * Filter_Brightness.Value / 100.0;
+        }
+
+        private void Filter_Contrast_Scroll(object sender, EventArgs e)
+        {
+            Filter_Contrast_Val = 2.0 * Filter_Contrast.Value / 100.0;
+        }
+
+        private void CheckBox_FLIP_HORIZONTAL_CheckedChanged(object sender, EventArgs e)
+        {
+            Filter_FLIP_HORIZONTAL = CheckBox_FLIP_HORIZONTAL.Checked;
+        }
+
+        private void CheckBox_FLIP_VERTICAL_CheckedChanged(object sender, EventArgs e)
+        {
+            Filter_FLIP_VERTICAL = CheckBox_FLIP_VERTICAL.Checked;
+        }
+
+        private void CheckBox_EqualizeHist_CheckedChanged(object sender, EventArgs e)
+        {
+            Filter_EqualizeHist = CheckBox_EqualizeHist.Checked;
+        }
+
+        private void checkBox4_CheckedChanged(object sender, EventArgs e)
+        {
+            Filter_Bilatral = checkBox4.Checked;
+            trackBar6.Enabled = Filter_Bilatral;
+            trackBar7.Enabled = Filter_Bilatral;
+            trackBar8.Enabled = Filter_Bilatral;
+        }
+
+        private void trackBar6_Scroll(object sender, EventArgs e)
+        {
+            Filter_Bilatral_KernelSize = trackBar6.Value;
+        }
+
+        private void trackBar7_Scroll(object sender, EventArgs e)
+        {
+            Filter_Bilatral_ColorSigma = trackBar7.Value;
+        }
+
+        private void trackBar8_Scroll(object sender, EventArgs e)
+        {
+            Filter_Bilatral_SpaceSigma = trackBar8.Value;
+        }
+
+        private void trackBar10_Scroll(object sender, EventArgs e)
+        {
+            Filter_EdgeDetector_Thresh = trackBar10.Value;
+        }
+
+        private void trackBar9_Scroll(object sender, EventArgs e)
+        {
+            Filter_EdgeDetector_Linking = trackBar9.Value;
+        }
+
+        private void checkBox5_CheckedChanged(object sender, EventArgs e)
+        {
+            Filter_EdgeDetector = checkBox5.Checked;
+            trackBar10.Enabled = Filter_EdgeDetector;
+            trackBar9.Enabled = Filter_EdgeDetector;
+        }
+
+        private void checkBox6_CheckedChanged(object sender, EventArgs e)
+        {
+            Filter_Median = checkBox6.Checked;
+            trackBar11.Enabled = Filter_Median;
+        }
+
+        private void trackBar11_Scroll(object sender, EventArgs e)
+        {
+            Filter_Median_Size = 2*trackBar11.Value - 1;
         }
 
         private void labelscalekx_Click(object sender, EventArgs e)
@@ -5879,10 +6275,14 @@ namespace HelloWorld
 
         private void numericHV_ValueChanged(object sender, EventArgs e)
         {
+            //<<<<<<< master
+            //            Settings1.Default.kV = (double) numericHV.Value; 
+            //=======
             //Settings1.Default.kV = (double) numericHV.Value; 
             if (buttonHV.Text == "HV is ON") TimerHVUpdater.Start();
+            //>>>>>>> master
         }
-        
+
         private void Ctrl2D_Gain_valueChanged(object sender, EventArgs e)
         {
             num_gain_x.ValueChanged -= num_gain_x_ValueChanged;
@@ -5917,12 +6317,17 @@ namespace HelloWorld
         private void backgroundWorker2_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             // textBox3.Text += "{" + (byte)bt_buf[0] + "|" + (byte)bt_buf[1] + "|" + (sbyte)bt_buf[2] + "|" + (sbyte)bt_buf[3] + "}";
-            textBox3.Text = "data recieved:{"+(bt_count++).ToString("00000000") +"}";
+            textBox3.Text = "data recieved:{" + (bt_count++).ToString("00000000") + "}";
             switch (bt_buf[0])
             {
                 case 1:
-                    userControl21.X -= (byte)bt_buf[1] * ((int)(sbyte)bt_buf[2])/10;
-                    userControl21.Y -= (byte)bt_buf[1] * ((int)(sbyte)bt_buf[3])/10;
+                    //<<<<<<< master
+                    //userControl21.X -= (byte)bt_buf[1] * ((int)(sbyte)bt_buf[2])/10;
+                    //userControl21.Y -= (byte)bt_buf[1] * ((int)(sbyte)bt_buf[3])/10;
+                    //=======
+                    //                    userControl21.X -= (byte)bt_buf[1] * ((int)(sbyte)bt_buf[2])/10;
+                    //                    userControl21.Y -= (byte)bt_buf[1] * ((int)(sbyte)bt_buf[3])/10;
+                    //>>>>>>> master
                     break;
                 case 2:
 
@@ -5930,12 +6335,12 @@ namespace HelloWorld
                 default:
                     break;
             }
-           
+
         }
 
         private void backgroundWorker2_DoWork(object sender, DoWorkEventArgs e)
         {
-           
+
         }
 
         /*
