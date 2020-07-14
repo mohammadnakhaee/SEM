@@ -24,7 +24,7 @@ using Windows.Devices.HumanInterfaceDevice;
 using Windows.Storage;
 //test master2
 //using RawInput_dll;
-
+//test master
 namespace HelloWorld
 {
     public partial class FormMain : Form
