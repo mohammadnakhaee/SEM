@@ -41,3 +41,4 @@ C:\Users\mohammad\Documents\GitProjects\libemgucv-windows-universal-2.4.10.1940\
 C:\Users\mohammad\Documents\GitProjects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.csproj.CopyComplete
 C:\Users\mohammad\Documents\GitProjects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\Example.HelloWorld.exe
 C:\Users\mohammad\Documents\GitProjects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\Example.HelloWorld.pdb
+C:\Users\mohammad\Documents\GitProjects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.csprojAssemblyReference.cache

@@ -22,6 +22,7 @@ using System.Xml.Serialization;
 using Windows.Devices.Enumeration;
 using Windows.Devices.HumanInterfaceDevice;
 using Windows.Storage;
+//test master2
 //using RawInput_dll;
 
 namespace HelloWorld
