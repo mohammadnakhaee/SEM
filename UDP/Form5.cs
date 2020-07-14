@@ -54,43 +54,46 @@ namespace HelloWorld
             else
                 tcp = 0;
             Refresh();
-            
-            Thread.Sleep(1000);
-            if (main.Connect_HV())
-                hv = 1;
-            else
-                hv = 0;
-            Refresh();
 
-            Thread.Sleep(1000);
-            if (main.Connect_FB())
-                fb = 1;
-            else
-                fb = 0;
-            Refresh();
+            if (tcp == 1)
+            {
+                Thread.Sleep(1000);
+                if (main.Connect_HV())
+                    hv = 1;
+                else
+                    hv = 0;
+                Refresh();
 
-            Thread.Sleep(1000);
-            if (main.Connect_Lens())
-                lens = 1;
-            else
-                lens = 0;
-            Refresh();
+                Thread.Sleep(1000);
+                if (main.Connect_FB())
+                    fb = 1;
+                else
+                    fb = 0;
+                Refresh();
 
-            Thread.Sleep(1000);
-            if (main.Connect_Stage())
-                stage = 1;
-            else
-                stage = 0;
-            Refresh();
+                Thread.Sleep(1000);
+                if (main.Connect_Lens())
+                    lens = 1;
+                else
+                    lens = 0;
+                Refresh();
 
-            Thread.Sleep(1000);
-            if (main.Connect_UDP())
-                udp = 1;
-            else
-                udp = 0;
-            Refresh();
+                Thread.Sleep(1000);
+                if (main.Connect_Stage())
+                    stage = 1;
+                else
+                    stage = 0;
+                Refresh();
 
-            Thread.Sleep(3000);
+                Thread.Sleep(1000);
+                if (main.Connect_UDP())
+                    udp = 1;
+                else
+                    udp = 0;
+                Refresh();
+
+                Thread.Sleep(3000);
+            }
             Close();
         }
 

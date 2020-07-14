@@ -190,13 +190,12 @@ namespace HelloWorld
             //ViewPort.Dock = System.Windows.Forms.DockStyle.Fill;
             ViewPort.SetZoomScale(1, Point.Empty);
             ViewPort.FunctionalMode = Emgu.CV.UI.ImageBox.FunctionalModeOption.Minimum;
+            //ViewPort.FunctionalMode = Emgu.CV.UI.ImageBox.FunctionalModeOption.RightClickMenu;
             ViewPort.DoubleClick += new System.EventHandler(this.ViewPort_DoubleClick);
             ViewPort.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ViewPort_MouseDown);
             ViewPort.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ViewPort_MouseMove);
             ViewPort.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ViewPort_MouseUp);
-
-
-
+            
             // Emgu.CV.UI.Operation a;
             EIP = new IPEndPoint(LocalHost, VideoPort);
             TCPEIP = new IPEndPoint(LocalHost, ControllerPort);
@@ -319,7 +318,7 @@ namespace HelloWorld
             //<<<<<<< master
             // stageform.TopLevel = false;
             // stageform.Parent = this;
-            button_stage_Click(this, null);
+            //button_stage_Click(this, null);
 
             //leftpanel.AutoScroll = false;
             //=======
@@ -332,7 +331,7 @@ namespace HelloWorld
 
             ApplyGeneralSettings();
         }
-
+        
         //<<<<<<< master
         //        private void ApplyGeneralSettings()
         //=======
@@ -510,7 +509,7 @@ namespace HelloWorld
         private void MaximizeWindow()
         {
             var rectangle = Screen.FromControl(this).Bounds;
-            this.FormBorderStyle = FormBorderStyle.None;
+            //this.FormBorderStyle = FormBorderStyle.None;
             Size = new Size(rectangle.Width, rectangle.Height);
             Location = new Point(0, 0);
             Rectangle workingRectangle = Screen.PrimaryScreen.WorkingArea;
@@ -520,7 +519,7 @@ namespace HelloWorld
         private void ResizableWindow()
         {
             this.ControlBox = false;
-            this.FormBorderStyle = FormBorderStyle.SizableToolWindow;
+            //this.FormBorderStyle = FormBorderStyle.SizableToolWindow;
         }
 
         private void TurnOn(PictureBox light, int SelectedIndex)
@@ -1253,7 +1252,8 @@ namespace HelloWorld
         {
             //LabelUDPConnected.Visible = true;
             //LabelUDPConnected.Update();
-            timer1.Stop();
+            //timer1.Stop();
+            isUDPConnected = false;
             //   Application.Idle -= new EventHandler(ProcessFrame);
         }
 
@@ -1337,9 +1337,8 @@ namespace HelloWorld
                 }
                 // string info = String.Format("{0:0.0}FPS", FPS);
                 frame.Draw("hiiiiii", ref format, new System.Drawing.Point(100, 100), new Gray(200)); //Draw on the image using the specific font
-
-                frame = SetFilter(frame);
-                ViewPort.Image = frame;
+                
+                ViewPort.Image = SetFilter(frame);
                 // watch.Reset(); watch.Start();
                 //UpdateText(info);
             }
@@ -1357,17 +1356,19 @@ namespace HelloWorld
         bool Filter_FLIP_VERTICAL = false;
         bool Filter_EqualizeHist = false;
         bool Filter_Bilatral = false;
-        int Filter_Bilatral_KernelSize = 1;
-        int Filter_Bilatral_ColorSigma = 1;
-        int Filter_Bilatral_SpaceSigma = 1;
+        int Filter_Bilatral_KernelSize = 2;
+        int Filter_Bilatral_ColorSigma = 50;
+        int Filter_Bilatral_SpaceSigma = 50;
         bool Filter_EdgeDetector = false;
         int Filter_EdgeDetector_Thresh = 100;
         int Filter_EdgeDetector_Linking = 60;
         bool Filter_Median = false;
         int Filter_Median_Size = 1;
+
         private Image<Gray, Byte> SetFilter(Image<Gray, Byte> frame)
         {
-            Image<Gray, Byte> outFrame = frame;
+            //return frame;
+            Image<Gray, Byte> outFrame = frame.Clone();
 
             outFrame._Mul(Filter_Brightness_Val);
             outFrame._GammaCorrect(Filter_Contrast_Val);
@@ -1449,10 +1450,8 @@ namespace HelloWorld
                 //frame.Draw(info, ref f, new System.Drawing.Point(227, 247), new Gray(200)); //Draw on the image using a specific font
                 Image<Rgb, byte> frame0 = new Image<Rgb, byte>(new Bitmap(Properties.Resources.empty512));
                 frame = frame0.Convert<Gray, Byte>();
-
-                frame = SetFilter(frame);
-
-                ViewPort.Image = frame;//.PyrUp();
+                
+                ViewPort.Image = SetFilter(frame);//.PyrUp();
 
                 ViewPort.SetZoomScale(1.1, Point.Empty);
 
@@ -2871,11 +2870,10 @@ namespace HelloWorld
             // ProcessFrame(null, null);
             string info = "";
 
-            frame.Bytes = receivedData_frame;
+            if (isUDPConnected) frame.Bytes = receivedData_frame;
             if (isAcquire)
             {
-                frame = SetFilter(frame);
-                imageform.ViewPort.Image = frame;
+                imageform.ViewPort.Image = SetFilter(frame);
             }
             else
             {
@@ -2889,15 +2887,16 @@ namespace HelloWorld
                     overallMotionPixelCount = -10;
 
                 }
-                info = String.Format("{0:0000.0}FPS", FPS);
-                frame.Draw(info, ref format, new System.Drawing.Point(1, 500), new Gray(200)); //Draw on the image using the specific font
 
-                frame = SetFilter(frame);
+                info = String.Format("{0:0000.0}FPS", FPS);
+
+                Image<Gray,byte> frame0= SetFilter(frame);
+                frame0.Draw(info, ref format, new System.Drawing.Point(1, 500), new Gray(200)); //Draw on the image using the specific font
 
                 if (isformmode)
-                    formmode.ViewPort.Image = frame;
+                    formmode.ViewPort.Image = frame0;
                 else
-                    ViewPort.Image = frame;
+                    ViewPort.Image = frame0;
             }
         }
 
@@ -4155,7 +4154,7 @@ namespace HelloWorld
         private void panel1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             // System.Windows.Input.Touch a;
-            this.Text = e.X.ToString() + "|" + e.X.ToString() + "|" + e.Delta.ToString() + "|" + e.Clicks.ToString();
+            //this.Text = e.X.ToString() + "|" + e.X.ToString() + "|" + e.Delta.ToString() + "|" + e.Clicks.ToString();
 
         }
 
@@ -5413,7 +5412,7 @@ namespace HelloWorld
 
         private void trackBar_gamma_Scroll(object sender, EventArgs e)
         {
-            frame._GammaCorrect((trackBar_gamma.Value) / 100.0 * 1.5 + 0.5);
+           // frame._GammaCorrect((trackBar_gamma.Value) / 100.0 * 1.5 + 0.5);
         }
 
         private void trackBar__Scroll(object sender, EventArgs e)
@@ -5692,7 +5691,7 @@ namespace HelloWorld
             if (!tcp.Connected) return false;
             string CompleteOrder = CreateChildCommand("l", "you?\r");
             string response = SendAndReceiveResponse(CompleteOrder);
-            if (response != "l") return false;
+            if (response != "lens") return false;
             return true;
         }
 
@@ -5718,9 +5717,9 @@ namespace HelloWorld
 
         public bool Connect_Stage()
         {
-            string CompleteOrder = CreateChildCommand("se", "you?\r");
+            string CompleteOrder = CreateChildCommand("st", "you?\r");
             string response = SendAndReceiveResponse(CompleteOrder);
-            if (response != "se") return false;
+            if (!response.StartsWith("Spray")) return false;
             return true;
         }
 
@@ -6261,6 +6260,18 @@ namespace HelloWorld
         private void trackBar11_Scroll(object sender, EventArgs e)
         {
             Filter_Median_Size = 2*trackBar11.Value - 1;
+        }
+
+        private void button_load_Click(object sender, EventArgs e)
+        {
+            openFileDialog_Images.ShowDialog();
+        }
+
+        private void openFileDialog_Images_FileOk(object sender, CancelEventArgs e)
+        {
+            Image<Gray, byte> image0 = new Image<Gray, byte>(openFileDialog_Images.FileName);
+            frame = image0.GetSubRect(new Rectangle(0, 0, 512, 512));
+            ViewPort.Image = SetFilter(frame);
         }
 
         private void labelscalekx_Click(object sender, EventArgs e)
