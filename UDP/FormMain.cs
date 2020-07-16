@@ -13,6 +13,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
@@ -156,10 +157,15 @@ namespace HelloWorld
         public FormMain()
         {
             InitializeComponent();
+            System.Net.NetworkInformation.NetworkChange.NetworkAddressChanged += new NetworkAddressChangedEventHandler(this.netchanged);
+            netchanged(this, null);
             HVProfileLastIndex = HVProfile.SelectedIndex;
             MicroscopyModeLastIndex = MicroscopyMode.SelectedIndex;
             SetCustomBorder();
 
+           
+            tcp_status_light.Image = new Bitmap(Properties.Resources.greenbuttonoff);
+            tcp_status_light.SizeMode = PictureBoxSizeMode.StretchImage;
             int NumberOfHVProfile = HVProfile.Items.Count;
             for (int i = 0; i < NumberOfHVProfile; i++) AllUserSettings.Add(new UserSettings());
 
@@ -332,7 +338,22 @@ namespace HelloWorld
 
             ApplyGeneralSettings();
         }
-        
+
+        private void netchanged(object sender, EventArgs ee)
+        {
+            Eth_Link = 0; tcp_diconnected();
+            NetworkInterface[] adapters = NetworkInterface.GetAllNetworkInterfaces();
+            foreach (NetworkInterface n in adapters)
+            {
+                if ((n.Name == "Ethernet") && (n.OperationalStatus == OperationalStatus.Up))
+                    { Eth_Link = 1; tcp_connected();break; }
+               
+                //Console.WriteLine("   {0} is {1}, {2}", n.Name, n.Description,n.NetworkInterfaceType);
+            }
+            if(tcp_state==true && Eth_Link==1)
+            { Btn_TCPConnect_Click(this, null); }
+        }
+
         //<<<<<<< master
         //        private void ApplyGeneralSettings()
         //=======
@@ -1042,7 +1063,7 @@ namespace HelloWorld
                 isUDPConnected = false;
             else
                 isUDPConnected = isOK;
-
+            
             //>>>>>>> master
             Play();
             //System.Threading.Thread myThread;
@@ -1780,31 +1801,37 @@ namespace HelloWorld
                 TBWaitTime.Text = WaitTime.ToString();
             }
         }
-
+        
         private void Btn_TCPConnect_Click(object sender, EventArgs e)
         {
+            if (Eth_Link == 0) return;
             try
             {
                 InitializeTCP();
                 tcp.Client.Blocking = true;
                 tcp.SendTimeout = 1000; tcp.ReceiveTimeout = 1000;
+                
+                
                 tcp.Connect(ServerHost, ControllerPort);
                 tcp.Client.Blocking = true;
+                
                 TCPnetworkStream = tcp.GetStream();
-                TCPnetworkStream.ReadTimeout = 5000;
-                TCPnetworkStream.WriteTimeout = 5000;
+                TCPnetworkStream.ReadTimeout = 1000;
+                TCPnetworkStream.WriteTimeout = 1000;
                 if (tcp.Connected)
                 {
+                    //  TCP_Connection_Listener.Start();
+                    tcp_state = true;
                     LabelTCPConnected.Visible = true;
                     UpdateScanner();
                     UpdateDetector();
                     rotate(4095, 0);
-                    lens_gau(2047, 2047);
-                    lens_gad(2047, 2047);
-                    lens_ic(0, 0);
-                    lens_stig(2047, 2047);
-                    //u2itmode(1);
-                    //u6itmode(1);
+                    //lens_gau(2047, 2047);
+                    //lens_gad(2047, 2047);
+                    //lens_ic(0, 0);
+                    //lens_stig(2047, 2047);
+                    u2itmode(1);
+                    u6itmode(1);
                 }
             }
             catch (Exception ex)
@@ -1830,6 +1857,7 @@ namespace HelloWorld
             //                log.Text = ex.Message + "\r" + log.Text;
             //               // MessageBox.Show(ex.Message);
             //=======
+            tcp_state = false;
             if (tcp != null)
             {
                 try
@@ -1837,6 +1865,7 @@ namespace HelloWorld
                     //tcp.Close();
                     tcp.Client.Disconnect(true);
                     LabelTCPConnected.Visible = false;
+                   // TCP_Connection_Listener.Stop();
                 }
                 catch (Exception ex)
                 {
@@ -1894,7 +1923,10 @@ namespace HelloWorld
             //            // return true; //uncomment for offline test //return
             //=======
             //return true; //uncomment for offline test //return
-            if (!tcp.Connected) return true;
+            if (!tcp.Connected)
+            {
+                return true;
+            }
             //>>>>>>> master
 
             if (!CompleteOrder.StartsWith("COM"))
@@ -3947,23 +3979,7 @@ namespace HelloWorld
             string CompleteOrder = "u6itmode " + val.ToString() + "\r";
             return SendAndReceiveOK(CompleteOrder);
         }
-
-        private void Uitmode_CheckedChanged(object sender, EventArgs e)
-        {
-            //  if (U2itmode.Checked)
-            u2itmode(1);
-            //  else
-            u2itmode(0);
-        }
-
-        private void Upitmode_CheckedChanged(object sender, EventArgs e)
-        {
-            //  if (U6itmode.Checked)
-            u6itmode(1);
-            //  else
-            u6itmode(0);
-        }
-
+        
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
             // log.Update();
@@ -6273,6 +6289,83 @@ namespace HelloWorld
             Image<Gray, byte> image0 = new Image<Gray, byte>(openFileDialog_Images.FileName);
             frame = image0.GetSubRect(new Rectangle(0, 0, 512, 512));
             ViewPort.Image = SetFilter(frame);
+        }
+
+
+        bool tcp_state = false;
+        private int Eth_Link;
+
+        private void TCP_Connection_Listener_Tick(object sender, EventArgs e)
+        {
+            if (tcp != null)
+            {
+                if (tcp.Connected)
+                {
+                    if (!tcp_state)
+                    {
+                        tcp_state = true;
+                        tcp_connected();
+                    }
+                }
+                else
+                {
+                    if (tcp_state)
+                    {
+                        tcp_state = false;
+                        tcp_diconnected();
+                        
+                    }
+
+                    try
+                    {
+                        //Btn_TCPDisconnect_Click(this, null);
+                        //tcp.Client.Disconnect(true);
+                        Btn_TCPConnect_Click(this, null);
+                        //tcp.Connected = true;
+                     //   if (tcp != null)
+                    //    { tcp.Close(); tcp = new TcpClient(); }
+                       // 
+                        //tcp.BeginConnect(ServerHost, ControllerPort, TCP_Callback, null);
+                    //    tcp.Client.Blocking = true;
+                     //    InitializeTCP();
+                      //    tcp.Client.Blocking = true;
+                        //  
+                        //tcp.Client.Connect(ServerHost, ControllerPort);
+                       // tcp=new TcpClient();
+                         //tcp.Connect(ServerHost, ControllerPort);
+                          //tcp.Client.Blocking = true;
+//tcp.SendTimeout = 1000; tcp.ReceiveTimeout = 1000;
+                 //         TCPnetworkStream = tcp.GetStream();
+                 //       TCPnetworkStream.ReadTimeout = 1000;
+                  //       TCPnetworkStream.WriteTimeout = 1000;
+
+                    }
+                    catch(Exception ex)
+                    {
+                        //MessageBox.Show(ex.Message);
+                    }
+                }
+            }
+        }
+
+        private void TCP_Callback(object x)
+        {
+            //TCP_Connection_Listener.Interval = 10;
+            //tcp_status_light.Image = new Bitmap(Properties.Resources.greenbuttonon);
+        }
+
+        private void tcp_connected()
+        {
+            TCP_Connection_Listener.Interval = 100;
+            tcp_status_light.Image = new Bitmap(Properties.Resources.greenbuttonon);
+        }
+        
+        private void tcp_diconnected()
+        {
+            TCP_Connection_Listener.Interval = 1000;
+            //TCP_Connection_Listener.Stop();
+            tcp_status_light.Image = new Bitmap(Properties.Resources.greenbuttonoff);
+            
         }
 
         private void labelscalekx_Click(object sender, EventArgs e)
