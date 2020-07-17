@@ -44,59 +44,6 @@ namespace HelloWorld
             timer1.Start();
         }
 
-        private void CheckAll()
-        {
-            Refresh();
-            Thread.Sleep(1000);
-            
-            if (main.Connect_TCP())
-                tcp = 1;
-            else
-                tcp = 0;
-            Refresh();
-
-            if (tcp == 1)
-            {
-                Thread.Sleep(1000);
-                if (main.Connect_HV())
-                    hv = 1;
-                else
-                    hv = 0;
-                Refresh();
-
-                Thread.Sleep(1000);
-                if (main.Connect_FB())
-                    fb = 1;
-                else
-                    fb = 0;
-                Refresh();
-
-                Thread.Sleep(1000);
-                if (main.Connect_Lens())
-                    lens = 1;
-                else
-                    lens = 0;
-                Refresh();
-
-                Thread.Sleep(1000);
-                if (main.Connect_Stage())
-                    stage = 1;
-                else
-                    stage = 0;
-                Refresh();
-
-                Thread.Sleep(1000);
-                if (main.Connect_UDP())
-                    udp = 1;
-                else
-                    udp = 0;
-                Refresh();
-
-                Thread.Sleep(3000);
-            }
-            Close();
-        }
-
         private void Form5_Paint(object sender, PaintEventArgs e)
         {
             if (tcp == 1)
@@ -182,10 +129,11 @@ namespace HelloWorld
                 if (!is5)
                 {
                     is5 = true;
-                    if (main.Connect_HV())
-                        hv = 1;
-                    else
-                        hv = 0;
+                    if (tcp == 1)
+                        if (main.Connect_HV())
+                            hv = 1;
+                        else
+                            hv = 0;
                     Refresh();
                     counter++;
                 }
@@ -195,10 +143,11 @@ namespace HelloWorld
                 if (!is6)
                 {
                     is6 = true;
-                    if (main.Connect_FB())
-                        fb = 1;
-                    else
-                        fb = 0;
+                    if (tcp == 1)
+                        if (main.Connect_FB())
+                            fb = 1;
+                        else
+                            fb = 0;
                     Refresh();
                     counter++;
                 }
@@ -208,10 +157,11 @@ namespace HelloWorld
                 if (!is7)
                 {
                     is7 = true;
-                    if (main.Connect_Lens())
-                        lens = 1;
-                    else
-                        lens = 0;
+                    if (tcp == 1)
+                        if (main.Connect_Lens())
+                            lens = 1;
+                        else
+                            lens = 0;
                     Refresh();
                     counter++;
                 }
@@ -221,10 +171,11 @@ namespace HelloWorld
                 if (!is8)
                 {
                     is8 = true;
-                    if (main.Connect_Stage())
-                        stage = 1;
-                    else
-                        stage = 0;
+                    if (tcp == 1)
+                        if (main.Connect_Stage())
+                            stage = 1;
+                        else
+                            stage = 0;
                     Refresh();
                     counter++;
                 }
@@ -234,10 +185,11 @@ namespace HelloWorld
                 if (!is9)
                 {
                     is9 = true;
-                    if (main.Connect_UDP())
-                        udp = 1;
-                    else
-                        udp = 0;
+                    if (tcp == 1)
+                        if (main.Connect_UDP())
+                            udp = 1;
+                        else
+                            udp = 0;
                     Refresh();
                     main.DisConnect_UDP();
                     counter++;

@@ -161,8 +161,9 @@ namespace HelloWorld
                     myFormMain.Logout();
                 else
                     myFormMain.TryToConnect();
+
                 myFormMain.UserName = comboBox1.Text;
-                //myFormMain.UpdateUserName(false);
+                myFormMain.UpdateUserName(false);
             }
             else
             {

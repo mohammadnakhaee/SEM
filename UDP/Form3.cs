@@ -13,12 +13,12 @@ namespace HelloWorld
     public partial class Settings : Form
     {
         FormMain formMain;
-        public Settings(FormMain formmain)
+        public Settings(FormMain formmain, object Obj)
         {
             formMain = formmain;
             InitializeComponent();
 
-            propertyGrid.SelectedObject = Settings1.Default;
+            propertyGrid.SelectedObject = Obj;
         }
 
         private void propertyGrid_Click(object sender, EventArgs e)

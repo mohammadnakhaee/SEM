@@ -1060,6 +1060,8 @@ namespace HelloWorld
         private void BtnStart_Click(object sender, EventArgs e)
         {
             bool isOK = dactimer(1);
+            if (tcp == null) isUDPConnected = false;
+
             if (!tcp.Connected)
                 isUDPConnected = false;
             else
@@ -1820,6 +1822,7 @@ namespace HelloWorld
                 TCPnetworkStream = tcp.GetStream();
                 TCPnetworkStream.ReadTimeout = 1000;
                 TCPnetworkStream.WriteTimeout = 1000;
+                if (tcp != null)
                 if (tcp.Connected)
                 {
                     //  TCP_Connection_Listener.Start();
@@ -1925,6 +1928,8 @@ namespace HelloWorld
             //            // return true; //uncomment for offline test //return
             //=======
             //return true; //uncomment for offline test //return
+            if (tcp == null) return true;
+
             if (!tcp.Connected)
             {
                 return true;
@@ -5387,7 +5392,7 @@ namespace HelloWorld
             //<<<<<<< master
             //         Settings sf = new Settings();
             //=======
-            Settings sf = new Settings(this);
+            Settings sf = new Settings(this, Settings1.Default);
             //>>>>>>> master
             sf.Show();
         }
@@ -5670,6 +5675,7 @@ namespace HelloWorld
 
         public void TryToConnect()
         {
+
             try
             {
                 Btn_TCPDisconnect_Click(null, null);
@@ -5701,7 +5707,10 @@ namespace HelloWorld
         public bool Connect_TCP()
         {
             Btn_TCPConnect_Click(null, null);
-            return tcp.Connected;
+            if (tcp != null)
+                return tcp.Connected;
+            else
+                return false;
         }
 
         public bool Connect_UDP()
@@ -5718,6 +5727,7 @@ namespace HelloWorld
 
         public bool Connect_Lens()
         {
+            if (tcp == null) return false;
             if (!tcp.Connected) return false;
             string CompleteOrder = CreateChildCommand("l", "you?\r");
             string response = SendAndReceiveResponse(CompleteOrder);
@@ -5727,6 +5737,7 @@ namespace HelloWorld
 
         public bool Connect_HV()
         {
+            if (tcp == null) return false;
             if (!tcp.Connected) return false;
             string CompleteOrder = CreateChildCommand("hv", "you?\r");
             string response = SendAndReceiveResponse(CompleteOrder);
@@ -5736,6 +5747,7 @@ namespace HelloWorld
 
         public bool Connect_FB()
         {
+            if (tcp == null) return false;
             if (!tcp.Connected) return false;
             string CompleteOrder = CreateChildCommand("hv", "fb 1" + "\r");
             SendAndReceiveOK(CompleteOrder);
@@ -6388,6 +6400,12 @@ namespace HelloWorld
             //TCP_Connection_Listener.Stop();
             tcp_status_light.Image = new Bitmap(Properties.Resources.greenbuttonoff);
             
+        }
+
+        private void button21_Click(object sender, EventArgs e)
+        {
+            Settings sf = new Settings(this, AllUserSettings[HVProfile.SelectedIndex]);
+            sf.Show();
         }
 
         private void labelscalekx_Click(object sender, EventArgs e)

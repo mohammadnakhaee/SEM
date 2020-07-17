@@ -1185,7 +1185,7 @@
             this.tabPage1.Location = new System.Drawing.Point(23, 4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(536, 467);
+            this.tabPage1.Size = new System.Drawing.Size(611, 545);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Terminal";
             // 
@@ -1194,10 +1194,10 @@
             this.History.BackColor = System.Drawing.SystemColors.ControlLight;
             this.History.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.History.FormattingEnabled = true;
-            this.History.Location = new System.Drawing.Point(3, 392);
+            this.History.Location = new System.Drawing.Point(3, 470);
             this.History.Margin = new System.Windows.Forms.Padding(0);
             this.History.Name = "History";
-            this.History.Size = new System.Drawing.Size(530, 17);
+            this.History.Size = new System.Drawing.Size(605, 17);
             this.History.TabIndex = 1;
             this.History.Click += new System.EventHandler(this.terminalHistory_Click);
             this.History.DoubleClick += new System.EventHandler(this.History_DoubleClick);
@@ -1214,7 +1214,7 @@
             this.TBOutput.Location = new System.Drawing.Point(3, 3);
             this.TBOutput.Name = "TBOutput";
             this.TBOutput.ReadOnly = true;
-            this.TBOutput.Size = new System.Drawing.Size(530, 406);
+            this.TBOutput.Size = new System.Drawing.Size(605, 484);
             this.TBOutput.TabIndex = 1;
             this.TBOutput.Text = "";
             // 
@@ -1229,9 +1229,9 @@
             this.panel5.Controls.Add(this.TBOrder);
             this.panel5.Controls.Add(this.label6);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel5.Location = new System.Drawing.Point(3, 409);
+            this.panel5.Location = new System.Drawing.Point(3, 487);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(530, 55);
+            this.panel5.Size = new System.Drawing.Size(605, 55);
             this.panel5.TabIndex = 0;
             // 
             // TBWaitTime
@@ -1299,7 +1299,7 @@
             this.TBOrder.Dock = System.Windows.Forms.DockStyle.Top;
             this.TBOrder.Location = new System.Drawing.Point(0, 0);
             this.TBOrder.Name = "TBOrder";
-            this.TBOrder.Size = new System.Drawing.Size(530, 20);
+            this.TBOrder.Size = new System.Drawing.Size(605, 20);
             this.TBOrder.TabIndex = 0;
             this.TBOrder.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TBOrder_KeyDown);
             // 
@@ -1321,7 +1321,7 @@
             this.tabPage4.Location = new System.Drawing.Point(23, 4);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(536, 467);
+            this.tabPage4.Size = new System.Drawing.Size(611, 545);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "User";
             // 
@@ -1331,7 +1331,7 @@
             this.panel13.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel13.Location = new System.Drawing.Point(3, 42);
             this.panel13.Name = "panel13";
-            this.panel13.Size = new System.Drawing.Size(530, 3);
+            this.panel13.Size = new System.Drawing.Size(605, 3);
             this.panel13.TabIndex = 9;
             // 
             // groupBox4
@@ -1407,13 +1407,13 @@
             this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel8.Location = new System.Drawing.Point(3, 3);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(530, 39);
+            this.panel8.Size = new System.Drawing.Size(605, 39);
             this.panel8.TabIndex = 4;
             // 
             // User_image
             // 
             this.User_image.Dock = System.Windows.Forms.DockStyle.Right;
-            this.User_image.Location = new System.Drawing.Point(280, 0);
+            this.User_image.Location = new System.Drawing.Point(355, 0);
             this.User_image.Name = "User_image";
             this.User_image.Size = new System.Drawing.Size(250, 39);
             this.User_image.TabIndex = 3;
@@ -1440,7 +1440,7 @@
             this.tabPage6.Location = new System.Drawing.Point(23, 4);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(536, 467);
+            this.tabPage6.Size = new System.Drawing.Size(611, 545);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Settings";
             // 
@@ -1452,7 +1452,7 @@
             this.panel16.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel16.Location = new System.Drawing.Point(3, 45);
             this.panel16.Name = "panel16";
-            this.panel16.Size = new System.Drawing.Size(530, 419);
+            this.panel16.Size = new System.Drawing.Size(605, 497);
             this.panel16.TabIndex = 8;
             // 
             // groupBox13
@@ -1670,7 +1670,7 @@
             this.panel11.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel11.Location = new System.Drawing.Point(3, 42);
             this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(530, 3);
+            this.panel11.Size = new System.Drawing.Size(605, 3);
             this.panel11.TabIndex = 7;
             // 
             // panel10
@@ -1681,13 +1681,13 @@
             this.panel10.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel10.Location = new System.Drawing.Point(3, 3);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(530, 39);
+            this.panel10.Size = new System.Drawing.Size(605, 39);
             this.panel10.TabIndex = 6;
             // 
             // Settings_image
             // 
             this.Settings_image.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Settings_image.Location = new System.Drawing.Point(280, 0);
+            this.Settings_image.Location = new System.Drawing.Point(355, 0);
             this.Settings_image.Name = "Settings_image";
             this.Settings_image.Size = new System.Drawing.Size(250, 39);
             this.Settings_image.TabIndex = 2;
@@ -1713,7 +1713,7 @@
             this.tabPage7.Location = new System.Drawing.Point(23, 4);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(536, 467);
+            this.tabPage7.Size = new System.Drawing.Size(611, 545);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "Render";
             // 
@@ -1723,7 +1723,7 @@
             this.panel19.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel19.Location = new System.Drawing.Point(3, 42);
             this.panel19.Name = "panel19";
-            this.panel19.Size = new System.Drawing.Size(530, 3);
+            this.panel19.Size = new System.Drawing.Size(605, 3);
             this.panel19.TabIndex = 10;
             // 
             // panel18
@@ -1734,13 +1734,13 @@
             this.panel18.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel18.Location = new System.Drawing.Point(3, 3);
             this.panel18.Name = "panel18";
-            this.panel18.Size = new System.Drawing.Size(530, 39);
+            this.panel18.Size = new System.Drawing.Size(605, 39);
             this.panel18.TabIndex = 5;
             // 
             // Render_image
             // 
             this.Render_image.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Render_image.Location = new System.Drawing.Point(280, 0);
+            this.Render_image.Location = new System.Drawing.Point(355, 0);
             this.Render_image.Name = "Render_image";
             this.Render_image.Size = new System.Drawing.Size(250, 39);
             this.Render_image.TabIndex = 4;
@@ -1768,7 +1768,7 @@
             this.tabPage5.Location = new System.Drawing.Point(23, 4);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(536, 467);
+            this.tabPage5.Size = new System.Drawing.Size(611, 545);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Help";
             // 
@@ -1778,7 +1778,7 @@
             this.panel12.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel12.Location = new System.Drawing.Point(3, 42);
             this.panel12.Name = "panel12";
-            this.panel12.Size = new System.Drawing.Size(530, 3);
+            this.panel12.Size = new System.Drawing.Size(605, 3);
             this.panel12.TabIndex = 8;
             // 
             // groupBox6
@@ -1827,13 +1827,13 @@
             this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel9.Location = new System.Drawing.Point(3, 3);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(530, 39);
+            this.panel9.Size = new System.Drawing.Size(605, 39);
             this.panel9.TabIndex = 5;
             // 
             // Help_image
             // 
             this.Help_image.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Help_image.Location = new System.Drawing.Point(280, 0);
+            this.Help_image.Location = new System.Drawing.Point(355, 0);
             this.Help_image.Name = "Help_image";
             this.Help_image.Size = new System.Drawing.Size(250, 39);
             this.Help_image.TabIndex = 3;
@@ -1861,7 +1861,7 @@
             this.tabPage3.Location = new System.Drawing.Point(23, 4);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(536, 467);
+            this.tabPage3.Size = new System.Drawing.Size(611, 545);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Tools";
             this.tabPage3.Click += new System.EventHandler(this.tabPage3_Click);
@@ -8581,6 +8581,7 @@
             this.button21.TabIndex = 60;
             this.button21.Text = "User Settings";
             this.button21.UseVisualStyleBackColor = false;
+            this.button21.Click += new System.EventHandler(this.button21_Click);
             // 
             // button20
             // 
