@@ -331,6 +331,7 @@ namespace HelloWorld
             //>>>>>>> master
 
             ApplyGeneralSettings();
+            leftpanel.Enabled = false;
         }
         
         //<<<<<<< master
@@ -1060,7 +1061,8 @@ namespace HelloWorld
             {
                 MessageBox.Show(excpt.Message);
             }*/
-
+            LabelUDPConnected.Visible = isUDPConnected;
+            LabelUDPConnected.Update();
         }
 
         void Plot()
@@ -2864,6 +2866,8 @@ namespace HelloWorld
             dactimer(0);
             // Array.Clear(receivedData, 2, 512);
             Thread.Sleep(100); Stop();
+            LabelUDPConnected.Visible = isUDPConnected;
+            LabelUDPConnected.Update();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -3102,7 +3106,10 @@ namespace HelloWorld
         private void button3_Click(object sender, EventArgs e)
         {
             isAcquire = false;
-            dactimer(1);
+            if (isUDPConnected)
+                DisConnect_UDP();
+            else
+                Connect_UDP();
         }
 
         private void UD_Lens_ux_ValueChanged(object sender, EventArgs e)
@@ -5687,6 +5694,12 @@ namespace HelloWorld
             return isUDPConnected;
         }
 
+        public bool DisConnect_UDP()
+        {
+            Btn_UDPDisconnect_Click(null, null);
+            return isUDPConnected;
+        }
+
         public bool Connect_Lens()
         {
             if (!tcp.Connected) return false;
@@ -5740,7 +5753,6 @@ namespace HelloWorld
             HVProfile.SelectedIndex = HVindex;
             HVProfileLastIndex = HVProfile.SelectedIndex;
             HVProfile.SelectedIndexChanged += HVProfile_SelectedIndexChanged;
-
 
             if (!isSwitchBetweenMode)
             {
@@ -5836,6 +5848,16 @@ namespace HelloWorld
 
             //>>>>>>> master
             numeric_Speed.Value = AllUserSettings[HVindex].Speed;
+
+            if (HVindex != -1)
+            {
+                if(AllUserSettings[HVindex].MicroscopyMode != -1)
+                    leftpanel.Enabled = true;
+                else
+                    leftpanel.Enabled = false;
+            }
+            else
+                leftpanel.Enabled = false;
         }
 
         public void Logout()

@@ -121,11 +121,11 @@ namespace HelloWorld
                 DrawString("High Voltage", Color.Gray, 125, 230, 11, e.Graphics);
 
             if (fb == 1)
-                DrawString("Filament", Color.Green, 210, 155, 12, e.Graphics);
+                DrawString("Secondary", Color.Green, 202, 155, 12, e.Graphics);
             else if (fb == 0)
-                DrawString("Filament", Color.Maroon, 210, 155, 12, e.Graphics);
+                DrawString("Secondary", Color.Maroon, 202, 155, 12, e.Graphics);
             else
-                DrawString("Filament", Color.Gray, 210, 155, 12, e.Graphics);
+                DrawString("Secondary", Color.Gray, 202, 155, 12, e.Graphics);
             
             if (lens == 1)
                 DrawString("Lens", Color.Green, 320, 150, 14, e.Graphics);
@@ -239,6 +239,7 @@ namespace HelloWorld
                     else
                         udp = 0;
                     Refresh();
+                    main.DisConnect_UDP();
                     counter++;
                 }
             }

@@ -936,7 +936,7 @@
             this.TabControl_Main.Name = "TabControl_Main";
             this.TabControl_Main.SelectedIndex = 0;
             this.TabControl_Main.ShowToolTips = true;
-            this.TabControl_Main.Size = new System.Drawing.Size(563, 475);
+            this.TabControl_Main.Size = new System.Drawing.Size(638, 553);
             this.TabControl_Main.TabIndex = 0;
             this.TabControl_Main.Visible = false;
             // 
@@ -955,7 +955,7 @@
             this.tabPage2.Location = new System.Drawing.Point(23, 4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(536, 467);
+            this.tabPage2.Size = new System.Drawing.Size(611, 545);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Connections";
             // 
@@ -994,7 +994,7 @@
             this.panel15.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel15.Location = new System.Drawing.Point(3, 42);
             this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(513, 3);
+            this.panel15.Size = new System.Drawing.Size(605, 3);
             this.panel15.TabIndex = 8;
             // 
             // groupBox3
@@ -1149,13 +1149,13 @@
             this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel6.Location = new System.Drawing.Point(3, 3);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(513, 39);
+            this.panel6.Size = new System.Drawing.Size(605, 39);
             this.panel6.TabIndex = 2;
             // 
             // Connection_image
             // 
             this.Connection_image.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Connection_image.Location = new System.Drawing.Point(263, 0);
+            this.Connection_image.Location = new System.Drawing.Point(355, 0);
             this.Connection_image.Name = "Connection_image";
             this.Connection_image.Size = new System.Drawing.Size(250, 39);
             this.Connection_image.TabIndex = 3;
@@ -6191,7 +6191,7 @@
             this.GB_Detectors.Controls.Add(this.button_stage);
             this.GB_Detectors.Dock = System.Windows.Forms.DockStyle.Right;
             this.GB_Detectors.ForeColor = System.Drawing.Color.White;
-            this.GB_Detectors.Location = new System.Drawing.Point(618, 0);
+            this.GB_Detectors.Location = new System.Drawing.Point(693, 0);
             this.GB_Detectors.Name = "GB_Detectors";
             this.GB_Detectors.Size = new System.Drawing.Size(370, 215);
             this.GB_Detectors.TabIndex = 0;
@@ -6454,7 +6454,7 @@
             this.groupBox36.Dock = System.Windows.Forms.DockStyle.Right;
             this.groupBox36.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.groupBox36.ForeColor = System.Drawing.Color.White;
-            this.groupBox36.Location = new System.Drawing.Point(988, 0);
+            this.groupBox36.Location = new System.Drawing.Point(1063, 0);
             this.groupBox36.Name = "groupBox36";
             this.groupBox36.Size = new System.Drawing.Size(382, 215);
             this.groupBox36.TabIndex = 35;
@@ -7824,11 +7824,11 @@
             this.leftpanel.Controls.Add(this.groupBox_focus);
             this.leftpanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.leftpanel.ForeColor = System.Drawing.Color.White;
-            this.leftpanel.Location = new System.Drawing.Point(948, 59);
+            this.leftpanel.Location = new System.Drawing.Point(1023, 59);
             this.leftpanel.Margin = new System.Windows.Forms.Padding(1);
             this.leftpanel.Name = "leftpanel";
             this.leftpanel.Padding = new System.Windows.Forms.Padding(3);
-            this.leftpanel.Size = new System.Drawing.Size(422, 475);
+            this.leftpanel.Size = new System.Drawing.Size(422, 553);
             this.leftpanel.TabIndex = 4;
             this.leftpanel.Paint += new System.Windows.Forms.PaintEventHandler(this.leftpanel_Paint);
             // 
@@ -7846,7 +7846,7 @@
             this.flowLayoutPanel1.Location = new System.Drawing.Point(353, 3);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(66, 469);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(66, 547);
             this.flowLayoutPanel1.TabIndex = 72;
             // 
             // button24
@@ -8507,7 +8507,7 @@
             this.Buttons.Location = new System.Drawing.Point(0, 32);
             this.Buttons.Margin = new System.Windows.Forms.Padding(2);
             this.Buttons.Name = "Buttons";
-            this.Buttons.Size = new System.Drawing.Size(1370, 27);
+            this.Buttons.Size = new System.Drawing.Size(1445, 27);
             this.Buttons.TabIndex = 59;
             // 
             // MicroscopyMode
@@ -8619,7 +8619,7 @@
             this.Border.Location = new System.Drawing.Point(0, 0);
             this.Border.Margin = new System.Windows.Forms.Padding(2);
             this.Border.Name = "Border";
-            this.Border.Size = new System.Drawing.Size(1370, 32);
+            this.Border.Size = new System.Drawing.Size(1445, 32);
             this.Border.TabIndex = 7;
             this.Border.TabStop = false;
             this.Border.Click += new System.EventHandler(this.ToolsPicture_Click);
@@ -8636,9 +8636,9 @@
             this.panel2.Controls.Add(this.GB_Detectors);
             this.panel2.Controls.Add(this.groupBox36);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 534);
+            this.panel2.Location = new System.Drawing.Point(0, 612);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1370, 215);
+            this.panel2.Size = new System.Drawing.Size(1445, 215);
             this.panel2.TabIndex = 60;
             // 
             // buttompanel
@@ -8650,7 +8650,7 @@
             this.buttompanel.Location = new System.Drawing.Point(0, 59);
             this.buttompanel.Margin = new System.Windows.Forms.Padding(0);
             this.buttompanel.Name = "buttompanel";
-            this.buttompanel.Size = new System.Drawing.Size(385, 475);
+            this.buttompanel.Size = new System.Drawing.Size(385, 553);
             this.buttompanel.TabIndex = 6;
             this.buttompanel.Paint += new System.Windows.Forms.PaintEventHandler(this.buttompanel_Paint);
             // 
@@ -8694,7 +8694,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.Menu;
-            this.ClientSize = new System.Drawing.Size(1370, 749);
+            this.ClientSize = new System.Drawing.Size(1445, 827);
             this.ControlBox = false;
             this.Controls.Add(this.TabControl_Main);
             this.Controls.Add(this.leftpanel);
