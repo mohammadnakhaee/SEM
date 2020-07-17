@@ -6368,6 +6368,11 @@ namespace HelloWorld
             
         }
 
+        private void button21_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void labelscalekx_Click(object sender, EventArgs e)
         {
 
