@@ -337,6 +337,7 @@ namespace HelloWorld
             //>>>>>>> master
 
             ApplyGeneralSettings();
+            leftpanel.Enabled = false;
         }
 
         private void netchanged(object sender, EventArgs ee)
@@ -1059,6 +1060,8 @@ namespace HelloWorld
         private void BtnStart_Click(object sender, EventArgs e)
         {
             bool isOK = dactimer(1);
+            if (tcp == null) isUDPConnected = false;
+
             if (!tcp.Connected)
                 isUDPConnected = false;
             else
@@ -1081,7 +1084,8 @@ namespace HelloWorld
             {
                 MessageBox.Show(excpt.Message);
             }*/
-
+            LabelUDPConnected.Visible = isUDPConnected;
+            LabelUDPConnected.Update();
         }
 
         void Plot()
@@ -1818,6 +1822,7 @@ namespace HelloWorld
                 TCPnetworkStream = tcp.GetStream();
                 TCPnetworkStream.ReadTimeout = 1000;
                 TCPnetworkStream.WriteTimeout = 1000;
+                if (tcp != null)
                 if (tcp.Connected)
                 {
                     //  TCP_Connection_Listener.Start();
@@ -1923,6 +1928,8 @@ namespace HelloWorld
             //            // return true; //uncomment for offline test //return
             //=======
             //return true; //uncomment for offline test //return
+            if (tcp == null) return true;
+
             if (!tcp.Connected)
             {
                 return true;
@@ -2896,6 +2903,8 @@ namespace HelloWorld
             dactimer(0);
             // Array.Clear(receivedData, 2, 512);
             Thread.Sleep(100); Stop();
+            LabelUDPConnected.Visible = isUDPConnected;
+            LabelUDPConnected.Update();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -3134,7 +3143,10 @@ namespace HelloWorld
         private void button3_Click(object sender, EventArgs e)
         {
             isAcquire = false;
-            dactimer(1);
+            if (isUDPConnected)
+                DisConnect_UDP();
+            else
+                Connect_UDP();
         }
 
         private void UD_Lens_ux_ValueChanged(object sender, EventArgs e)
@@ -5380,7 +5392,7 @@ namespace HelloWorld
             //<<<<<<< master
             //         Settings sf = new Settings();
             //=======
-            Settings sf = new Settings(this);
+            Settings sf = new Settings(this, Settings1.Default);
             //>>>>>>> master
             sf.Show();
         }
@@ -5663,6 +5675,7 @@ namespace HelloWorld
 
         public void TryToConnect()
         {
+
             try
             {
                 Btn_TCPDisconnect_Click(null, null);
@@ -5694,7 +5707,10 @@ namespace HelloWorld
         public bool Connect_TCP()
         {
             Btn_TCPConnect_Click(null, null);
-            return tcp.Connected;
+            if (tcp != null)
+                return tcp.Connected;
+            else
+                return false;
         }
 
         public bool Connect_UDP()
@@ -5703,8 +5719,15 @@ namespace HelloWorld
             return isUDPConnected;
         }
 
+        public bool DisConnect_UDP()
+        {
+            Btn_UDPDisconnect_Click(null, null);
+            return isUDPConnected;
+        }
+
         public bool Connect_Lens()
         {
+            if (tcp == null) return false;
             if (!tcp.Connected) return false;
             string CompleteOrder = CreateChildCommand("l", "you?\r");
             string response = SendAndReceiveResponse(CompleteOrder);
@@ -5714,6 +5737,7 @@ namespace HelloWorld
 
         public bool Connect_HV()
         {
+            if (tcp == null) return false;
             if (!tcp.Connected) return false;
             string CompleteOrder = CreateChildCommand("hv", "you?\r");
             string response = SendAndReceiveResponse(CompleteOrder);
@@ -5723,6 +5747,7 @@ namespace HelloWorld
 
         public bool Connect_FB()
         {
+            if (tcp == null) return false;
             if (!tcp.Connected) return false;
             string CompleteOrder = CreateChildCommand("hv", "fb 1" + "\r");
             SendAndReceiveOK(CompleteOrder);
@@ -5756,7 +5781,6 @@ namespace HelloWorld
             HVProfile.SelectedIndex = HVindex;
             HVProfileLastIndex = HVProfile.SelectedIndex;
             HVProfile.SelectedIndexChanged += HVProfile_SelectedIndexChanged;
-
 
             if (!isSwitchBetweenMode)
             {
@@ -5852,6 +5876,16 @@ namespace HelloWorld
 
             //>>>>>>> master
             numeric_Speed.Value = AllUserSettings[HVindex].Speed;
+
+            if (HVindex != -1)
+            {
+                if(AllUserSettings[HVindex].MicroscopyMode != -1)
+                    leftpanel.Enabled = true;
+                else
+                    leftpanel.Enabled = false;
+            }
+            else
+                leftpanel.Enabled = false;
         }
 
         public void Logout()
@@ -6370,7 +6404,8 @@ namespace HelloWorld
 
         private void button21_Click(object sender, EventArgs e)
         {
-
+            Settings sf = new Settings(this, AllUserSettings[HVProfile.SelectedIndex]);
+            sf.Show();
         }
 
         private void labelscalekx_Click(object sender, EventArgs e)
