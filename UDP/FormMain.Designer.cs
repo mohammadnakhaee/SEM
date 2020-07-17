@@ -578,6 +578,7 @@
             this.button21 = new System.Windows.Forms.Button();
             this.button20 = new System.Windows.Forms.Button();
             this.button22 = new System.Windows.Forms.Button();
+            this.tcp_status_light = new System.Windows.Forms.PictureBox();
             this.Border = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.buttompanel = new System.Windows.Forms.Panel();
@@ -588,6 +589,7 @@
             this.userControl1BindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.userControl1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.TCP_Connection_Listener = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.TabControl_Main.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -827,6 +829,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.FocusLight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dCtrl1D_Focus)).BeginInit();
             this.Buttons.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tcp_status_light)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Border)).BeginInit();
             this.panel2.SuspendLayout();
             this.buttompanel.SuspendLayout();
@@ -8439,7 +8442,7 @@
             this.button18.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button18.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.button18.ForeColor = System.Drawing.Color.White;
-            this.button18.Location = new System.Drawing.Point(405, 0);
+            this.button18.Location = new System.Drawing.Point(431, 0);
             this.button18.Name = "button18";
             this.button18.Size = new System.Drawing.Size(135, 27);
             this.button18.TabIndex = 57;
@@ -8456,7 +8459,7 @@
             this.button17.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button17.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.button17.ForeColor = System.Drawing.Color.White;
-            this.button17.Location = new System.Drawing.Point(270, 0);
+            this.button17.Location = new System.Drawing.Point(296, 0);
             this.button17.Name = "button17";
             this.button17.Size = new System.Drawing.Size(135, 27);
             this.button17.TabIndex = 56;
@@ -8482,7 +8485,7 @@
             this.button_settings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_settings.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.button_settings.ForeColor = System.Drawing.Color.White;
-            this.button_settings.Location = new System.Drawing.Point(540, 0);
+            this.button_settings.Location = new System.Drawing.Point(566, 0);
             this.button_settings.Name = "button_settings";
             this.button_settings.Size = new System.Drawing.Size(135, 27);
             this.button_settings.TabIndex = 58;
@@ -8503,6 +8506,7 @@
             this.Buttons.Controls.Add(this.button17);
             this.Buttons.Controls.Add(this.button20);
             this.Buttons.Controls.Add(this.button22);
+            this.Buttons.Controls.Add(this.tcp_status_light);
             this.Buttons.Dock = System.Windows.Forms.DockStyle.Top;
             this.Buttons.Location = new System.Drawing.Point(0, 32);
             this.Buttons.Margin = new System.Windows.Forms.Padding(2);
@@ -8518,7 +8522,7 @@
             "Resolution",
             "Wide-Field",
             "Field"});
-            this.MicroscopyMode.Location = new System.Drawing.Point(1044, 0);
+            this.MicroscopyMode.Location = new System.Drawing.Point(1070, 0);
             this.MicroscopyMode.Name = "MicroscopyMode";
             this.MicroscopyMode.Size = new System.Drawing.Size(100, 21);
             this.MicroscopyMode.TabIndex = 64;
@@ -8529,7 +8533,7 @@
             this.label115.Dock = System.Windows.Forms.DockStyle.Left;
             this.label115.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.label115.ForeColor = System.Drawing.Color.White;
-            this.label115.Location = new System.Drawing.Point(990, 0);
+            this.label115.Location = new System.Drawing.Point(1016, 0);
             this.label115.Name = "label115";
             this.label115.Size = new System.Drawing.Size(54, 27);
             this.label115.TabIndex = 63;
@@ -8544,7 +8548,7 @@
             "HV1",
             "HV2",
             "HV3"});
-            this.HVProfile.Location = new System.Drawing.Point(890, 0);
+            this.HVProfile.Location = new System.Drawing.Point(916, 0);
             this.HVProfile.Name = "HVProfile";
             this.HVProfile.Size = new System.Drawing.Size(100, 21);
             this.HVProfile.TabIndex = 62;
@@ -8555,7 +8559,7 @@
             this.label114.Dock = System.Windows.Forms.DockStyle.Left;
             this.label114.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.label114.ForeColor = System.Drawing.Color.White;
-            this.label114.Location = new System.Drawing.Point(810, 0);
+            this.label114.Location = new System.Drawing.Point(836, 0);
             this.label114.Name = "label114";
             this.label114.Size = new System.Drawing.Size(80, 27);
             this.label114.TabIndex = 61;
@@ -8571,7 +8575,7 @@
             this.button21.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button21.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.button21.ForeColor = System.Drawing.Color.White;
-            this.button21.Location = new System.Drawing.Point(675, 0);
+            this.button21.Location = new System.Drawing.Point(701, 0);
             this.button21.Name = "button21";
             this.button21.Size = new System.Drawing.Size(135, 27);
             this.button21.TabIndex = 60;
@@ -8587,7 +8591,7 @@
             this.button20.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button20.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.button20.ForeColor = System.Drawing.Color.White;
-            this.button20.Location = new System.Drawing.Point(135, 0);
+            this.button20.Location = new System.Drawing.Point(161, 0);
             this.button20.Name = "button20";
             this.button20.Size = new System.Drawing.Size(135, 27);
             this.button20.TabIndex = 59;
@@ -8604,13 +8608,24 @@
             this.button22.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button22.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.button22.ForeColor = System.Drawing.Color.White;
-            this.button22.Location = new System.Drawing.Point(0, 0);
+            this.button22.Location = new System.Drawing.Point(26, 0);
             this.button22.Name = "button22";
             this.button22.Size = new System.Drawing.Size(135, 27);
             this.button22.TabIndex = 65;
             this.button22.Text = "Create Account";
             this.button22.UseVisualStyleBackColor = false;
             this.button22.Click += new System.EventHandler(this.button22_Click);
+            // 
+            // tcp_status_light
+            // 
+            this.tcp_status_light.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.tcp_status_light.Dock = System.Windows.Forms.DockStyle.Left;
+            this.tcp_status_light.Location = new System.Drawing.Point(0, 0);
+            this.tcp_status_light.Margin = new System.Windows.Forms.Padding(2);
+            this.tcp_status_light.Name = "tcp_status_light";
+            this.tcp_status_light.Size = new System.Drawing.Size(26, 27);
+            this.tcp_status_light.TabIndex = 66;
+            this.tcp_status_light.TabStop = false;
             // 
             // Border
             // 
@@ -8689,6 +8704,10 @@
             // bindingSource1
             // 
             this.bindingSource1.DataSource = typeof(HelloWorld.Form1);
+            // 
+            // TCP_Connection_Listener
+            // 
+            this.TCP_Connection_Listener.Tick += new System.EventHandler(this.TCP_Connection_Listener_Tick);
             // 
             // FormMain
             // 
@@ -9007,6 +9026,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.FocusLight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dCtrl1D_Focus)).EndInit();
             this.Buttons.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tcp_status_light)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Border)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
@@ -9579,5 +9599,7 @@
         private System.Windows.Forms.CheckBox checkBox6;
         private System.Windows.Forms.Button button_load;
         private System.Windows.Forms.OpenFileDialog openFileDialog_Images;
+        private System.Windows.Forms.Timer TCP_Connection_Listener;
+        private System.Windows.Forms.PictureBox tcp_status_light;
     }
 }
