@@ -193,7 +193,7 @@ namespace HelloWorld {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        [global::System.Configuration.DefaultSettingValueAttribute("6")]
         public double WD_offset_OBJ {
             get {
                 return ((double)(this["WD_offset_OBJ"]));
@@ -704,6 +704,18 @@ namespace HelloWorld {
             }
             set {
                 this["stage_hys"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public double WD_offset_Scanner {
+            get {
+                return ((double)(this["WD_offset_Scanner"]));
+            }
+            set {
+                this["WD_offset_Scanner"] = value;
             }
         }
     }

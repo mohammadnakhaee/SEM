@@ -45,7 +45,7 @@
       <Value Profile="(Default)">3</Value>
     </Setting>
     <Setting Name="WD_offset_OBJ" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">5</Value>
+      <Value Profile="(Default)">6</Value>
     </Setting>
     <Setting Name="WD_offset_IML" Type="System.Double" Scope="User">
       <Value Profile="(Default)">150</Value>
@@ -172,6 +172,9 @@
     </Setting>
     <Setting Name="stage_hys" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="WD_offset_Scanner" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">3</Value>
     </Setting>
   </Settings>
 </SettingsFile>
