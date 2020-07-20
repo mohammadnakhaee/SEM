@@ -5006,7 +5006,7 @@ namespace HelloWorld
                 WD_real = WD_print + Settings1.Default.WD_offset_OBJ;
             else //Field, Wide-Field and Rokveld modes
                 WD_real = WD_print + Settings1.Default.WD_offset_IML;
-            if (WD_real < 1) WD_real = 1;
+            if (WD_real < 1) WD_real = 1;//
             return WD_real;
         }
 
