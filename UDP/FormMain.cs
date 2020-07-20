@@ -4861,27 +4861,28 @@ namespace HelloWorld
             double zoom;
             //double vf= Settings1.Default.vf_max /Math.Pow(10, zoom);//vf_max in zoom_min
             //double I= Settings1.Default.I_max *vf/ Settings1.Default.vf_max;
+            double WD_real_scanner = AllUserSettings[HVindex].WD_real + Settings1.Default.WD_offset_Scanner - Settings1.Default.WD_offset_OBJ;
             if (mode == 0) //Resolution mode
             {
-                double I_log = Math.Log10(vf / AllUserSettings[HVindex].WD_real * Settings1.Default.scan_d / Settings1.Default.vf_max / Math.Sqrt(Settings1.Default.kV_max) * Math.Pow(10, Settings1.Default.LogI_Max_Resolution) * Math.Sqrt(AllUserSettings[HVindex].HV));
+                double I_log = Math.Log10(vf / WD_real_scanner * Settings1.Default.scan_d / Settings1.Default.vf_max / Math.Sqrt(Settings1.Default.kV_max) * Math.Pow(10, Settings1.Default.LogI_Max_Resolution) * Math.Sqrt(AllUserSettings[HVindex].HV));
                 scanner_current_log(I_log);
                 zoom = (I_log - Settings1.Default.LogI_Max_Resolution) * Ctrl1D_Zoom.Maximum / (-Settings1.Default.LogI_Max_Resolution + Settings1.Default.LogI_Min_Resolution);
             }
             else if (mode == 1) //Wide-Field mode
             {
-                double I_log = Math.Log10(vf / AllUserSettings[HVindex].WD_real * Settings1.Default.scan_d / Settings1.Default.vf_max / Math.Sqrt(Settings1.Default.kV_max) * Math.Pow(10, Settings1.Default.LogI_Max_WideField) * Math.Sqrt(AllUserSettings[HVindex].HV));
+                double I_log = Math.Log10(vf / WD_real_scanner * Settings1.Default.scan_d / Settings1.Default.vf_max / Math.Sqrt(Settings1.Default.kV_max) * Math.Pow(10, Settings1.Default.LogI_Max_WideField) * Math.Sqrt(AllUserSettings[HVindex].HV));
                 scanner_current_log(I_log);
                 zoom = (I_log - Settings1.Default.LogI_Max_WideField) * Ctrl1D_Zoom.Maximum / (-Settings1.Default.LogI_Max_WideField + Settings1.Default.LogI_Min_WideField);
             }
             else if (mode == 2) //Field mode
             {
-                double I_log = Math.Log10(vf / AllUserSettings[HVindex].WD_real * Settings1.Default.scan_d / Settings1.Default.vf_max / Math.Sqrt(Settings1.Default.kV_max) * Math.Pow(10, Settings1.Default.LogI_Max_Field) * Math.Sqrt(AllUserSettings[HVindex].HV));
+                double I_log = Math.Log10(vf / WD_real_scanner * Settings1.Default.scan_d / Settings1.Default.vf_max / Math.Sqrt(Settings1.Default.kV_max) * Math.Pow(10, Settings1.Default.LogI_Max_Field) * Math.Sqrt(AllUserSettings[HVindex].HV));
                 scanner_current_log(I_log);
                 zoom = (I_log - Settings1.Default.LogI_Max_Field) * Ctrl1D_Zoom.Maximum / (-Settings1.Default.LogI_Max_Field + Settings1.Default.LogI_Min_Field);
             }
             else //Rokveld mode
             {
-                double I_log = Math.Log10(vf / AllUserSettings[HVindex].WD_real * Settings1.Default.scan_d / Settings1.Default.vf_max / Math.Sqrt(Settings1.Default.kV_max) * Math.Pow(10, Settings1.Default.LogI_Max_Rokveld) * Math.Sqrt(AllUserSettings[HVindex].HV));
+                double I_log = Math.Log10(vf / WD_real_scanner * Settings1.Default.scan_d / Settings1.Default.vf_max / Math.Sqrt(Settings1.Default.kV_max) * Math.Pow(10, Settings1.Default.LogI_Max_Rokveld) * Math.Sqrt(AllUserSettings[HVindex].HV));
                 scanner_current_log(I_log);
                 zoom = (I_log - Settings1.Default.LogI_Max_Rokveld) * Ctrl1D_Zoom.Maximum / (-Settings1.Default.LogI_Max_Rokveld + Settings1.Default.LogI_Min_Rokveld);
             }
@@ -5014,34 +5015,35 @@ namespace HelloWorld
         {
             int HVindex = HVProfile.SelectedIndex;
             double vf;
+            double WD_real_scanner = AllUserSettings[HVindex].WD_real + Settings1.Default.WD_offset_Scanner - Settings1.Default.WD_offset_OBJ;
             //double vf= Settings1.Default.vf_max /Math.Pow(10, zoom);//vf_max in zoom_min
             //double I= Settings1.Default.I_max *vf/ Settings1.Default.vf_max;
             if (mode == 0) //Resolution mode
             {
                 double I_log = Ctrl1D_Zoom.Value * (-Settings1.Default.LogI_Max_Resolution + Settings1.Default.LogI_Min_Resolution) / Ctrl1D_Zoom.Maximum + Settings1.Default.LogI_Max_Resolution;
                 scanner_current_log(I_log);
-                vf = AllUserSettings[HVindex].WD_real / Settings1.Default.scan_d * Settings1.Default.vf_max * Math.Sqrt(Settings1.Default.kV_max) / Math.Pow(10, Settings1.Default.LogI_Max_Resolution) * Math.Pow(10, I_log) / Math.Sqrt(AllUserSettings[HVindex].HV);
+                vf = WD_real_scanner / Settings1.Default.scan_d * Settings1.Default.vf_max * Math.Sqrt(Settings1.Default.kV_max) / Math.Pow(10, Settings1.Default.LogI_Max_Resolution) * Math.Pow(10, I_log) / Math.Sqrt(AllUserSettings[HVindex].HV);
                 if (vf < Settings1.Default.vf_min) vf = Settings1.Default.vf_min;
             }
             else if (mode == 1) //Wide-Field mode
             {
                 double I_log = Ctrl1D_Zoom.Value * (-Settings1.Default.LogI_Max_WideField + Settings1.Default.LogI_Min_WideField) / Ctrl1D_Zoom.Maximum + Settings1.Default.LogI_Max_WideField;
                 scanner_current_log(I_log);
-                vf = AllUserSettings[HVindex].WD_real / Settings1.Default.scan_d * Settings1.Default.vf_max * Math.Sqrt(Settings1.Default.kV_max) / Math.Pow(10, Settings1.Default.LogI_Max_WideField) * Math.Pow(10, I_log) / Math.Sqrt(AllUserSettings[HVindex].HV);
+                vf = WD_real_scanner / Settings1.Default.scan_d * Settings1.Default.vf_max * Math.Sqrt(Settings1.Default.kV_max) / Math.Pow(10, Settings1.Default.LogI_Max_WideField) * Math.Pow(10, I_log) / Math.Sqrt(AllUserSettings[HVindex].HV);
                 if (vf < Settings1.Default.vf_min) vf = Settings1.Default.vf_min;
             }
             else if (mode == 2) //Field mode
             {
                 double I_log = Ctrl1D_Zoom.Value * (-Settings1.Default.LogI_Max_Field + Settings1.Default.LogI_Min_Field) / Ctrl1D_Zoom.Maximum + Settings1.Default.LogI_Max_Field;
                 scanner_current_log(I_log);
-                vf = AllUserSettings[HVindex].WD_real / Settings1.Default.scan_d * Settings1.Default.vf_max * Math.Sqrt(Settings1.Default.kV_max) / Math.Pow(10, Settings1.Default.LogI_Max_Field) * Math.Pow(10, I_log) / Math.Sqrt(AllUserSettings[HVindex].HV);
+                vf = WD_real_scanner / Settings1.Default.scan_d * Settings1.Default.vf_max * Math.Sqrt(Settings1.Default.kV_max) / Math.Pow(10, Settings1.Default.LogI_Max_Field) * Math.Pow(10, I_log) / Math.Sqrt(AllUserSettings[HVindex].HV);
                 if (vf < Settings1.Default.vf_min) vf = Settings1.Default.vf_min;
             }
             else //Rokveld mode
             {
                 double I_log = Ctrl1D_Zoom.Value * (-Settings1.Default.LogI_Max_Rokveld + Settings1.Default.LogI_Min_Rokveld) / Ctrl1D_Zoom.Maximum + Settings1.Default.LogI_Max_Rokveld;
                 scanner_current_log(I_log);
-                vf = AllUserSettings[HVindex].WD_real / Settings1.Default.scan_d * Settings1.Default.vf_max * Math.Sqrt(Settings1.Default.kV_max) / Math.Pow(10, Settings1.Default.LogI_Max_Rokveld) * Math.Pow(10, I_log) / Math.Sqrt(AllUserSettings[HVindex].HV);
+                vf = WD_real_scanner / Settings1.Default.scan_d * Settings1.Default.vf_max * Math.Sqrt(Settings1.Default.kV_max) / Math.Pow(10, Settings1.Default.LogI_Max_Rokveld) * Math.Pow(10, I_log) / Math.Sqrt(AllUserSettings[HVindex].HV);
                 if (vf < Settings1.Default.vf_min) vf = Settings1.Default.vf_min;
             }
             return vf;
