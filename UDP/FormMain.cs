@@ -4940,7 +4940,7 @@ namespace HelloWorld
                 IObj = Settings1.Default.Coef_res_fine * Ctrl1D_Focus.Value + Settings1.Default.Coef_res_course * trackBar_focus_course.Value;
                 IIML = 0.0;
                 double IObj_max = Settings1.Default.Coef_res_fine * Settings1.Default.Focus_Max_res_fine + Settings1.Default.Coef_res_course * Settings1.Default.Focus_Max_res_course;
-                double f_1 = (1.0 / Settings1.Default.f_min) * Math.Pow(IObj, 2) / Math.Pow(IObj_max, 2) * (Settings1.Default.kV_max) / (Settings1.Default.kV);
+                double f_1 = (1.0 / Settings1.Default.f_min) * Math.Pow(IObj, 2)  / (Settings1.Default.kV);
                 double q_1 = f_1 - (1.0 / Settings1.Default.p);
                 if (q_1 <= (1.0 / Settings1.Default.q_max)) q_1 = 1.0 / Settings1.Default.q_max;
                 WD_real = 1.0 / q_1;
@@ -4980,7 +4980,7 @@ namespace HelloWorld
                 //if (q_1 <= (1.0 / Settings1.Default.q_max)) q_1 = 1.0 / Settings1.Default.q_max;
                 double f_1 = q_1 + (1.0 / Settings1.Default.p);
                 double IObj_max = Settings1.Default.Coef_res_fine * Settings1.Default.Focus_Max_res_fine + Settings1.Default.Coef_res_course * Settings1.Default.Focus_Max_res_course;
-                IObj = Math.Pow(f_1 * (Settings1.Default.kV) / (Settings1.Default.kV_max) * Math.Pow(IObj_max, 2) * Settings1.Default.f_min, 0.5);
+                IObj = Math.Pow(f_1 * (Settings1.Default.kV)* Settings1.Default.f_min, 0.5);
                 int FocusFineMiddle = (int)(Ctrl1D_Focus.Maximum / 2);
                 FocusCourse = (int)Math.Round((IObj - Settings1.Default.Coef_res_fine * FocusFineMiddle) / Settings1.Default.Coef_res_course);
                 FocusFine = (int)((IObj - Settings1.Default.Coef_res_course * FocusCourse) / Settings1.Default.Coef_res_fine);
@@ -5007,7 +5007,7 @@ namespace HelloWorld
                 WD_print = WD_real - Settings1.Default.WD_offset_OBJ;
             else //Field, Wide-Field and Rokveld modes
                 WD_print = WD_real - Settings1.Default.WD_offset_IML;
-
+            if (WD_print < 1) WD_print = 1;
             return WD_print;
         }
 
@@ -5018,7 +5018,7 @@ namespace HelloWorld
                 WD_real = WD_print + Settings1.Default.WD_offset_OBJ;
             else //Field, Wide-Field and Rokveld modes
                 WD_real = WD_print + Settings1.Default.WD_offset_IML;
-
+            if (WD_real < 1) WD_real = 1;//
             return WD_real;
         }
 
@@ -5900,7 +5900,7 @@ namespace HelloWorld
             else
                 leftpanel.Enabled = false;
         }
-
+         
         public void Logout()
         {
             if (UserName != "") SaveCurrentAccountSettings();
@@ -6341,6 +6341,7 @@ namespace HelloWorld
 
         bool tcp_state = false;
         private int Eth_Link;
+        private double WD_real_scanner;
 
         private void TCP_Connection_Listener_Tick(object sender, EventArgs e)
         {
@@ -6497,7 +6498,8 @@ namespace HelloWorld
         private void numericHV_ValueChanged(object sender, EventArgs e)
         {
             //<<<<<<< master
-            //            Settings1.Default.kV = (double) numericHV.Value; 
+            Settings1.Default.kV = (double) numericHV.Value;
+            numericFocus_ValueChanged(this, null);
             //=======
             //Settings1.Default.kV = (double) numericHV.Value; 
             if (buttonHV.Text == "HV is ON") TimerHVUpdater.Start();

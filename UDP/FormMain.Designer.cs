@@ -559,6 +559,7 @@
             this.ZoomLight = new System.Windows.Forms.PictureBox();
             this.dCtrl1D_Zoom = new System.Windows.Forms.TrackBar();
             this.groupBox_focus = new System.Windows.Forms.GroupBox();
+            this.label_I_OBJ = new System.Windows.Forms.Label();
             this.trackBar_focus_course = new System.Windows.Forms.TrackBar();
             this.label95 = new System.Windows.Forms.Label();
             this.numericFocus = new System.Windows.Forms.NumericUpDown();
@@ -8377,6 +8378,7 @@
             // 
             // groupBox_focus
             // 
+            this.groupBox_focus.Controls.Add(this.label_I_OBJ);
             this.groupBox_focus.Controls.Add(this.trackBar_focus_course);
             this.groupBox_focus.Controls.Add(this.label95);
             this.groupBox_focus.Controls.Add(this.numericFocus);
@@ -8391,6 +8393,15 @@
             this.groupBox_focus.TabStop = false;
             this.groupBox_focus.Text = "Focus";
             this.groupBox_focus.BackColorChanged += new System.EventHandler(this.groupBox_focus_BackColorChanged);
+            // 
+            // label_I_OBJ
+            // 
+            this.label_I_OBJ.AutoSize = true;
+            this.label_I_OBJ.Location = new System.Drawing.Point(49, 37);
+            this.label_I_OBJ.Name = "label_I_OBJ";
+            this.label_I_OBJ.Size = new System.Drawing.Size(33, 13);
+            this.label_I_OBJ.TabIndex = 94;
+            this.label_I_OBJ.Text = "0.0 %";
             // 
             // trackBar_focus_course
             // 
@@ -9661,5 +9672,6 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog_Images;
         private System.Windows.Forms.Timer TCP_Connection_Listener;
         private System.Windows.Forms.PictureBox tcp_status_light;
+        private System.Windows.Forms.Label label_I_OBJ;
     }
 }
