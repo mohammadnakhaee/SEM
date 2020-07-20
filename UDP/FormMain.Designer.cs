@@ -6990,6 +6990,7 @@
             this.groupBox_gun.TabIndex = 11;
             this.groupBox_gun.TabStop = false;
             this.groupBox_gun.Text = "Gun Alignment";
+            this.groupBox_gun.BackColorChanged += new System.EventHandler(this.groupBox_gun_BackColorChanged);
             // 
             // label130
             // 
@@ -7150,6 +7151,7 @@
             this.GunTiltLight.Size = new System.Drawing.Size(26, 28);
             this.GunTiltLight.TabIndex = 84;
             this.GunTiltLight.TabStop = false;
+            this.GunTiltLight.BackgroundImageChanged += new System.EventHandler(this.GunTiltLight_BackgroundImageChanged);
             // 
             // Ctrl2D_GunShift
             // 
@@ -7179,6 +7181,7 @@
             this.GunShiftLight.Size = new System.Drawing.Size(26, 28);
             this.GunShiftLight.TabIndex = 1;
             this.GunShiftLight.TabStop = false;
+            this.GunShiftLight.BackgroundImageChanged += new System.EventHandler(this.GunShiftLight_BackgroundImageChanged);
             // 
             // groupBox_object
             // 
@@ -7199,6 +7202,7 @@
             this.groupBox_object.TabIndex = 10;
             this.groupBox_object.TabStop = false;
             this.groupBox_object.Text = "Object Centering";
+            this.groupBox_object.BackColorChanged += new System.EventHandler(this.groupBox_object_BackColorChanged);
             // 
             // label124
             // 
@@ -7314,6 +7318,7 @@
             this.groupBox_iml.TabIndex = 8;
             this.groupBox_iml.TabStop = false;
             this.groupBox_iml.Text = "IML Centering";
+            this.groupBox_iml.BackColorChanged += new System.EventHandler(this.groupBox_iml_BackColorChanged);
             this.groupBox_iml.Enter += new System.EventHandler(this.groupBox38_Enter);
             // 
             // label126
@@ -8023,6 +8028,7 @@
             this.groupBox_stig.TabIndex = 9;
             this.groupBox_stig.TabStop = false;
             this.groupBox_stig.Text = "Stigmatization";
+            this.groupBox_stig.BackColorChanged += new System.EventHandler(this.groupBox_stig_BackColorChanged);
             this.groupBox_stig.Enter += new System.EventHandler(this.c_focus);
             // 
             // label121
@@ -8139,6 +8145,7 @@
             this.groupBox_gain.TabIndex = 15;
             this.groupBox_gain.TabStop = false;
             this.groupBox_gain.Text = "Gain Offset";
+            this.groupBox_gain.BackColorChanged += new System.EventHandler(this.groupBox_gain_BackColorChanged);
             // 
             // label122
             // 
@@ -8250,6 +8257,7 @@
             this.groupBox_zoom.TabIndex = 13;
             this.groupBox_zoom.TabStop = false;
             this.groupBox_zoom.Text = "Zoom";
+            this.groupBox_zoom.BackColorChanged += new System.EventHandler(this.groupBox_zoom_BackColorChanged);
             // 
             // label94
             // 
@@ -8306,6 +8314,7 @@
             // Ctrl1D_Zoom
             // 
             this.Ctrl1D_Zoom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(99)))), ((int)(((byte)(112)))), ((int)(((byte)(132)))));
+            this.Ctrl1D_Zoom.Cursor = System.Windows.Forms.Cursors.NoMoveHoriz;
             this.Ctrl1D_Zoom.Location = new System.Drawing.Point(10, 78);
             this.Ctrl1D_Zoom.Maximum = 10000;
             this.Ctrl1D_Zoom.Name = "Ctrl1D_Zoom";
@@ -8381,6 +8390,7 @@
             this.groupBox_focus.TabIndex = 14;
             this.groupBox_focus.TabStop = false;
             this.groupBox_focus.Text = "Focus";
+            this.groupBox_focus.BackColorChanged += new System.EventHandler(this.groupBox_focus_BackColorChanged);
             // 
             // trackBar_focus_course
             // 

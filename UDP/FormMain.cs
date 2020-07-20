@@ -151,8 +151,8 @@ namespace HelloWorld
         //=======
         bool isUDPConnected = false;
         //>>>>>>> master
-
-        
+        Bitmap LightOn = Properties.Resources.greenbuttonon;
+        Bitmap LightOff = Properties.Resources.greenbuttonoff;
 
         public FormMain()
         {
@@ -164,7 +164,7 @@ namespace HelloWorld
             SetCustomBorder();
 
            
-            tcp_status_light.Image = new Bitmap(Properties.Resources.greenbuttonoff);
+            tcp_status_light.Image = LightOff;
             tcp_status_light.SizeMode = PictureBoxSizeMode.StretchImage;
             int NumberOfHVProfile = HVProfile.Items.Count;
             for (int i = 0; i < NumberOfHVProfile; i++) AllUserSettings.Add(new UserSettings());
@@ -302,6 +302,15 @@ namespace HelloWorld
             GunShiftLight.SizeMode = PictureBoxSizeMode.StretchImage;
             GunTiltLight.SizeMode = PictureBoxSizeMode.StretchImage;
             GainLight.SizeMode = PictureBoxSizeMode.StretchImage;
+
+            ZoomLight.BackgroundImageLayout = ImageLayout.Stretch;
+            FocusLight.BackgroundImageLayout = ImageLayout.Stretch;
+            IMLCenteringLight.BackgroundImageLayout = ImageLayout.Stretch;
+            StigLight.BackgroundImageLayout = ImageLayout.Stretch;
+            ObjectCenteringLight.BackgroundImageLayout = ImageLayout.Stretch;
+            GunShiftLight.BackgroundImageLayout = ImageLayout.Stretch;
+            GunTiltLight.BackgroundImageLayout = ImageLayout.Stretch;
+            GainLight.BackgroundImageLayout = ImageLayout.Stretch;
 
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -548,7 +557,8 @@ namespace HelloWorld
         private void TurnOn(PictureBox light, int SelectedIndex)
         {
             SelectedLightControl = SelectedIndex;
-            light.Image = new Bitmap(Properties.Resources.greenbuttonon);
+            light.BackgroundImage = LightOn;
+            //light.Image = LightOn;
             light.Parent.BackColor = Color.FromArgb(99 + 20, 112 + 20, 132 + 20);
             //System.Drawing.Image.FromFile("./greenbuttonon.png");
         }
@@ -560,7 +570,8 @@ namespace HelloWorld
             //=======
             //SelectedLightControl = -1;
             //>>>>>>> master
-            light.Image = new Bitmap(Properties.Resources.greenbuttonoff);
+            light.BackgroundImage = LightOff;
+            //light.Image = LightOff;
             light.Parent.BackColor = light.Parent.Parent.BackColor;
             //System.Drawing.Image.FromFile("./greenbuttonoff.png");
         }
@@ -6387,20 +6398,20 @@ namespace HelloWorld
         private void TCP_Callback(object x)
         {
             //TCP_Connection_Listener.Interval = 10;
-            //tcp_status_light.Image = new Bitmap(Properties.Resources.greenbuttonon);
+            //tcp_status_light.Image = LightOn;
         }
 
         private void tcp_connected()
         {
             TCP_Connection_Listener.Interval = 100;
-            tcp_status_light.Image = new Bitmap(Properties.Resources.greenbuttonon);
+            tcp_status_light.Image = LightOn;
         }
         
         private void tcp_diconnected()
         {
             TCP_Connection_Listener.Interval = 1000;
             //TCP_Connection_Listener.Stop();
-            tcp_status_light.Image = new Bitmap(Properties.Resources.greenbuttonoff);
+            tcp_status_light.Image = LightOff;
             
         }
 
@@ -6408,6 +6419,69 @@ namespace HelloWorld
         {
             Settings sf = new Settings(this, AllUserSettings[HVProfile.SelectedIndex]);
             sf.Show();
+        }
+
+        private void groupBox_stig_BackColorChanged(object sender, EventArgs e)
+        {
+            dCtrl2D_Stig.BackColor = groupBox_stig.BackColor;
+            button26.BackColor = groupBox_stig.BackColor;
+        }
+
+        private void groupBox_focus_BackColorChanged(object sender, EventArgs e)
+        {
+            dCtrl1D_Focus.BackColor = groupBox_focus.BackColor;
+            trackBar_focus_course.BackColor = groupBox_focus.BackColor;
+            Ctrl1D_Focus.BackColor = groupBox_focus.BackColor;
+            button24.BackColor = groupBox_focus.BackColor;
+        }
+
+        private void groupBox_zoom_BackColorChanged(object sender, EventArgs e)
+        {
+            dCtrl1D_Zoom.BackColor = groupBox_zoom.BackColor;
+            Ctrl1D_Zoom.BackColor = groupBox_zoom.BackColor;
+            button25.BackColor = groupBox_zoom.BackColor;
+        }
+
+        private void groupBox_gain_BackColorChanged(object sender, EventArgs e)
+        {
+            dCtrl2D_Gain.BackColor = groupBox_gain.BackColor;
+            button29.BackColor = groupBox_gain.BackColor;
+        }
+
+        private void groupBox_object_BackColorChanged(object sender, EventArgs e)
+        {
+            dCtrl2D_ObjectCentering.BackColor = groupBox_object.BackColor;
+            button28.BackColor = groupBox_object.BackColor;
+        }
+
+        private void groupBox_iml_BackColorChanged(object sender, EventArgs e)
+        {
+            dCtrl2D_IMLCentering.BackColor = groupBox_iml.BackColor;
+            button27.BackColor = groupBox_iml.BackColor;
+        }
+
+        private void groupBox_gun_BackColorChanged(object sender, EventArgs e)
+        {
+            dCtrl2D_GunShift.BackColor = groupBox_gun.BackColor;
+            dCtrl2D_GunTilt.BackColor = groupBox_gun.BackColor;
+            //button30.BackColor = groupBox_gun.BackColor;
+            //button31.BackColor = groupBox_gun.BackColor;
+        }
+
+        private void GunShiftLight_BackgroundImageChanged(object sender, EventArgs e)
+        {
+            if (GunShiftLight.BackgroundImage == LightOn)
+                button31.BackColor = Color.FromArgb(99 + 20, 112 + 20, 132 + 20);
+            else
+                button31.BackColor = Color.FromArgb(99, 112, 132);
+        }
+
+        private void GunTiltLight_BackgroundImageChanged(object sender, EventArgs e)
+        {
+            if (GunTiltLight.BackgroundImage == LightOn)
+                button30.BackColor = Color.FromArgb(99 + 20, 112 + 20, 132 + 20);
+            else
+                button30.BackColor = Color.FromArgb(99, 112, 132);
         }
 
         private void labelscalekx_Click(object sender, EventArgs e)
