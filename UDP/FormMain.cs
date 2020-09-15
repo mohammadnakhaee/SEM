@@ -154,6 +154,13 @@ namespace HelloWorld
         Bitmap LightOn = Properties.Resources.greenbuttonon;
         Bitmap LightOff = Properties.Resources.greenbuttonoff;
 
+        // Create timer 
+        System.Timers.Timer timeouttimer = new System.Timers.Timer();
+        System.Timers.Timer UDP_Timer = new System.Timers.Timer(20);
+
+
+
+
         public FormMain()
         {
             InitializeComponent();
@@ -163,7 +170,13 @@ namespace HelloWorld
             MicroscopyModeLastIndex = MicroscopyMode.SelectedIndex;
             SetCustomBorder();
 
-           
+
+            UDP_Timer.Elapsed += new System.Timers.ElapsedEventHandler(UDP_Timer_Tick);
+            //timeouttimer.Enabled = true;
+            // Hook up the Elapsed event for the timer.
+            timeouttimer.Elapsed += new System.Timers.ElapsedEventHandler( OnTimedEvent);
+            timeouttimer.AutoReset = false;
+
             tcp_status_light.Image = LightOff;
             tcp_status_light.SizeMode = PictureBoxSizeMode.StretchImage;
             int NumberOfHVProfile = HVProfile.Items.Count;
@@ -172,7 +185,7 @@ namespace HelloWorld
             Form1 f1 = new Form1();
             f1.Show();
             f1.Refresh();
-            Thread.Sleep(6000);
+            Thread.Sleep(5000);
             f1.Close();
 
             /*System.Windows.Forms.Panel border = new System.Windows.Forms.Panel();
@@ -1070,8 +1083,10 @@ namespace HelloWorld
 
         private void BtnStart_Click(object sender, EventArgs e)
         {
+           // UDP_Timer.Start();
+           // return;
             bool isOK = dactimer(1);
-            if (tcp == null) isUDPConnected = false;
+            if (tcp == null) { isUDPConnected = false; return; }
 
             if (!tcp.Connected)
                 isUDPConnected = false;
@@ -1129,8 +1144,8 @@ namespace HelloWorld
 
             }
             //>>>>>>> master
-            timer1.Start();
-
+            //timer1.Start();
+            UDP_Timer.Start();
             //     Application.Idle += new EventHandler(ProcessFrame);
         }
         public void RecieveComplete(IAsyncResult result)
@@ -1600,7 +1615,7 @@ namespace HelloWorld
 
             if (!CompleteOrder.StartsWith("COM"))
             {
-                try
+              //  try
                 {
                     //Form1.Port.DiscardOutBuffer(); //Clear Buffer
                     //Form1.Port.DiscardInBuffer(); //Clear Buffer
@@ -1612,7 +1627,7 @@ namespace HelloWorld
                     isDirectCOMPortComunication = false;
                     DirectCOMPortIndex = -1;
                 }
-                catch { }
+                //catch { }
             }
             else
             {
@@ -1640,7 +1655,7 @@ namespace HelloWorld
                 isDirectCOMPortComunication = true;
                 DirectCOMPortIndex = index;
             }
-
+            TCPnetworkStream.ReadTimeout = 1000;
             TotalTime = 0;
             TerminalTimerReceiver.Start();
         }
@@ -1732,10 +1747,11 @@ namespace HelloWorld
                     isDirectCOMPortComunication = true;
                     DirectCOMPortIndex = index;
                 }
-
+                TCPnetworkStream.ReadTimeout = 1000;
                 TotalTime = 0;
                 History.Size = new Size(History.Size.Width, 17);
                 TerminalTimerReceiver.Start();
+                
             }
         }
 
@@ -1745,16 +1761,18 @@ namespace HelloWorld
             {
                 isAllowToTick = false;
                 TotalTime = TotalTime + TerminalTimerReceiver.Interval;
+                label6.Text = "s" + " time->" + TotalTime.ToString();
                 if (TotalTime > WaitTime * 1000)
                 {
                     TerminalTimerReceiver.Stop();
+                    TCPnetworkStream.ReadTimeout = 1000;
                     isAllowToTick = true;
                     return;
                 }
-
+                isDataReceived = TCPnetworkStream.DataAvailable;
                 if (isDataReceived)
                 {
-                    isDataReceived = false;
+                    //isDataReceived = false;
 
                     if (!isDirectCOMPortComunication)
                     {
@@ -1773,6 +1791,7 @@ namespace HelloWorld
 
                             TBOutput.Text = TBOutput.Text + "\n" + ">>> ";
                             ScrollToEnd();
+                            label6.Text += "  byte-> " + bytesRead.ToString();
                         }
                         catch
                         {
@@ -1794,7 +1813,7 @@ namespace HelloWorld
                         catch
                         { }
                     }
-                    TerminalTimerReceiver.Stop();
+                   // TerminalTimerReceiver.Stop();
                 }
 
                 isAllowToTick = true;
@@ -1824,10 +1843,11 @@ namespace HelloWorld
             {
                 InitializeTCP();
                 tcp.Client.Blocking = true;
-                tcp.SendTimeout = 1000; tcp.ReceiveTimeout = 1000;
-                
-                
+                   tcp.SendTimeout = 1000; tcp.ReceiveTimeout = 1000;
+
+              //  Thread.Sleep(100);
                 tcp.Connect(ServerHost, ControllerPort);
+              //  Thread.Sleep(2000);
                 tcp.Client.Blocking = true;
                 
                 TCPnetworkStream = tcp.GetStream();
@@ -1934,7 +1954,11 @@ namespace HelloWorld
 
         internal bool SendAndReceiveOK(string CompleteOrder)
         {
+            board = 0;
             bool isOK = false;
+            String command ;
+            string[] outputs;
+            string output;
             //<<<<<<< master
             //            // return true; //uncomment for offline test //return
             //=======
@@ -1946,34 +1970,70 @@ namespace HelloWorld
                 return true;
             }
             //>>>>>>> master
-
+            //while (tcp_readytosend==0) ;
+            //while (timeouttimer.Enabled) ;
+            timeouttimer.Interval = 1000;//async timer
+            //timeout_timer.Interval = 1000;
             if (!CompleteOrder.StartsWith("COM"))
             {
+                    
                 try
                 {
-
+                    if (CompleteOrder.StartsWith("u6.l.")) board = 1;
+                    else
+                    if (CompleteOrder.StartsWith("u2.se.")) board = 2;
+                    else
+                    if (CompleteOrder.StartsWith("u2.hv.")) board = 3;
+                    else
+                    if (CompleteOrder.StartsWith("u2.st.")) board = 4;
+                    tcp_read_buffer= new byte[tcp.ReceiveBufferSize]; ;
                     byte[] buffer = PrepareBuffer(CompleteOrder);
+                    
+
+                    if (board==1) timeouttimer.Interval = 1;
                     //Thread.Sleep(1);
-                    TCPnetworkStream.Write(buffer, 0, nMaxCharacters);
+                    /* //acync failld
+                    TCPnetworkStream.BeginWrite(buffer, 0, nMaxCharacters,new AsyncCallback(tcp_write_complete), null);
+                    TCPnetworkStream.BeginRead(tcp_read_buffer, 0, tcp.ReceiveBufferSize, new AsyncCallback(tcp_read_complete), null);
+                    timeouttimer.Start();
+                    
+
+                        return true;*/
+
                     byte[] buffer2 = new byte[tcp.ReceiveBufferSize];
                     //Thread.Sleep(1);
                     // tcp.Client.Blocking = true;
                     //TCPnetworkStream.ReadTimeout = 5000;
-                    int bytesRead = TCPnetworkStream.Read(buffer2, 0, tcp.ReceiveBufferSize);
-                    String command = Encoding.ASCII.GetString(buffer2);
-                    string[] outputs = command.Split('\r');
-                    string output = outputs[0];
-                    if ((output == "OK") || (output.StartsWith("sisel")))
-                        isOK = true;
-                    else
+                    // int count=0;
+
+                    TCPnetworkStream.Write(buffer, 0, nMaxCharacters);
+                    timeouttimer.Start();
+                    while (timeouttimer.Enabled)
                     {
-                        if (isAdmin)
-                            //notifyIcon1.ShowBalloonTip(2000,"Function: SendAndReceiveOK(string CompleteOrder)",output ,ToolTipIcon.Error);
-                            log.Text = "SendAndReceiveOK:\r" + output + "\r" + log.Text;
-                        //  MessageBox.Show("Error: Controller connection is not correctly connected.\rAdmin Error: The 'ok' command is not received.\r" + output + "\r\r" + "Function: SendAndReceiveOK(string CompleteOrder)");
-                        else
-                            MessageBox.Show("Error: Bad command has been sent to device.");
+                       // Thread.Sleep(10);
+                        if (TCPnetworkStream.DataAvailable)
+                        {
+                            timeouttimer.Stop();
+                            int bytesRead = TCPnetworkStream.Read(buffer2, 0, tcp.ReceiveBufferSize);
+                             command = Encoding.ASCII.GetString(buffer2);
+                             outputs = command.Split('\r');
+                             output = outputs[0];
+                            if (output == "OK")
+                                return true;
+                            else
+                            {
+                                if (isAdmin)
+                                    //notifyIcon1.ShowBalloonTip(2000,"Function: SendAndReceiveOK(string CompleteOrder)",output ,ToolTipIcon.Error);
+                                    log.Text = "SendAndReceiveOK:\r" + output + "\r" + log.Text;
+                                //  MessageBox.Show("Error: Controller connection is not correctly connected.\rAdmin Error: The 'ok' command is not received.\r" + output + "\r\r" + "Function: SendAndReceiveOK(string CompleteOrder)");
+                                else
+                                    MessageBox.Show("Error: Bad command has been sent to device.");
+                            }
+                            break;
+                        }
                     }
+                    
+                
                 }
                 catch (Exception e)
                 {
@@ -2036,10 +2096,16 @@ namespace HelloWorld
                 //>>>>>>> master
                 try
                 {
+                    int count = 0;
                     byte[] buffer = PrepareBuffer(CompleteOrder);
                     TCPnetworkStream.Write(buffer, 0, nMaxCharacters);
                     byte[] buffer2 = new byte[tcp.ReceiveBufferSize];
-                    int bytesRead = TCPnetworkStream.Read(buffer2, 0, tcp.ReceiveBufferSize);
+                    while (count++ < 100)
+                    {
+                        Thread.Sleep(10);
+                        if (TCPnetworkStream.DataAvailable)
+                        { Thread.Sleep(10); int bytesRead = TCPnetworkStream.Read(buffer2, 0, tcp.ReceiveBufferSize); break; }
+                    }
                     String command = Encoding.ASCII.GetString(buffer2);
                     string[] outputs = command.Split('\r');
                     return outputs[0];
@@ -2251,7 +2317,7 @@ namespace HelloWorld
 
         private void UD_Zoom_ValueChanged(object sender, EventArgs e)
         {
-            decimal c = UD_Zoom.Value;
+            decimal c = (UInt16) UD_Zoom.Value;
             zoom(c, c);
         }
 
@@ -2829,6 +2895,7 @@ namespace HelloWorld
                 //<<<<<<< master
                 double val = (double)UD_Lens_OBJ.Value * Settings1.Default.Coef_res_fine + (double)numericUpDown_objc.Value * Settings1.Default.Coef_res_course;//2.0 / (double)UD_Lens_OBJ.Maximum * (double)UD_Lens_OBJ.Value;
                 L_Lens_OBJ.Text = String.Format("{0:0.00} A|{1:0.0} V\nI^2:{2:0.00}", val, val * 0.62, val * val);
+                label_I_OBJ.Text = L_Lens_OBJ.Text;
                 //=======
                 //                double val = 2.0 / (double)UD_Lens_OBJ.Maximum * (double)UD_Lens_OBJ.Value;
                 //                L_Lens_OBJ.Text = String.Format("{0:0.00} A,{1:0.0} V", val/0.62, val);
@@ -2919,6 +2986,8 @@ namespace HelloWorld
         }
 
         private void timer1_Tick(object sender, EventArgs e)
+        { }
+        private void UDP_Timer_Tick(object sender, System.Timers.ElapsedEventArgs e)
         {
             // ProcessFrame(null, null);
             string info = "";
@@ -2937,14 +3006,14 @@ namespace HelloWorld
                 }
                 if (overallMotionPixelCount++ == 10)
                 {
-                    overallMotionPixelCount = -10;
+                    overallMotionPixelCount = 0;
 
                 }
-
+                
                 info = String.Format("{0:0000.0}FPS", FPS);
 
                 Image<Gray,byte> frame0= SetFilter(frame);
-                frame0.Draw(info, ref format, new System.Drawing.Point(1, 500), new Gray(200)); //Draw on the image using the specific font
+                frame0.Draw(overallMotionPixelCount.ToString("0.0"), ref format, new System.Drawing.Point(100, 100), new Gray(200)); //Draw on the image using the specific font
 
                 if (isformmode)
                     formmode.ViewPort.Image = frame0;
@@ -3097,7 +3166,13 @@ namespace HelloWorld
         private void UD_STrim_Val1_ValueChanged(object sender, EventArgs e)
         {
             userControl13.X = (int)this.UD_STrim_Val1.Value;
-            UpdateScanner();
+            // UpdateScanner();
+            
+            int xtrim = (int)UD_STrim_Val1.Value + 2047;
+            
+            
+            strim(0, xtrim);
+            
         }
 
         private void UD_STrim_Val2_ValueChanged(object sender, EventArgs e)
@@ -3108,7 +3183,13 @@ namespace HelloWorld
         private void UD_STrim_Val3_ValueChanged(object sender, EventArgs e)
         {
             userControl13.Y = (int)this.UD_STrim_Val3.Value;
-            UpdateScanner();
+            //UpdateScanner();
+
+            
+            int ytrim = (int)UD_STrim_Val3.Value + 2047;
+      
+            strim(2, ytrim);
+            
         }
 
         private void UD_STrim_Val4_ValueChanged(object sender, EventArgs e)
@@ -3128,7 +3209,29 @@ namespace HelloWorld
 
         private void UD_DetectorTrim_Coarse_ValueChanged(object sender, EventArgs e)
         {
-            UpdateDetector();
+            //UpdateDetector();
+            int coarse = (int)UD_DetectorTrim_Coarse.Value;
+      //      int Fine = (int)UD_DetectorTrim_Fine.Value;
+            if (RB_Det_Port1.Checked)
+            {
+                dtrim(0, coarse);
+                //dtrim(1, Fine);
+            }
+            else if (RB_Det_Port2.Checked)
+            {
+                dtrim(2, coarse);
+                //dtrim(3, Fine);
+            }
+            else if (RB_Det_Port3.Checked)
+            {
+                dtrim(4, coarse);
+                //dtrim(5, Fine);
+            }
+            else if (RB_Det_Port4.Checked)
+            {
+                dtrim(6, coarse);
+                //dtrim(7, Fine);
+            }
         }
 
         private void UD_DetectorTrim_Fine_ValueChanged(object sender, EventArgs e)
@@ -4220,28 +4323,38 @@ namespace HelloWorld
         private void u1_valueChanged(object sender, EventArgs e)
         {
             //    this.Text = userControl11.X.ToString() +"|" +userControl11.Y.ToString();
+            this.UD_Lens_icx.ValueChanged -= new System.EventHandler(this.UD_Lens_icx_ValueChanged);
             this.UD_Lens_icx.Value = userControl11.X;
+            this.UD_Lens_icx.ValueChanged += new System.EventHandler(this.UD_Lens_icx_ValueChanged);
             this.UD_Lens_icy.Value = userControl11.Y;
 
         }
         private void u2_valueChanged(object sender, EventArgs e)
         {
+            this.UD_Lens_stigx.ValueChanged -= new System.EventHandler(this.UD_Lens_stigx_ValueChanged);
             this.UD_Lens_stigx.Value = userControl12.X;
+            this.UD_Lens_stigx.ValueChanged += new System.EventHandler(this.UD_Lens_stigx_ValueChanged);
             this.UD_Lens_stigy.Value = userControl12.Y;
         }
         private void u3_valueChanged(object sender, EventArgs e)
         {
+            this.UD_STrim_Val1.ValueChanged -= new System.EventHandler(this.UD_STrim_Val1_ValueChanged);
             this.UD_STrim_Val1.Value = userControl13.X;
+            this.UD_STrim_Val1.ValueChanged += new System.EventHandler(this.UD_STrim_Val1_ValueChanged);
             this.UD_STrim_Val3.Value = userControl13.Y;
         }
         private void u4_valueChanged(object sender, EventArgs e)
         {
+            this.UD_Lens_shiftx.ValueChanged -= new System.EventHandler(this.UD_Lens_ux_ValueChanged);
             this.UD_Lens_shiftx.Value = userControl14.X;
+            this.UD_Lens_shiftx.ValueChanged += new System.EventHandler(this.UD_Lens_ux_ValueChanged);
             this.UD_Lens_shifty.Value = userControl14.Y;
         }
         private void u5_valueChanged(object sender, EventArgs e)
         {
+            this.UD_Lens_tiltx.ValueChanged -= new System.EventHandler(this.UD_Lens_dx_ValueChanged);
             this.UD_Lens_tiltx.Value = userControl15.X;
+            this.UD_Lens_tiltx.ValueChanged += new System.EventHandler(this.UD_Lens_dx_ValueChanged);
             this.UD_Lens_tilty.Value = userControl15.Y;
         }
         private void IMLLock_CheckedChanged(object sender, EventArgs e)
@@ -4599,18 +4712,39 @@ namespace HelloWorld
         private void label92_Click(object sender, EventArgs e)
         {
             isformmode = true;
-            formmode = new ImageForm();
-            formmode.Owner = this;
-            formmode.isthisviewport = true;
-            formmode.Text = "Render";
-            formmode.Show();
+            
+            Thread t = new Thread(OpenNewForm);t.SetApartmentState(ApartmentState.STA);
+            t.Start();
+        }
+
+        private void OpenNewForm()
+        {
+            ImageForm form = new ImageForm();
+            formmode = form;
+            form.ownerform = this;
+            form.TopLevel = true;
+            //form.Parent = this;
+            form.TopMost = true;
+            form.isthisviewport = true;
+            form.Text = "Quanta";
+            form.ShowDialog();
+            //Invoke(new MethodInvoker(newform));
+            
+           // Form1 newForm = new Form1();
+           // newForm.ShowDialog();
             /*  MCvFont f = new MCvFont(FONT.CV_FONT_HERSHEY_COMPLEX, 0.4, .4);
               string info = String.Format("viewport");
               frame.Draw(info, ref f, new System.Drawing.Point(227, 247), new Gray(200)); //Draw on the image using the specific font
               formmode.ViewPort.Image = frame;
               */
         }
-
+        void newform()
+        {
+            formmode.Owner = this;
+            formmode.isthisviewport = true;
+            formmode.Text = "Render";
+            formmode.Show();
+        }
         private void Btn_Acquire_MouseEnter(object sender, EventArgs e)
         {
             Btn_Acquire.ForeColor = Color.OrangeRed;
@@ -4836,18 +4970,31 @@ namespace HelloWorld
             numericVF.ValueChanged -= numericVF_ValueChanged;
             numericVF.Value = (decimal)vf;
             numericVF.ValueChanged += numericVF_ValueChanged;
-
+            /*
             double vf_log = Math.Log(vf / 3, 10);
             double vf_deci = Math.Pow(10, Math.Floor(vf_log));
             if (((vf / 3) / vf_deci) > 2)
             {
                 vf_deci *= 2;
             }
+            */
+            // update_image_scale(vf, WDReal_To_WDPrint(MicroscopyMode.SelectedIndex, Settings1.Default.WD_real));
+            if(formmode != null)
+            Invoke(new update_image(formmode.update_image_scale), new object[] { vf, WDReal_To_WDPrint(MicroscopyMode.SelectedIndex, Settings1.Default.WD_real) });
 
-
+        }
+         delegate void update_image(double vf, double wd);
+        void update_image_scale(double vf,double wd)
+        {
+            double vf_log = Math.Log(vf / 3, 10);
+            double vf_deci = Math.Pow(10, Math.Floor(vf_log));
+            if (((vf / 3) / vf_deci) > 2)
+            {
+                vf_deci *= 2;
+            }
             scalelabel.Text = vf_deci.ToString() + "um";
             scalebar.Width = (int)(panel1.Width / 3 * vf_deci / (vf / 3));
-            labelscalekx.Text = numericZoom.Value.ToString("0.0") + "kx";
+            labelscalekx.Text = (100/vf).ToString("0.0") + "kx";
         }
 
         private void numericZoom_ValueChanged(object sender, EventArgs e)
@@ -4872,28 +5019,32 @@ namespace HelloWorld
             double zoom;
             //double vf= Settings1.Default.vf_max /Math.Pow(10, zoom);//vf_max in zoom_min
             //double I= Settings1.Default.I_max *vf/ Settings1.Default.vf_max;
-            double WD_real_scanner = AllUserSettings[HVindex].WD_real + Settings1.Default.WD_offset_Scanner - Settings1.Default.WD_offset_OBJ;
+            double WD_real_scanner = Settings1.Default.WD_real + Settings1.Default.WD_offset_Scanner - Settings1.Default.WD_offset_OBJ;
             if (mode == 0) //Resolution mode
             {
-                double I_log = Math.Log10(vf / WD_real_scanner * Settings1.Default.scan_d / Settings1.Default.vf_max / Math.Sqrt(Settings1.Default.kV_max) * Math.Pow(10, Settings1.Default.LogI_Max_Resolution) * Math.Sqrt(AllUserSettings[HVindex].HV));
+
+                double I_log = Math.Log10(vf / WD_real_scanner  / Settings1.Default.vf_coeff / (Settings1.Default.kV_max) * Math.Pow(10, Settings1.Default.LogI_Max_Resolution) *(Settings1.Default.kV));
                 scanner_current_log(I_log);
                 zoom = (I_log - Settings1.Default.LogI_Max_Resolution) * Ctrl1D_Zoom.Maximum / (-Settings1.Default.LogI_Max_Resolution + Settings1.Default.LogI_Min_Resolution);
             }
             else if (mode == 1) //Wide-Field mode
             {
-                double I_log = Math.Log10(vf / WD_real_scanner * Settings1.Default.scan_d / Settings1.Default.vf_max / Math.Sqrt(Settings1.Default.kV_max) * Math.Pow(10, Settings1.Default.LogI_Max_WideField) * Math.Sqrt(AllUserSettings[HVindex].HV));
+
+                double I_log = Math.Log10(vf / WD_real_scanner / Settings1.Default.vf_coeff / (Settings1.Default.kV_max) * Math.Pow(10, Settings1.Default.LogI_Max_Resolution) * (Settings1.Default.kV));
                 scanner_current_log(I_log);
                 zoom = (I_log - Settings1.Default.LogI_Max_WideField) * Ctrl1D_Zoom.Maximum / (-Settings1.Default.LogI_Max_WideField + Settings1.Default.LogI_Min_WideField);
             }
             else if (mode == 2) //Field mode
             {
-                double I_log = Math.Log10(vf / WD_real_scanner * Settings1.Default.scan_d / Settings1.Default.vf_max / Math.Sqrt(Settings1.Default.kV_max) * Math.Pow(10, Settings1.Default.LogI_Max_Field) * Math.Sqrt(AllUserSettings[HVindex].HV));
+
+                double I_log = Math.Log10(vf / WD_real_scanner / Settings1.Default.vf_coeff / (Settings1.Default.kV_max) * Math.Pow(10, Settings1.Default.LogI_Max_Resolution) * (Settings1.Default.kV));
                 scanner_current_log(I_log);
                 zoom = (I_log - Settings1.Default.LogI_Max_Field) * Ctrl1D_Zoom.Maximum / (-Settings1.Default.LogI_Max_Field + Settings1.Default.LogI_Min_Field);
             }
             else //Rokveld mode
             {
-                double I_log = Math.Log10(vf / WD_real_scanner * Settings1.Default.scan_d / Settings1.Default.vf_max / Math.Sqrt(Settings1.Default.kV_max) * Math.Pow(10, Settings1.Default.LogI_Max_Rokveld) * Math.Sqrt(AllUserSettings[HVindex].HV));
+
+                double I_log = Math.Log10(vf / WD_real_scanner / Settings1.Default.vf_coeff / (Settings1.Default.kV_max) * Math.Pow(10, Settings1.Default.LogI_Max_Resolution) * (Settings1.Default.kV));
                 scanner_current_log(I_log);
                 zoom = (I_log - Settings1.Default.LogI_Max_Rokveld) * Ctrl1D_Zoom.Maximum / (-Settings1.Default.LogI_Max_Rokveld + Settings1.Default.LogI_Min_Rokveld);
             }
@@ -4905,6 +5056,7 @@ namespace HelloWorld
         private void scanner_current_log(double i_log)
         {
             double I = Math.Pow(10, i_log);
+            
             int newindex;
             if (I >= (100 * Settings1.Default.I_scale_max))
                 newindex = 3;
@@ -4917,7 +5069,7 @@ namespace HelloWorld
             if (newindex > Settings1.Default.Scanner_ISelect_Max) newindex = Settings1.Default.Scanner_ISelect_Max;
 
             Scanner_ISelect.SelectedIndex = newindex;
-
+            label_I_scan.Text = (I).ToString("0.0")+"mA {"+ newindex.ToString()+"}log{"+i_log.ToString("0.0")+"}";
             UD_Zoom.Value = (decimal)(4095 * I / (Settings1.Default.I_scale_max * Math.Pow(10, Scanner_ISelect.SelectedIndex)));
         }
 
@@ -4940,7 +5092,7 @@ namespace HelloWorld
                 IObj = Settings1.Default.Coef_res_fine * Ctrl1D_Focus.Value + Settings1.Default.Coef_res_course * trackBar_focus_course.Value;
                 IIML = 0.0;
                 double IObj_max = Settings1.Default.Coef_res_fine * Settings1.Default.Focus_Max_res_fine + Settings1.Default.Coef_res_course * Settings1.Default.Focus_Max_res_course;
-                double f_1 = (1.0 / Settings1.Default.f_min) * Math.Pow(IObj, 2)  / (Settings1.Default.kV);
+                double f_1 = ((Settings1.Default.kV_max) / Settings1.Default.focal_coeff) * Math.Pow(IObj, 2)  / (Settings1.Default.kV);
                 double q_1 = f_1 - (1.0 / Settings1.Default.p);
                 if (q_1 <= (1.0 / Settings1.Default.q_max)) q_1 = 1.0 / Settings1.Default.q_max;
                 WD_real = 1.0 / q_1;
@@ -4978,9 +5130,9 @@ namespace HelloWorld
             {
                 double q_1 = 1.0 / WD_real;
                 //if (q_1 <= (1.0 / Settings1.Default.q_max)) q_1 = 1.0 / Settings1.Default.q_max;
-                double f_1 = q_1 + (1.0 / Settings1.Default.p);
+                double f_1 = q_1 + (1.0 / Settings1.Default.p);//f=coeff*kv/I^2
                 double IObj_max = Settings1.Default.Coef_res_fine * Settings1.Default.Focus_Max_res_fine + Settings1.Default.Coef_res_course * Settings1.Default.Focus_Max_res_course;
-                IObj = Math.Pow(f_1 * (Settings1.Default.kV)* Settings1.Default.f_min, 0.5);
+                IObj = Math.Pow(f_1 * (Settings1.Default.kV)/ (Settings1.Default.kV_max) * Settings1.Default.focal_coeff, 0.5);
                 int FocusFineMiddle = (int)(Ctrl1D_Focus.Maximum / 2);
                 FocusCourse = (int)Math.Round((IObj - Settings1.Default.Coef_res_fine * FocusFineMiddle) / Settings1.Default.Coef_res_course);
                 FocusFine = (int)((IObj - Settings1.Default.Coef_res_course * FocusCourse) / Settings1.Default.Coef_res_fine);
@@ -5026,35 +5178,35 @@ namespace HelloWorld
         {
             int HVindex = HVProfile.SelectedIndex;
             double vf;
-            double WD_real_scanner = AllUserSettings[HVindex].WD_real + Settings1.Default.WD_offset_Scanner - Settings1.Default.WD_offset_OBJ;
+            double WD_real_scanner = Settings1.Default.WD_real + Settings1.Default.WD_offset_Scanner - Settings1.Default.WD_offset_OBJ;
             //double vf= Settings1.Default.vf_max /Math.Pow(10, zoom);//vf_max in zoom_min
             //double I= Settings1.Default.I_max *vf/ Settings1.Default.vf_max;
             if (mode == 0) //Resolution mode
             {
                 double I_log = Ctrl1D_Zoom.Value * (-Settings1.Default.LogI_Max_Resolution + Settings1.Default.LogI_Min_Resolution) / Ctrl1D_Zoom.Maximum + Settings1.Default.LogI_Max_Resolution;
                 scanner_current_log(I_log);
-                vf = WD_real_scanner / Settings1.Default.scan_d * Settings1.Default.vf_max * Math.Sqrt(Settings1.Default.kV_max) / Math.Pow(10, Settings1.Default.LogI_Max_Resolution) * Math.Pow(10, I_log) / Math.Sqrt(AllUserSettings[HVindex].HV);
+                vf = WD_real_scanner * Settings1.Default.vf_coeff * Settings1.Default.kV_max / Math.Pow(10, Settings1.Default.LogI_Max_Resolution) * Math.Pow(10, I_log) / Settings1.Default.kV;
                 if (vf < Settings1.Default.vf_min) vf = Settings1.Default.vf_min;
             }
             else if (mode == 1) //Wide-Field mode
             {
                 double I_log = Ctrl1D_Zoom.Value * (-Settings1.Default.LogI_Max_WideField + Settings1.Default.LogI_Min_WideField) / Ctrl1D_Zoom.Maximum + Settings1.Default.LogI_Max_WideField;
                 scanner_current_log(I_log);
-                vf = WD_real_scanner / Settings1.Default.scan_d * Settings1.Default.vf_max * Math.Sqrt(Settings1.Default.kV_max) / Math.Pow(10, Settings1.Default.LogI_Max_WideField) * Math.Pow(10, I_log) / Math.Sqrt(AllUserSettings[HVindex].HV);
+                vf = WD_real_scanner * Settings1.Default.vf_coeff * Settings1.Default.kV_max / Math.Pow(10, Settings1.Default.LogI_Max_Resolution) * Math.Pow(10, I_log) / Settings1.Default.kV;
                 if (vf < Settings1.Default.vf_min) vf = Settings1.Default.vf_min;
             }
             else if (mode == 2) //Field mode
             {
                 double I_log = Ctrl1D_Zoom.Value * (-Settings1.Default.LogI_Max_Field + Settings1.Default.LogI_Min_Field) / Ctrl1D_Zoom.Maximum + Settings1.Default.LogI_Max_Field;
                 scanner_current_log(I_log);
-                vf = WD_real_scanner / Settings1.Default.scan_d * Settings1.Default.vf_max * Math.Sqrt(Settings1.Default.kV_max) / Math.Pow(10, Settings1.Default.LogI_Max_Field) * Math.Pow(10, I_log) / Math.Sqrt(AllUserSettings[HVindex].HV);
+                vf = WD_real_scanner * Settings1.Default.vf_coeff * Settings1.Default.kV_max / Math.Pow(10, Settings1.Default.LogI_Max_Resolution) * Math.Pow(10, I_log) / Settings1.Default.kV;
                 if (vf < Settings1.Default.vf_min) vf = Settings1.Default.vf_min;
             }
             else //Rokveld mode
             {
                 double I_log = Ctrl1D_Zoom.Value * (-Settings1.Default.LogI_Max_Rokveld + Settings1.Default.LogI_Min_Rokveld) / Ctrl1D_Zoom.Maximum + Settings1.Default.LogI_Max_Rokveld;
                 scanner_current_log(I_log);
-                vf = WD_real_scanner / Settings1.Default.scan_d * Settings1.Default.vf_max * Math.Sqrt(Settings1.Default.kV_max) / Math.Pow(10, Settings1.Default.LogI_Max_Rokveld) * Math.Pow(10, I_log) / Math.Sqrt(AllUserSettings[HVindex].HV);
+                vf = WD_real_scanner * Settings1.Default.vf_coeff * Settings1.Default.kV_max / Math.Pow(10, Settings1.Default.LogI_Max_Resolution) * Math.Pow(10, I_log) / Settings1.Default.kV;
                 if (vf < Settings1.Default.vf_min) vf = Settings1.Default.vf_min;
             }
             return vf;
@@ -5065,7 +5217,7 @@ namespace HelloWorld
             int mode = MicroscopyMode.SelectedIndex;
             int HVindex = HVProfile.SelectedIndex;
             double WD_real = Focus_To_WDreal(mode);
-            AllUserSettings[HVindex].WD_real = WD_real;
+            Settings1.Default.WD_real = WD_real;
             numericFocus.ValueChanged -= numericFocus_ValueChanged;
             numericFocus.Value = (decimal)WDReal_To_WDPrint(mode, WD_real);
             numericFocus.ValueChanged += numericFocus_ValueChanged;
@@ -5390,7 +5542,7 @@ namespace HelloWorld
             {
                 int HVindex = HVProfile.SelectedIndex;
                 double WD_real = Focus_To_WDreal(mode);
-                AllUserSettings[HVindex].WD_real = WD_real;
+                Settings1.Default.WD_real = WD_real;
                 numericFocus.ValueChanged -= numericFocus_ValueChanged;
                 numericFocus.Value = (decimal)WDReal_To_WDPrint(mode, WD_real);
                 numericFocus.ValueChanged += numericFocus_ValueChanged;
@@ -5564,7 +5716,19 @@ namespace HelloWorld
                 this.WindowState = FormWindowState.Maximized;
                 this.ControlBox = false;
             }
+            if (formmode != null)
+            {
+               // Form.
+               //Invoke(new MethodInvoker(formmode.TopLevel));
+             //  [DllImport("User32.dll")]
+       // public static extern Int32 SetForegroundWindow(int hWnd);
+
+
+       // SetForegroundWindow(Handle.ToInt32());
+    } 
+            
         }
+        
 
         private void FormMain_Shown(object sender, EventArgs e)
         {
@@ -5576,7 +5740,7 @@ namespace HelloWorld
 
             track_ball_enumeration();
 
-            button20_Click(null, null);
+          //  button20_Click(null, null);
             //>>>>>>> master
         }
 
@@ -5673,7 +5837,7 @@ namespace HelloWorld
             AllUserSettings[HVindex].DGunTilt = dCtrl2D_GunTilt.Value;
 
             AllUserSettings[HVindex].Heat = (int)numericFilament.Value;
-            AllUserSettings[HVindex].HV = (int)numericHV.Value;
+            AllUserSettings[HVindex].HV = (int)Settings1.Default.kV;
 
             //<<<<<<< master
             //            AllUserSettings[HVindex].PC = (int)numeric_PCF.Value;
@@ -5684,6 +5848,8 @@ namespace HelloWorld
             AllUserSettings[HVindex].PC2Coef = (int)numericUpDown13.Value;
             //>>>>>>> master
             AllUserSettings[HVindex].Speed = (int)numeric_Speed.Value;
+            AllUserSettings[HVindex].WD_real = Settings1.Default.WD_real;
+
         }
 
         public void TryToConnect()
@@ -5878,7 +6044,7 @@ namespace HelloWorld
 
             numericFilament.Value = AllUserSettings[HVindex].Heat;
             numericHV.Value = AllUserSettings[HVindex].HV;
-
+            Settings1.Default.WD_real = AllUserSettings[HVindex].WD_real;
             //<<<<<<< master
             //            numeric_PCF.Value = AllUserSettings[HVindex].PC;
             //=======
@@ -5977,13 +6143,18 @@ namespace HelloWorld
 
         private void numericFocus_ValueChanged(object sender, EventArgs e)
         {
-            int mode = MicroscopyMode.SelectedIndex;
-            double WD_real = WDPrint_To_WDReal(mode, (double)numericFocus.Value);
-            int FocusCourse = 0;
-            int FocusFine = 0;
-            WDreal_To_Focus(mode, WD_real, ref FocusCourse, ref FocusFine);
-            trackBar_focus_course.Value = FocusCourse;
-            Ctrl1D_Focus.Value = FocusFine;
+            try
+            {
+                int mode = MicroscopyMode.SelectedIndex;
+                double WD_real = WDPrint_To_WDReal(mode, (double)numericFocus.Value);
+                int FocusCourse = 0;
+                int FocusFine = 0;
+                WDreal_To_Focus(mode, WD_real, ref FocusCourse, ref FocusFine);
+                trackBar_focus_course.Value = FocusCourse;
+                Ctrl1D_Focus.Value = FocusFine;
+            }
+            catch
+            { }
         }
 
         private void num_stig_x_ValueChanged(object sender, EventArgs e)
@@ -6342,6 +6513,11 @@ namespace HelloWorld
         bool tcp_state = false;
         private int Eth_Link;
         private double WD_real_scanner;
+        private byte[] tcp_read_buffer;
+        private int board;
+        private int lens_ok_error;
+        private int[] tcp_ok_error= new int[10];
+        private int tcp_readytosend;
 
         private void TCP_Connection_Listener_Tick(object sender, EventArgs e)
         {
@@ -6485,6 +6661,12 @@ namespace HelloWorld
                 button30.BackColor = Color.FromArgb(99, 112, 132);
         }
 
+        private void timeout_timer_Tick(object sender, EventArgs e)
+        {
+            
+            
+        }
+
         private void labelscalekx_Click(object sender, EventArgs e)
         {
 
@@ -6493,6 +6675,12 @@ namespace HelloWorld
         private void scalebar_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void label_lens_ok_error_Click(object sender, EventArgs e)
+        {
+            tcp_ok_error[board] = 0;
+            label_lens_ok_error.Text = "Lens:" + tcp_ok_error[1].ToString() + " SE:" + tcp_ok_error[2].ToString() + " HV:" + tcp_ok_error[3].ToString() + " ST:" + tcp_ok_error[4].ToString();
         }
 
         private void numericHV_ValueChanged(object sender, EventArgs e)
@@ -6535,6 +6723,21 @@ namespace HelloWorld
             numeric_Speed.ValueChanged -= numeric_Speed_ValueChanged;
             numeric_Speed.Value = speed_multiply.Value;
             numeric_Speed.ValueChanged += numeric_Speed_ValueChanged;
+        }
+
+        private void userControl11_Load_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label14_Click(object sender, EventArgs e)
+        {
+            Thread.Sleep(2000);
         }
 
         private void backgroundWorker2_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -6610,6 +6813,46 @@ namespace HelloWorld
 
               }
           }*/
+        void tcp_write_complete(IAsyncResult result)
+        { }
+
+        void tcp_read_complete(IAsyncResult result)
+        {
+            // Invoke(ON_tcp_read_complete, result);
+           
+            Invoke(new AsyncCallback(async_tcp_read_complete), new object[] { result }); timeouttimer.Stop();
+            //Invoke((Action<string>)label_tcp_error.Text, "tcp:" + tcp_ok_error[0].ToString());
+        }
+         void   async_tcp_read_complete(IAsyncResult result)
+        { 
+            //timeout_timer.Stop();
+            String command = Encoding.ASCII.GetString(tcp_read_buffer);
+            string[] outputs = command.Split('\r');
+            string output = outputs[0];
+            if ((output != "OK"))
+            {
+                System.Media.SystemSounds.Beep.Play();
+          //      tcp_ok_error[board]++;
+          //      label_lens_ok_error.Text = "Lens:" + tcp_ok_error[1].ToString() + " SE:" + tcp_ok_error[2].ToString() + " HV:" + tcp_ok_error[3].ToString() + " ST:" + tcp_ok_error[4].ToString();
+          //      label_tcp_error.Text = "tcp:" + tcp_ok_error[0].ToString();
+            }
+        }
+        void async_tcp_timeout()
+        {
+            tcp_ok_error[board]++;
+            label_lens_ok_error.Text = "Lens:" + tcp_ok_error[1].ToString() + " SE:" + tcp_ok_error[2].ToString() + " HV:" + tcp_ok_error[3].ToString() + " ST:" + tcp_ok_error[4].ToString();
+            label_tcp_error.Text = "tcp:" + tcp_ok_error[0].ToString();
+            
+        }
+        private  void OnTimedEvent(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            // do stuff
+            // async_tcp_timeout();
+            
+            //
+            timeouttimer.Stop();
+            Invoke(new MethodInvoker(async_tcp_timeout)); 
+        }
     }
 
 

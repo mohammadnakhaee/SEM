@@ -39,7 +39,7 @@
       <Value Profile="(Default)">100</Value>
     </Setting>
     <Setting Name="Scanner_ISelect_Min" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">2</Value>
     </Setting>
     <Setting Name="Scanner_ISelect_Max" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">3</Value>
@@ -175,6 +175,15 @@
     </Setting>
     <Setting Name="WD_offset_Scanner" Type="System.Double" Scope="User">
       <Value Profile="(Default)">3</Value>
+    </Setting>
+    <Setting Name="focal_coeff" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">289.4</Value>
+    </Setting>
+    <Setting Name="WD_real" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="vf_coeff" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">14.25</Value>
     </Setting>
   </Settings>
 </SettingsFile>

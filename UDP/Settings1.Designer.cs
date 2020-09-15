@@ -169,7 +169,7 @@ namespace HelloWorld {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
         public int Scanner_ISelect_Min {
             get {
                 return ((int)(this["Scanner_ISelect_Min"]));
@@ -716,6 +716,42 @@ namespace HelloWorld {
             }
             set {
                 this["WD_offset_Scanner"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("289.4")]
+        public double focal_coeff {
+            get {
+                return ((double)(this["focal_coeff"]));
+            }
+            set {
+                this["focal_coeff"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public double WD_real {
+            get {
+                return ((double)(this["WD_real"]));
+            }
+            set {
+                this["WD_real"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("14.25")]
+        public double vf_coeff {
+            get {
+                return ((double)(this["vf_coeff"]));
+            }
+            set {
+                this["vf_coeff"] = value;
             }
         }
     }

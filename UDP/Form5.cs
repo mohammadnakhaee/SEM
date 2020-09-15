@@ -133,6 +133,12 @@ namespace HelloWorld
                         if (main.Connect_HV())
                             hv = 1;
                         else
+                            if (main.Connect_HV())
+                            hv = 1;
+                        else
+                            if (main.Connect_HV())
+                            hv = 1;
+                        else
                             hv = 0;
                     Refresh();
                     counter++;
@@ -145,6 +151,12 @@ namespace HelloWorld
                     is6 = true;
                     if (tcp == 1)
                         if (main.Connect_FB())
+                            fb = 1;
+                        else
+                            if (main.Connect_FB())
+                            fb = 1;
+                        else
+                            if (main.Connect_FB())
                             fb = 1;
                         else
                             fb = 0;
@@ -161,6 +173,12 @@ namespace HelloWorld
                         if (main.Connect_Lens())
                             lens = 1;
                         else
+                            if (main.Connect_Lens())
+                            lens = 1;
+                        else
+                            if (main.Connect_Lens())
+                            lens = 1;
+                        else
                             lens = 0;
                     Refresh();
                     counter++;
@@ -173,6 +191,12 @@ namespace HelloWorld
                     is8 = true;
                     if (tcp == 1)
                         if (main.Connect_Stage())
+                            stage = 1;
+                        else
+                            if (main.Connect_Stage())
+                            stage = 1;
+                        else
+                            if (main.Connect_Stage())
                             stage = 1;
                         else
                             stage = 0;

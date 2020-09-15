@@ -551,6 +551,7 @@
             this.dCtrl2D_Gain = new System.Windows.Forms.TrackBar();
             this.Ctrl2D_Gain = new HelloWorld.UserControl1();
             this.groupBox_zoom = new System.Windows.Forms.GroupBox();
+            this.label_I_scan = new System.Windows.Forms.Label();
             this.label94 = new System.Windows.Forms.Label();
             this.label93 = new System.Windows.Forms.Label();
             this.numericVF = new System.Windows.Forms.NumericUpDown();
@@ -572,6 +573,8 @@
             this.timer_hv = new System.Windows.Forms.Timer(this.components);
             this.button_settings = new System.Windows.Forms.Button();
             this.Buttons = new System.Windows.Forms.Panel();
+            this.label_tcp_error = new System.Windows.Forms.Label();
+            this.label_lens_ok_error = new System.Windows.Forms.Label();
             this.MicroscopyMode = new System.Windows.Forms.ComboBox();
             this.label115 = new System.Windows.Forms.Label();
             this.HVProfile = new System.Windows.Forms.ComboBox();
@@ -587,10 +590,11 @@
             this.TimerHVUpdater = new System.Windows.Forms.Timer(this.components);
             this.TimerFBUpdater = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog_Images = new System.Windows.Forms.OpenFileDialog();
+            this.TCP_Connection_Listener = new System.Windows.Forms.Timer(this.components);
+            this.timeout_timer = new System.Windows.Forms.Timer(this.components);
             this.userControl1BindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.userControl1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.TCP_Connection_Listener = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.TabControl_Main.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -940,7 +944,7 @@
             this.TabControl_Main.Name = "TabControl_Main";
             this.TabControl_Main.SelectedIndex = 0;
             this.TabControl_Main.ShowToolTips = true;
-            this.TabControl_Main.Size = new System.Drawing.Size(757, 826);
+            this.TabControl_Main.Size = new System.Drawing.Size(579, 514);
             this.TabControl_Main.TabIndex = 0;
             this.TabControl_Main.Visible = false;
             // 
@@ -959,7 +963,7 @@
             this.tabPage2.Location = new System.Drawing.Point(23, 4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(730, 818);
+            this.tabPage2.Size = new System.Drawing.Size(552, 506);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Connections";
             // 
@@ -998,7 +1002,7 @@
             this.panel15.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel15.Location = new System.Drawing.Point(3, 42);
             this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(724, 3);
+            this.panel15.Size = new System.Drawing.Size(529, 3);
             this.panel15.TabIndex = 8;
             // 
             // groupBox3
@@ -1105,6 +1109,7 @@
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Broadcast";
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // label12
             // 
@@ -1144,6 +1149,7 @@
             this.label14.Size = new System.Drawing.Size(182, 13);
             this.label14.TabIndex = 17;
             this.label14.Text = "This is a connection via UDP Socket";
+            this.label14.Click += new System.EventHandler(this.label14_Click);
             // 
             // panel6
             // 
@@ -1153,13 +1159,13 @@
             this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel6.Location = new System.Drawing.Point(3, 3);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(724, 39);
+            this.panel6.Size = new System.Drawing.Size(529, 39);
             this.panel6.TabIndex = 2;
             // 
             // Connection_image
             // 
             this.Connection_image.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Connection_image.Location = new System.Drawing.Point(474, 0);
+            this.Connection_image.Location = new System.Drawing.Point(279, 0);
             this.Connection_image.Name = "Connection_image";
             this.Connection_image.Size = new System.Drawing.Size(250, 39);
             this.Connection_image.TabIndex = 3;
@@ -1186,7 +1192,7 @@
             this.tabPage1.Location = new System.Drawing.Point(23, 4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(730, 818);
+            this.tabPage1.Size = new System.Drawing.Size(552, 506);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Terminal";
             // 
@@ -1195,10 +1201,10 @@
             this.History.BackColor = System.Drawing.SystemColors.ControlLight;
             this.History.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.History.FormattingEnabled = true;
-            this.History.Location = new System.Drawing.Point(3, 743);
+            this.History.Location = new System.Drawing.Point(3, 431);
             this.History.Margin = new System.Windows.Forms.Padding(0);
             this.History.Name = "History";
-            this.History.Size = new System.Drawing.Size(724, 17);
+            this.History.Size = new System.Drawing.Size(546, 17);
             this.History.TabIndex = 1;
             this.History.Click += new System.EventHandler(this.terminalHistory_Click);
             this.History.DoubleClick += new System.EventHandler(this.History_DoubleClick);
@@ -1215,7 +1221,7 @@
             this.TBOutput.Location = new System.Drawing.Point(3, 3);
             this.TBOutput.Name = "TBOutput";
             this.TBOutput.ReadOnly = true;
-            this.TBOutput.Size = new System.Drawing.Size(724, 757);
+            this.TBOutput.Size = new System.Drawing.Size(546, 445);
             this.TBOutput.TabIndex = 1;
             this.TBOutput.Text = "";
             // 
@@ -1230,9 +1236,9 @@
             this.panel5.Controls.Add(this.TBOrder);
             this.panel5.Controls.Add(this.label6);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel5.Location = new System.Drawing.Point(3, 760);
+            this.panel5.Location = new System.Drawing.Point(3, 448);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(724, 55);
+            this.panel5.Size = new System.Drawing.Size(546, 55);
             this.panel5.TabIndex = 0;
             // 
             // TBWaitTime
@@ -1300,7 +1306,7 @@
             this.TBOrder.Dock = System.Windows.Forms.DockStyle.Top;
             this.TBOrder.Location = new System.Drawing.Point(0, 0);
             this.TBOrder.Name = "TBOrder";
-            this.TBOrder.Size = new System.Drawing.Size(724, 20);
+            this.TBOrder.Size = new System.Drawing.Size(546, 20);
             this.TBOrder.TabIndex = 0;
             this.TBOrder.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TBOrder_KeyDown);
             // 
@@ -1322,7 +1328,7 @@
             this.tabPage4.Location = new System.Drawing.Point(23, 4);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(730, 818);
+            this.tabPage4.Size = new System.Drawing.Size(552, 506);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "User";
             // 
@@ -1332,7 +1338,7 @@
             this.panel13.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel13.Location = new System.Drawing.Point(3, 42);
             this.panel13.Name = "panel13";
-            this.panel13.Size = new System.Drawing.Size(724, 3);
+            this.panel13.Size = new System.Drawing.Size(546, 3);
             this.panel13.TabIndex = 9;
             // 
             // groupBox4
@@ -1408,13 +1414,13 @@
             this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel8.Location = new System.Drawing.Point(3, 3);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(724, 39);
+            this.panel8.Size = new System.Drawing.Size(546, 39);
             this.panel8.TabIndex = 4;
             // 
             // User_image
             // 
             this.User_image.Dock = System.Windows.Forms.DockStyle.Right;
-            this.User_image.Location = new System.Drawing.Point(474, 0);
+            this.User_image.Location = new System.Drawing.Point(296, 0);
             this.User_image.Name = "User_image";
             this.User_image.Size = new System.Drawing.Size(250, 39);
             this.User_image.TabIndex = 3;
@@ -1441,7 +1447,7 @@
             this.tabPage6.Location = new System.Drawing.Point(23, 4);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(730, 818);
+            this.tabPage6.Size = new System.Drawing.Size(552, 506);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Settings";
             // 
@@ -1453,7 +1459,7 @@
             this.panel16.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel16.Location = new System.Drawing.Point(3, 45);
             this.panel16.Name = "panel16";
-            this.panel16.Size = new System.Drawing.Size(724, 770);
+            this.panel16.Size = new System.Drawing.Size(546, 458);
             this.panel16.TabIndex = 8;
             // 
             // groupBox13
@@ -1671,7 +1677,7 @@
             this.panel11.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel11.Location = new System.Drawing.Point(3, 42);
             this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(724, 3);
+            this.panel11.Size = new System.Drawing.Size(546, 3);
             this.panel11.TabIndex = 7;
             // 
             // panel10
@@ -1682,13 +1688,13 @@
             this.panel10.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel10.Location = new System.Drawing.Point(3, 3);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(724, 39);
+            this.panel10.Size = new System.Drawing.Size(546, 39);
             this.panel10.TabIndex = 6;
             // 
             // Settings_image
             // 
             this.Settings_image.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Settings_image.Location = new System.Drawing.Point(474, 0);
+            this.Settings_image.Location = new System.Drawing.Point(296, 0);
             this.Settings_image.Name = "Settings_image";
             this.Settings_image.Size = new System.Drawing.Size(250, 39);
             this.Settings_image.TabIndex = 2;
@@ -1714,7 +1720,7 @@
             this.tabPage7.Location = new System.Drawing.Point(23, 4);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(730, 818);
+            this.tabPage7.Size = new System.Drawing.Size(552, 506);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "Render";
             // 
@@ -1724,7 +1730,7 @@
             this.panel19.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel19.Location = new System.Drawing.Point(3, 42);
             this.panel19.Name = "panel19";
-            this.panel19.Size = new System.Drawing.Size(724, 3);
+            this.panel19.Size = new System.Drawing.Size(546, 3);
             this.panel19.TabIndex = 10;
             // 
             // panel18
@@ -1735,13 +1741,13 @@
             this.panel18.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel18.Location = new System.Drawing.Point(3, 3);
             this.panel18.Name = "panel18";
-            this.panel18.Size = new System.Drawing.Size(724, 39);
+            this.panel18.Size = new System.Drawing.Size(546, 39);
             this.panel18.TabIndex = 5;
             // 
             // Render_image
             // 
             this.Render_image.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Render_image.Location = new System.Drawing.Point(474, 0);
+            this.Render_image.Location = new System.Drawing.Point(296, 0);
             this.Render_image.Name = "Render_image";
             this.Render_image.Size = new System.Drawing.Size(250, 39);
             this.Render_image.TabIndex = 4;
@@ -1769,7 +1775,7 @@
             this.tabPage5.Location = new System.Drawing.Point(23, 4);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(730, 818);
+            this.tabPage5.Size = new System.Drawing.Size(552, 506);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Help";
             // 
@@ -1779,7 +1785,7 @@
             this.panel12.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel12.Location = new System.Drawing.Point(3, 42);
             this.panel12.Name = "panel12";
-            this.panel12.Size = new System.Drawing.Size(724, 3);
+            this.panel12.Size = new System.Drawing.Size(546, 3);
             this.panel12.TabIndex = 8;
             // 
             // groupBox6
@@ -1828,13 +1834,13 @@
             this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel9.Location = new System.Drawing.Point(3, 3);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(724, 39);
+            this.panel9.Size = new System.Drawing.Size(546, 39);
             this.panel9.TabIndex = 5;
             // 
             // Help_image
             // 
             this.Help_image.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Help_image.Location = new System.Drawing.Point(474, 0);
+            this.Help_image.Location = new System.Drawing.Point(296, 0);
             this.Help_image.Name = "Help_image";
             this.Help_image.Size = new System.Drawing.Size(250, 39);
             this.Help_image.TabIndex = 3;
@@ -1862,7 +1868,7 @@
             this.tabPage3.Location = new System.Drawing.Point(23, 4);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(730, 818);
+            this.tabPage3.Size = new System.Drawing.Size(552, 506);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Tools";
             this.tabPage3.Click += new System.EventHandler(this.tabPage3_Click);
@@ -4087,6 +4093,7 @@
             this.userControl11.Value = new System.Drawing.Point(0, 0);
             this.userControl11.X = 0;
             this.userControl11.Y = 0;
+            this.userControl11.Load += new System.EventHandler(this.userControl11_Load_1);
             this.userControl11.Enter += new System.EventHandler(this.userControl11_Enter);
             this.userControl11.Leave += new System.EventHandler(this.userControl11_Leave);
             this.userControl11.MouseHover += new System.EventHandler(this.userControl11_MouseHover);
@@ -6195,7 +6202,7 @@
             this.GB_Detectors.Controls.Add(this.button_stage);
             this.GB_Detectors.Dock = System.Windows.Forms.DockStyle.Right;
             this.GB_Detectors.ForeColor = System.Drawing.Color.White;
-            this.GB_Detectors.Location = new System.Drawing.Point(812, 0);
+            this.GB_Detectors.Location = new System.Drawing.Point(634, 0);
             this.GB_Detectors.Name = "GB_Detectors";
             this.GB_Detectors.Size = new System.Drawing.Size(370, 215);
             this.GB_Detectors.TabIndex = 0;
@@ -6458,7 +6465,7 @@
             this.groupBox36.Dock = System.Windows.Forms.DockStyle.Right;
             this.groupBox36.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.groupBox36.ForeColor = System.Drawing.Color.White;
-            this.groupBox36.Location = new System.Drawing.Point(1182, 0);
+            this.groupBox36.Location = new System.Drawing.Point(1004, 0);
             this.groupBox36.Name = "groupBox36";
             this.groupBox36.Size = new System.Drawing.Size(382, 215);
             this.groupBox36.TabIndex = 35;
@@ -6785,12 +6792,11 @@
             // 
             // TerminalTimerReceiver
             // 
-            this.TerminalTimerReceiver.Interval = 25;
             this.TerminalTimerReceiver.Tick += new System.EventHandler(this.TerminalTimerReceiver_Tick);
             // 
             // timer1
             // 
-            this.timer1.Interval = 10;
+            this.timer1.Interval = 20;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // blink_timer
@@ -7857,11 +7863,11 @@
             this.leftpanel.Controls.Add(this.groupBox_focus);
             this.leftpanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.leftpanel.ForeColor = System.Drawing.Color.White;
-            this.leftpanel.Location = new System.Drawing.Point(1142, 59);
+            this.leftpanel.Location = new System.Drawing.Point(964, 59);
             this.leftpanel.Margin = new System.Windows.Forms.Padding(1);
             this.leftpanel.Name = "leftpanel";
             this.leftpanel.Padding = new System.Windows.Forms.Padding(3);
-            this.leftpanel.Size = new System.Drawing.Size(422, 826);
+            this.leftpanel.Size = new System.Drawing.Size(422, 514);
             this.leftpanel.TabIndex = 4;
             this.leftpanel.Paint += new System.Windows.Forms.PaintEventHandler(this.leftpanel_Paint);
             // 
@@ -7879,7 +7885,7 @@
             this.flowLayoutPanel1.Location = new System.Drawing.Point(353, 3);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(66, 820);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(66, 508);
             this.flowLayoutPanel1.TabIndex = 72;
             // 
             // button24
@@ -8244,6 +8250,7 @@
             // 
             // groupBox_zoom
             // 
+            this.groupBox_zoom.Controls.Add(this.label_I_scan);
             this.groupBox_zoom.Controls.Add(this.label94);
             this.groupBox_zoom.Controls.Add(this.label93);
             this.groupBox_zoom.Controls.Add(this.numericVF);
@@ -8259,6 +8266,15 @@
             this.groupBox_zoom.TabStop = false;
             this.groupBox_zoom.Text = "Zoom";
             this.groupBox_zoom.BackColorChanged += new System.EventHandler(this.groupBox_zoom_BackColorChanged);
+            // 
+            // label_I_scan
+            // 
+            this.label_I_scan.AutoSize = true;
+            this.label_I_scan.Location = new System.Drawing.Point(49, 18);
+            this.label_I_scan.Name = "label_I_scan";
+            this.label_I_scan.Size = new System.Drawing.Size(33, 13);
+            this.label_I_scan.TabIndex = 95;
+            this.label_I_scan.Text = "0.0 %";
             // 
             // label94
             // 
@@ -8566,6 +8582,8 @@
             // Buttons
             // 
             this.Buttons.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(63)))), ((int)(((byte)(91)))));
+            this.Buttons.Controls.Add(this.label_tcp_error);
+            this.Buttons.Controls.Add(this.label_lens_ok_error);
             this.Buttons.Controls.Add(this.MicroscopyMode);
             this.Buttons.Controls.Add(this.label115);
             this.Buttons.Controls.Add(this.HVProfile);
@@ -8581,8 +8599,29 @@
             this.Buttons.Location = new System.Drawing.Point(0, 32);
             this.Buttons.Margin = new System.Windows.Forms.Padding(2);
             this.Buttons.Name = "Buttons";
-            this.Buttons.Size = new System.Drawing.Size(1564, 27);
+            this.Buttons.Size = new System.Drawing.Size(1386, 27);
             this.Buttons.TabIndex = 59;
+            // 
+            // label_tcp_error
+            // 
+            this.label_tcp_error.AutoSize = true;
+            this.label_tcp_error.ForeColor = System.Drawing.Color.Red;
+            this.label_tcp_error.Location = new System.Drawing.Point(1278, 8);
+            this.label_tcp_error.Name = "label_tcp_error";
+            this.label_tcp_error.Size = new System.Drawing.Size(13, 13);
+            this.label_tcp_error.TabIndex = 69;
+            this.label_tcp_error.Text = "0";
+            // 
+            // label_lens_ok_error
+            // 
+            this.label_lens_ok_error.AutoSize = true;
+            this.label_lens_ok_error.ForeColor = System.Drawing.Color.Red;
+            this.label_lens_ok_error.Location = new System.Drawing.Point(1132, 8);
+            this.label_lens_ok_error.Name = "label_lens_ok_error";
+            this.label_lens_ok_error.Size = new System.Drawing.Size(13, 13);
+            this.label_lens_ok_error.TabIndex = 67;
+            this.label_lens_ok_error.Text = "0";
+            this.label_lens_ok_error.Click += new System.EventHandler(this.label_lens_ok_error_Click);
             // 
             // MicroscopyMode
             // 
@@ -8592,9 +8631,9 @@
             "Resolution",
             "Wide-Field",
             "Field"});
-            this.MicroscopyMode.Location = new System.Drawing.Point(1070, 0);
+            this.MicroscopyMode.Location = new System.Drawing.Point(1044, 0);
             this.MicroscopyMode.Name = "MicroscopyMode";
-            this.MicroscopyMode.Size = new System.Drawing.Size(100, 21);
+            this.MicroscopyMode.Size = new System.Drawing.Size(84, 21);
             this.MicroscopyMode.TabIndex = 64;
             this.MicroscopyMode.SelectedIndexChanged += new System.EventHandler(this.MicroscopyMode_SelectedIndexChanged);
             // 
@@ -8603,7 +8642,7 @@
             this.label115.Dock = System.Windows.Forms.DockStyle.Left;
             this.label115.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.label115.ForeColor = System.Drawing.Color.White;
-            this.label115.Location = new System.Drawing.Point(1016, 0);
+            this.label115.Location = new System.Drawing.Point(990, 0);
             this.label115.Name = "label115";
             this.label115.Size = new System.Drawing.Size(54, 27);
             this.label115.TabIndex = 63;
@@ -8620,7 +8659,7 @@
             "HV3"});
             this.HVProfile.Location = new System.Drawing.Point(916, 0);
             this.HVProfile.Name = "HVProfile";
-            this.HVProfile.Size = new System.Drawing.Size(100, 21);
+            this.HVProfile.Size = new System.Drawing.Size(74, 21);
             this.HVProfile.TabIndex = 62;
             this.HVProfile.SelectedIndexChanged += new System.EventHandler(this.HVProfile_SelectedIndexChanged);
             // 
@@ -8705,7 +8744,7 @@
             this.Border.Location = new System.Drawing.Point(0, 0);
             this.Border.Margin = new System.Windows.Forms.Padding(2);
             this.Border.Name = "Border";
-            this.Border.Size = new System.Drawing.Size(1564, 32);
+            this.Border.Size = new System.Drawing.Size(1386, 32);
             this.Border.TabIndex = 7;
             this.Border.TabStop = false;
             this.Border.Click += new System.EventHandler(this.ToolsPicture_Click);
@@ -8722,9 +8761,9 @@
             this.panel2.Controls.Add(this.GB_Detectors);
             this.panel2.Controls.Add(this.groupBox36);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 885);
+            this.panel2.Location = new System.Drawing.Point(0, 573);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1564, 215);
+            this.panel2.Size = new System.Drawing.Size(1386, 215);
             this.panel2.TabIndex = 60;
             // 
             // buttompanel
@@ -8736,7 +8775,7 @@
             this.buttompanel.Location = new System.Drawing.Point(0, 59);
             this.buttompanel.Margin = new System.Windows.Forms.Padding(0);
             this.buttompanel.Name = "buttompanel";
-            this.buttompanel.Size = new System.Drawing.Size(385, 826);
+            this.buttompanel.Size = new System.Drawing.Size(385, 514);
             this.buttompanel.TabIndex = 6;
             this.buttompanel.Paint += new System.Windows.Forms.PaintEventHandler(this.buttompanel_Paint);
             // 
@@ -8761,6 +8800,15 @@
             this.openFileDialog_Images.Filter = "JPEG (*.jpg)|*.jpg|PNG files (*.png)|*.png";
             this.openFileDialog_Images.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_Images_FileOk);
             // 
+            // TCP_Connection_Listener
+            // 
+            this.TCP_Connection_Listener.Tick += new System.EventHandler(this.TCP_Connection_Listener_Tick);
+            // 
+            // timeout_timer
+            // 
+            this.timeout_timer.Interval = 1;
+            this.timeout_timer.Tick += new System.EventHandler(this.timeout_timer_Tick);
+            // 
             // userControl1BindingSource1
             // 
             this.userControl1BindingSource1.DataSource = typeof(HelloWorld.UserControl1);
@@ -8776,15 +8824,11 @@
             // 
             this.bindingSource1.DataSource = typeof(HelloWorld.Form1);
             // 
-            // TCP_Connection_Listener
-            // 
-            this.TCP_Connection_Listener.Tick += new System.EventHandler(this.TCP_Connection_Listener_Tick);
-            // 
             // FormMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.Menu;
-            this.ClientSize = new System.Drawing.Size(1564, 1100);
+            this.ClientSize = new System.Drawing.Size(1386, 788);
             this.ControlBox = false;
             this.Controls.Add(this.TabControl_Main);
             this.Controls.Add(this.leftpanel);
@@ -8794,6 +8838,7 @@
             this.Controls.Add(this.Border);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.IsMdiContainer = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormMain";
@@ -9097,6 +9142,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.FocusLight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dCtrl1D_Focus)).EndInit();
             this.Buttons.ResumeLayout(false);
+            this.Buttons.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tcp_status_light)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Border)).EndInit();
             this.panel2.ResumeLayout(false);
@@ -9673,5 +9719,9 @@
         private System.Windows.Forms.Timer TCP_Connection_Listener;
         private System.Windows.Forms.PictureBox tcp_status_light;
         private System.Windows.Forms.Label label_I_OBJ;
+        private System.Windows.Forms.Label label_I_scan;
+        private System.Windows.Forms.Timer timeout_timer;
+        private System.Windows.Forms.Label label_tcp_error;
+        private System.Windows.Forms.Label label_lens_ok_error;
     }
 }
