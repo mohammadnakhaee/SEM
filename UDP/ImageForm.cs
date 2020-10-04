@@ -11,6 +11,7 @@ using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using System.Net.Sockets;
 using System.Net;
+using System.Drawing.Drawing2D;
 
 namespace HelloWorld
 {
@@ -64,7 +65,7 @@ namespace HelloWorld
         double FPS = 0;
         Int16 old_row = 32000, row = 0, row_ready = 0;
         UInt16 image_size = 512;
-        UInt16 multiply = 1, changed_multiply = 0, multiply_count = 0, line_ready = 0;
+        public  UInt16 multiply = 1, changed_multiply = 0, multiply_count = 0, line_ready = 0;
         UInt16 sum = 0;
         int package_number = 0;
         public byte[] receivedData = new byte[512 * 512 * 128];
@@ -110,6 +111,8 @@ namespace HelloWorld
 
         
         bool isUDPConnected = false;
+        public IList<DrawObject> drawObj = new List<DrawObject>();
+        
 
         public ImageForm()
         {
@@ -146,6 +149,7 @@ namespace HelloWorld
             ViewPort.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ViewPort_MouseUp);
             ViewPort.MouseClick+= new System.Windows.Forms.MouseEventHandler(this.ViewPort_MouseClick);
             ViewPort.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ViewPort_MouseDoubleClick);
+            ViewPort.Paint += new PaintEventHandler(this.ViewPort_paint);
 
             points = new Point[4];
             points[0].X = 0; points[0].Y = 513; points[1].X = 512; points[1].Y = 513;
@@ -167,6 +171,7 @@ namespace HelloWorld
             
             try
             {
+                EIP = new IPEndPoint(LocalHost, VideoPort);
                 socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                 socket.ReceiveTimeout = 200;
                 socket.Bind(EIP);
@@ -179,6 +184,7 @@ namespace HelloWorld
         }
         private void Play()
         {
+            
             isUDPConnected = true;
             socket.ReceiveBufferSize = (512 + 2) * 512;
             try
@@ -191,7 +197,10 @@ namespace HelloWorld
             }
             
             frame_refresh_timer.Start();
-            
+
+            object[] parms = new object[] { 1 };
+            Invoke(new _dactimer(((FormMain)(this.ownerform)).dactimer), parms);
+
         }
         public void RecieveComplete(IAsyncResult result)
         {
@@ -248,7 +257,7 @@ namespace HelloWorld
 
                 }
                 // watch.Reset(); watch.Start();// label26.Text= watch.ElapsedMilliseconds.ToString();
-                socket.BeginReceive(Packet, 0, 512 + 2, SocketFlags.None, new AsyncCallback(RecieveComplete), socket);
+                    socket.BeginReceive(Packet, 0, 512 + 2, SocketFlags.None, new AsyncCallback(RecieveComplete), socket);
             }
             catch (Exception Exception)
             {
@@ -260,14 +269,32 @@ namespace HelloWorld
         private void Stop()
         {
             
-            isUDPConnected = false;
-           // socket.
-
+            // dactimer(0);
+            try
+            {
+                object[] parms = new object[] { 0 };
+                Invoke(new _dactimer(((FormMain)(this.ownerform)).dactimer), parms);
+                // Array.Clear(receivedData, 2, 512);
+                System.Threading.Thread.Sleep(200);
+                isUDPConnected = false;
+               // Stop();
+                //socket.EndReceive(null);
+                //socket.Disconnect(true);
+               // 
+            }
+            catch
+            { }
+            
 
         }
+        public delegate bool _dactimer(int state);
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
+            //if (pic_edit == false) return;
+
+            //e.Graphics.DrawPath(Pens.Blue, drawObj.Last().gp);
+            //e.Graphics.RotateTransform((float)Math.Atan2(rec.Size.Height, rec.Size.Width));e.Graphics.DrawEllipse(Pens.Blue, rec);
             
             
         }
@@ -287,6 +314,17 @@ namespace HelloWorld
 
         private void ImageForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            Stop();
+            try
+            {
+                socket.Close();
+            }
+            catch
+            {
+
+
+            }
+
             if (isthisviewport) FormMain.isformmode = false;
         }
 
@@ -383,6 +421,14 @@ namespace HelloWorld
         int Filter_EdgeDetector_Linking = 60;
         bool Filter_Median = false;
         int Filter_Median_Size = 1;
+        private int Circle_clicked;
+        private bool pic_edit;
+        private int pic_edit_step;
+        private Point move_point;
+        private bool moving;
+        private bool Edit_mode;
+        private double viewfield;
+        private bool hided;
 
         private Image<Gray, Byte> SetFilter(Image<Gray, Byte> frame)
         {
@@ -619,6 +665,7 @@ namespace HelloWorld
             {
                 if (StartMove)
                 {
+                    //frame.Draw()
                     frame.DrawPolyline(SelectionRec, true, new Gray(255), 1);
                     frame.DrawPolyline(SelectionRec2, true, new Gray(1), 1);
                 }
@@ -646,10 +693,7 @@ namespace HelloWorld
             //  MessageBox.Show(p.X.ToString() + "   " + p.Y.ToString());
             ChangeWindow(0, 0, 512, 512);//(decimal)p.X, (decimal)p.Y);
         }
-        private void ViewPort_MouseClick(object sender, MouseEventArgs e)
-        {
-            
-        }
+        
         private void ViewPort_MouseDown(object sender, MouseEventArgs e)
             {
                 P1 = new Point((int)(e.X / Image_multiply), (int)(e.Y / Image_multiply));
@@ -662,8 +706,17 @@ namespace HelloWorld
         }
 
         private void ViewPort_MouseMove(object sender, MouseEventArgs e)
-            {
-                if (StartClick)
+        {
+            if (Edit_mode == true)
+            { 
+                if (moving == false) return;
+            move_point = new Point((int)(e.X / Image_multiply), (int)(e.Y / Image_multiply));
+            pic_edit_paint(drawObj.Last().ObjectType, move_point, pic_edit_step);
+
+            ViewPort.Invalidate();
+            }
+            else
+            if (StartClick)
                 {
                     P2 = new Point((int)(e.X / Image_multiply), (int)(e.Y / Image_multiply));
                     double adjustmentx = 1;
@@ -692,10 +745,66 @@ namespace HelloWorld
                 }
             }
 
-            private void ViewPort_MouseUp(object sender, MouseEventArgs e)
+        private void button1_Click(object sender, EventArgs e)
+        {
+            
+
+        }
+
+        private void panel1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (moving == false) return;
+            move_point = e.Location;
+            
+            //gp.tr
+            panel1.Invalidate();
+
+        }
+
+        private void panel1_MouseUp(object sender, MouseEventArgs e)
+        {
+            return;
+            if (pic_edit == true)
+            { 
+                drawObj.Last().points.Add(e.Location);
+                if (pic_edit_step-- == 0)
+                    pic_edit = false;
+            }
+        }
+
+        private void panel1_MouseDown(object sender, MouseEventArgs e)
+        {
+            return;
+            if (pic_edit == true)
+                drawObj.Last().points.Add(e.Location);
+        }
+
+        private void panel1_MouseClick(object sender, MouseEventArgs e)
+        {
+            return;
+            if (pic_edit == true)
+            {
+                drawObj.Last().points.Add(e.Location);
+                moving = true;
+                if (pic_edit_step-- == 0)
+                {
+                    pic_edit = false;
+                    moving = false;
+                }
+            }
+        }
+
+        private void panel1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void ViewPort_MouseUp(object sender, MouseEventArgs e)
             {
 
                 StartClick = false;
+            
+
                 if (StartMove && (SelectionRec[2].X > SelectionRec[0].X) && (SelectionRec[2].Y > SelectionRec[0].Y))
                 {
                     StartMove = false;
@@ -740,8 +849,63 @@ namespace HelloWorld
                     return false;
                 }
             }
+
+        private void checkBox_Measure_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_Measure.Checked)
+            {
+                if (isUDPConnected) button3_Click(this, null);
+                Edit_mode = true;
+                button_circle.Enabled = true;
+                button_distance.Enabled = true;
+            }
+            else
+            {
+                drawObj.Clear();
+                Edit_mode = false;
+                button_circle.Enabled = false;
+                button_distance.Enabled = false;
+            }
+        }
+
+        private void button_distance_Click(object sender, EventArgs e)
+        {
+
+            if (pic_edit == true) drawObj.RemoveAt(drawObj.Count - 1);
+            pic_edit = true;
+            pic_edit_step = 4;
+            DrawObject obj = new DrawObject("line");
+            drawObj.Add(obj);
+        }
+
+        private void button_circle_Click(object sender, EventArgs e)
+        {
+
+            if (pic_edit == true) drawObj.RemoveAt(drawObj.Count - 1);
+            pic_edit = true;
+            pic_edit_step = 4;
+            DrawObject obj = new DrawObject("circle");
+            drawObj.Add(obj);
+        }
+
+        private void panel1_DoubleClick(object sender, EventArgs e)
+        {
+            //if (splitContainer1.Panel2. == true)
+            //{ splitContainer1.Panel2.Enabled = false; }
+            //else
+            //{ splitContainer1.Panel2.Enabled = true; }
+            //splitContainer1.Panel2.Hide();
+        /*    if (hided == true)
+            { this.Size = panel1.Size + new Size(splitContainer1.Size.Width - splitContainer1.SplitterDistance, 35); hided = false; }
+            else
+            {
+                this.Size = panel1.Size + new Size(0, 35); ; hided = true;
+            }*/
+        }
+
         public void update_image_scale(double vf, double wd)
         {
+            viewfield = vf;
             double vf_log = Math.Log(vf / 3, 10);
             double vf_deci = Math.Pow(10, Math.Floor(vf_log));
             if (((vf / 3) / vf_deci) > 2)
@@ -758,7 +922,7 @@ namespace HelloWorld
             else
             scalelabel.Text = (vf_deci*1000).ToString() + "nm";
             scalebar.Width = (int)(panel1.Width / 3 * vf_deci / (vf / 3));
-            labelscalekx.Text = (100 / vf).ToString("0.0") + "kx";
+            labelscalekx.Text = (150 / vf).ToString("0.0") + "kx";
         }
 
         public delegate bool tcpcommand(string command);  // delegate
@@ -769,7 +933,158 @@ namespace HelloWorld
         {
             tcpavailable?.Invoke(command);
         }
-        
+        private void ViewPort_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (pic_edit == true)
+            {
+                Point p= new Point((int)(e.X / Image_multiply), (int)(e.Y / Image_multiply));
+                drawObj.Last().points.Add(p);
+                moving = true;
+                if (--pic_edit_step == 0)
+                {
+                    pic_edit = false;
+                    moving = false;
+                }
+            }
+        }
+        void ViewPort_paint(Object sender,PaintEventArgs e)
+        {
+            //e.Graphics.DrawLine(Pens.White, Point.Empty, move_point);
+            //if (pic_edit == false) return;
+            if(Edit_mode==true)
+            foreach (DrawObject obj in drawObj)
+            {
+                e.Graphics.DrawPath(Pens.White, obj.gp);
+                e.Graphics.DrawPath(Pens.LightGoldenrodYellow, obj.gp_Text);
+            }
+        }
+        void pic_edit_paint(String s,Point move_point,int pic_edit_step)
+        {
+            Matrix T = new Matrix();
+            Rectangle rec = Rectangle.Empty;
+            GraphicsPath gp = drawObj.Last().gp;
+            GraphicsPath gp_text = drawObj.Last().gp_Text;
+            double D1, D2;
+            float teta = 0;
+            if (s == "circle")
+            {
+                if (pic_edit_step == 3)
+                {
+                    rec.Location = drawObj.Last().points[0];
+                    rec.Height = 0;
+                    rec.Width = (int)Math.Sqrt(Math.Pow(move_point.X - drawObj.Last().points[0].X, 2) + Math.Pow(move_point.Y - drawObj.Last().points[0].Y, 2));
+                    teta = (float)(Math.Atan2(move_point.Y - drawObj.Last().points[0].Y, move_point.X - drawObj.Last().points[0].X) * 180 / Math.PI);
+                    T.RotateAt(teta, drawObj.Last().points[0]);
+                    gp.Reset();
+                    gp.AddEllipse(rec);
+                    gp.Transform(T);
 
+                }
+                else if (pic_edit_step == 2)
+                {
+                    rec.X = drawObj.Last().points[0].X;
+                    
+                    rec.Width = (int)Math.Sqrt(Math.Pow(drawObj.Last().points[1].X - drawObj.Last().points[0].X, 2) + Math.Pow(drawObj.Last().points[1].Y - drawObj.Last().points[0].Y, 2));
+                    teta = (float)(Math.Atan2(drawObj.Last().points[1].Y - drawObj.Last().points[0].Y, drawObj.Last().points[1].X - drawObj.Last().points[0].X) * 180 / Math.PI);
+                    double rteta = (Math.Atan2(move_point.Y - drawObj.Last().points[1].Y, move_point.X - drawObj.Last().points[1].X) * 180 / Math.PI);
+                    rec.Height = 2 * (int)((Math.Sqrt(Math.Pow(drawObj.Last().points[1].X - move_point.X, 2) + Math.Pow(drawObj.Last().points[1].Y - move_point.Y, 2))) * Math.Sin((rteta - teta) / 180 * Math.PI));
+                    rec.Y = drawObj.Last().points[0].Y - rec.Height / 2 ;
+                    //rec.Height = -drawObj.Last().points[1].Y + move_point.Y;
+                    //rec.Width = (int)Math.Sqrt(Math.Pow(drawObj.Last().points[1].X - drawObj.Last().points[0].X, 2) + Math.Pow(drawObj.Last().points[1].Y - drawObj.Last().points[0].Y, 2));
+                    //teta = (float)(Math.Atan2(drawObj.Last().points[1].Y - drawObj.Last().points[0].Y, drawObj.Last().points[1].X - drawObj.Last().points[0].X) * 180 / Math.PI);
+                    T.RotateAt(teta, drawObj.Last().points[0]);
+                    gp.Reset();
+                    gp.AddEllipse(rec);
+                    gp.Transform(T);
+                }
+                else if (pic_edit_step == 1)
+                {
+                    teta = (float)(Math.Atan2(drawObj.Last().points[1].Y - drawObj.Last().points[0].Y, drawObj.Last().points[1].X - drawObj.Last().points[0].X) * 180 / Math.PI);
+                    double rteta = (Math.Atan2(drawObj.Last().points[2].Y - drawObj.Last().points[1].Y, drawObj.Last().points[2].X - drawObj.Last().points[1].X) * 180 / Math.PI);
+                    // rec.Height = (int)((Math.Sqrt(Math.Pow(drawObj.Last().points[1].X - move_point.X, 2) + Math.Pow(drawObj.Last().points[1].Y - move_point.Y, 2))) * Math.Sin((rteta - teta) / 180 * Math.PI));
+                    D2 = 2 * Math.Sin((rteta - teta) / 180 * Math.PI) * Math.Sqrt(Math.Pow(drawObj.Last().points[2].X - drawObj.Last().points[1].X, 2) + Math.Pow(drawObj.Last().points[2].Y - drawObj.Last().points[1].Y, 2));
+
+                    D1 = Math.Sqrt(Math.Pow(drawObj.Last().points[1].X - drawObj.Last().points[0].X, 2) + Math.Pow(drawObj.Last().points[1].Y - drawObj.Last().points[0].Y, 2));
+                    //D2 = Math.Sqrt(Math.Pow(drawObj.Last().points[2].X - drawObj.Last().points[2].X, 2) + Math.Pow(drawObj.Last().points[2].Y - drawObj.Last().points[1].Y, 2));
+                    D1 = viewfield * D1 / image_size;
+                    D2 = viewfield * D2 / image_size;
+                    if (D1 < 1)
+                        drawObj.Last().Text = "D1:" + (D1 * 1000).ToString("0.0") + "nm|";
+                    else
+                        drawObj.Last().Text = "D1:" + (D1).ToString("0.0") + "um|";
+                    if (D2 < 1)
+                        drawObj.Last().Text += "D2:" + (D2* 1000).ToString("0.0") + "nm";
+                    else
+                        drawObj.Last().Text += "D2:" + (D2).ToString("0.0") + "um";
+                    gp_text.Reset();
+                    gp_text.AddString(drawObj.Last().Text, FontFamily.GenericMonospace, (int)FontStyle.Regular, 12, move_point, StringFormat.GenericDefault);
+
+                }
+            }
+            else if(s == "line")
+            {
+                if (pic_edit_step == 3)
+                {
+                    
+                    gp.Reset();
+                    gp.AddLine(drawObj.Last().points[0], move_point);
+                   // gp.Transform(T);
+
+                }
+                else if (pic_edit_step == 2)
+                {
+                    rec.X = drawObj.Last().points[0].X;
+                    rec.Y = drawObj.Last().points[0].Y;
+                    //rec.Height = drawObj.Last().points[1].Y - move_point.Y;
+                    rec.Width = (int)Math.Sqrt(Math.Pow(drawObj.Last().points[1].X - drawObj.Last().points[0].X, 2) + Math.Pow(drawObj.Last().points[1].Y - drawObj.Last().points[0].Y, 2));
+                    teta = (float)(Math.Atan2(drawObj.Last().points[1].Y - drawObj.Last().points[0].Y, drawObj.Last().points[1].X - drawObj.Last().points[0].X) * 180 / Math.PI);
+                    double rteta = (Math.Atan2(move_point.Y - drawObj.Last().points[1].Y, move_point.X - drawObj.Last().points[1].X) * 180 / Math.PI);
+                    rec.Height=(int)((Math.Sqrt(Math.Pow(drawObj.Last().points[1].X - move_point.X, 2) + Math.Pow(drawObj.Last().points[1].Y - move_point.Y, 2)))*Math.Sin((rteta-teta) / 180 * Math.PI));
+                    T.RotateAt(teta, drawObj.Last().points[0]);
+                    gp.Reset();
+                    gp.AddLine(rec.X,rec.Y,rec.X+rec.Width,rec.Y);
+                    gp.AddLine(rec.X + rec.Width, rec.Y, rec.X+rec.Width, rec.Y + rec.Height);
+                    gp.AddLine(rec.X + rec.Width, rec.Y + rec.Height , rec.X , rec.Y + rec.Height );
+                    gp.Transform(T);
+                }
+                else if (pic_edit_step == 1)
+                {
+                    teta = (float)(Math.Atan2(drawObj.Last().points[1].Y - drawObj.Last().points[0].Y, drawObj.Last().points[1].X - drawObj.Last().points[0].X) * 180 / Math.PI);
+                    double rteta = (Math.Atan2(drawObj.Last().points[2].Y - drawObj.Last().points[1].Y, drawObj.Last().points[2].X - drawObj.Last().points[1].X) * 180 / Math.PI);
+                   // rec.Height = (int)((Math.Sqrt(Math.Pow(drawObj.Last().points[1].X - move_point.X, 2) + Math.Pow(drawObj.Last().points[1].Y - move_point.Y, 2))) * Math.Sin((rteta - teta) / 180 * Math.PI));
+                    D1 = Math.Sin((rteta - teta) / 180 * Math.PI) * Math.Sqrt(Math.Pow(drawObj.Last().points[2].X - drawObj.Last().points[1].X, 2) + Math.Pow(drawObj.Last().points[2].Y - drawObj.Last().points[1].Y, 2));
+                    D1 = viewfield * D1 / image_size;
+                    if (D1 < 1)
+                        drawObj.Last().Text = "D:" + (D1 * 1000).ToString("0.0") + " nm";
+                    else
+                        drawObj.Last().Text = "D:" + (D1).ToString("0.0") + " um";
+                    
+                    T.RotateAt((teta<0 ? teta : teta+180) + 90 , move_point);
+                    gp_text.Reset();
+                    gp_text.AddString(drawObj.Last().Text, FontFamily.GenericMonospace, (int)FontStyle.Regular, 12, move_point, StringFormat.GenericDefault);
+                    gp_text.Transform(T);
+
+                }
+            }
+
+
+
+        }
+
+    }
+    public class DrawObject:Object
+    {
+        public IList<Point> points = new List<Point>();
+        
+        public string Text { get;  set; }
+        public string ObjectType { get;  set; }
+        public GraphicsPath gp = new GraphicsPath();
+        public GraphicsPath gp_Text = new GraphicsPath();
+        public DrawObject(String s)
+        {
+            ObjectType = s;
+        }
+
+        
     }
 }

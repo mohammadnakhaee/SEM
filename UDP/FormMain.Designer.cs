@@ -401,6 +401,10 @@
             this.Tools_image = new System.Windows.Forms.PictureBox();
             this.label8 = new System.Windows.Forms.Label();
             this.GB_Detectors = new System.Windows.Forms.GroupBox();
+            this.button_se_init = new System.Windows.Forms.Button();
+            this.button_hv_init = new System.Windows.Forms.Button();
+            this.button_lens_init = new System.Windows.Forms.Button();
+            this.button_main_init = new System.Windows.Forms.Button();
             this.numericUpDown13 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown14 = new System.Windows.Forms.NumericUpDown();
             this.label132 = new System.Windows.Forms.Label();
@@ -409,6 +413,7 @@
             this.label113 = new System.Windows.Forms.Label();
             this.label104 = new System.Windows.Forms.Label();
             this.trackBar_wob = new System.Windows.Forms.TrackBar();
+            this.label92 = new System.Windows.Forms.Label();
             this.button19 = new System.Windows.Forms.Button();
             this.label103 = new System.Windows.Forms.Label();
             this.numeric_PCF = new System.Windows.Forms.NumericUpDown();
@@ -439,11 +444,11 @@
             this.label106 = new System.Windows.Forms.Label();
             this.progressBar_HV = new System.Windows.Forms.ProgressBar();
             this.label107 = new System.Windows.Forms.Label();
-            this.buttonFB = new System.Windows.Forms.Button();
             this.numericFilament = new System.Windows.Forms.NumericUpDown();
-            this.button_VAC = new System.Windows.Forms.Button();
-            this.numericHV = new System.Windows.Forms.NumericUpDown();
+            this.buttonFB = new System.Windows.Forms.Button();
             this.buttonHV = new System.Windows.Forms.Button();
+            this.numericHV = new System.Windows.Forms.NumericUpDown();
+            this.button_VAC = new System.Windows.Forms.Button();
             this.TerminalTimerReceiver = new System.Windows.Forms.Timer(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.blink_timer = new System.Windows.Forms.Timer(this.components);
@@ -453,16 +458,6 @@
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorker3 = new System.ComponentModel.BackgroundWorker();
-            this.button3 = new System.Windows.Forms.Button();
-            this.label52 = new System.Windows.Forms.Label();
-            this.UD_AcquireNumber = new System.Windows.Forms.NumericUpDown();
-            this.Btn_Acquire = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label_winsize = new System.Windows.Forms.Label();
-            this.label_rate = new System.Windows.Forms.Label();
-            this.labelscalekx = new System.Windows.Forms.Label();
-            this.scalebar = new System.Windows.Forms.PictureBox();
-            this.scalelabel = new System.Windows.Forms.Label();
             this.groupBox_gun = new System.Windows.Forms.GroupBox();
             this.label130 = new System.Windows.Forms.Label();
             this.num_guntilt_y = new System.Windows.Forms.NumericUpDown();
@@ -494,36 +489,6 @@
             this.dCtrl2D_IMLCentering = new System.Windows.Forms.TrackBar();
             this.Ctrl2D_IMLCentering = new HelloWorld.UserControl1();
             this.IMLCenteringLight = new System.Windows.Forms.PictureBox();
-            this.group1 = new System.Windows.Forms.Panel();
-            this.button_load = new System.Windows.Forms.Button();
-            this.checkBox6 = new System.Windows.Forms.CheckBox();
-            this.label136 = new System.Windows.Forms.Label();
-            this.trackBar9 = new System.Windows.Forms.TrackBar();
-            this.label137 = new System.Windows.Forms.Label();
-            this.trackBar10 = new System.Windows.Forms.TrackBar();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
-            this.label135 = new System.Windows.Forms.Label();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.trackBar8 = new System.Windows.Forms.TrackBar();
-            this.label134 = new System.Windows.Forms.Label();
-            this.trackBar7 = new System.Windows.Forms.TrackBar();
-            this.CheckBox_EqualizeHist = new System.Windows.Forms.CheckBox();
-            this.label133 = new System.Windows.Forms.Label();
-            this.CheckBox_FLIP_VERTICAL = new System.Windows.Forms.CheckBox();
-            this.trackBar6 = new System.Windows.Forms.TrackBar();
-            this.CheckBox_FLIP_HORIZONTAL = new System.Windows.Forms.CheckBox();
-            this.label119 = new System.Windows.Forms.Label();
-            this.Filter_Contrast = new System.Windows.Forms.TrackBar();
-            this.label118 = new System.Windows.Forms.Label();
-            this.Filter_Brightness = new System.Windows.Forms.TrackBar();
-            this.button23 = new System.Windows.Forms.Button();
-            this.label117 = new System.Windows.Forms.Label();
-            this.label116 = new System.Windows.Forms.Label();
-            this.button_save = new System.Windows.Forms.Button();
-            this.numericUpDown_imagepercent = new System.Windows.Forms.NumericUpDown();
-            this.ImageSize = new System.Windows.Forms.NumericUpDown();
-            this.label92 = new System.Windows.Forms.Label();
-            this.trackBar11 = new System.Windows.Forms.TrackBar();
             this.leftpanel = new System.Windows.Forms.Panel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.button24 = new System.Windows.Forms.Button();
@@ -585,7 +550,7 @@
             this.tcp_status_light = new System.Windows.Forms.PictureBox();
             this.Border = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.buttompanel = new System.Windows.Forms.Panel();
+            this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.AnimationTimer = new System.Windows.Forms.Timer(this.components);
             this.TimerHVUpdater = new System.Windows.Forms.Timer(this.components);
             this.TimerFBUpdater = new System.Windows.Forms.Timer(this.components);
@@ -776,9 +741,6 @@
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericFilament)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericHV)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UD_AcquireNumber)).BeginInit();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.scalebar)).BeginInit();
             this.groupBox_gun.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_guntilt_y)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_guntilt_x)).BeginInit();
@@ -798,17 +760,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_iml_x)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dCtrl2D_IMLCentering)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.IMLCenteringLight)).BeginInit();
-            this.group1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar9)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar10)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar8)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Filter_Contrast)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Filter_Brightness)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_imagepercent)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ImageSize)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar11)).BeginInit();
             this.leftpanel.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.groupBox_stig.SuspendLayout();
@@ -837,7 +788,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.tcp_status_light)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Border)).BeginInit();
             this.panel2.SuspendLayout();
-            this.buttompanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.userControl1BindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.userControl1BindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
@@ -939,12 +890,12 @@
             this.TabControl_Main.Controls.Add(this.tabPage5);
             this.TabControl_Main.Controls.Add(this.tabPage3);
             this.TabControl_Main.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TabControl_Main.Location = new System.Drawing.Point(385, 59);
+            this.TabControl_Main.Location = new System.Drawing.Point(0, 59);
             this.TabControl_Main.Multiline = true;
             this.TabControl_Main.Name = "TabControl_Main";
             this.TabControl_Main.SelectedIndex = 0;
             this.TabControl_Main.ShowToolTips = true;
-            this.TabControl_Main.Size = new System.Drawing.Size(579, 514);
+            this.TabControl_Main.Size = new System.Drawing.Size(964, 557);
             this.TabControl_Main.TabIndex = 0;
             this.TabControl_Main.Visible = false;
             // 
@@ -963,7 +914,7 @@
             this.tabPage2.Location = new System.Drawing.Point(23, 4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(552, 506);
+            this.tabPage2.Size = new System.Drawing.Size(937, 549);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Connections";
             // 
@@ -1002,7 +953,7 @@
             this.panel15.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel15.Location = new System.Drawing.Point(3, 42);
             this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(529, 3);
+            this.panel15.Size = new System.Drawing.Size(931, 3);
             this.panel15.TabIndex = 8;
             // 
             // groupBox3
@@ -1159,13 +1110,13 @@
             this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel6.Location = new System.Drawing.Point(3, 3);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(529, 39);
+            this.panel6.Size = new System.Drawing.Size(931, 39);
             this.panel6.TabIndex = 2;
             // 
             // Connection_image
             // 
             this.Connection_image.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Connection_image.Location = new System.Drawing.Point(279, 0);
+            this.Connection_image.Location = new System.Drawing.Point(681, 0);
             this.Connection_image.Name = "Connection_image";
             this.Connection_image.Size = new System.Drawing.Size(250, 39);
             this.Connection_image.TabIndex = 3;
@@ -1192,7 +1143,7 @@
             this.tabPage1.Location = new System.Drawing.Point(23, 4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(552, 506);
+            this.tabPage1.Size = new System.Drawing.Size(937, 549);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Terminal";
             // 
@@ -1201,10 +1152,10 @@
             this.History.BackColor = System.Drawing.SystemColors.ControlLight;
             this.History.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.History.FormattingEnabled = true;
-            this.History.Location = new System.Drawing.Point(3, 431);
+            this.History.Location = new System.Drawing.Point(3, 474);
             this.History.Margin = new System.Windows.Forms.Padding(0);
             this.History.Name = "History";
-            this.History.Size = new System.Drawing.Size(546, 17);
+            this.History.Size = new System.Drawing.Size(931, 17);
             this.History.TabIndex = 1;
             this.History.Click += new System.EventHandler(this.terminalHistory_Click);
             this.History.DoubleClick += new System.EventHandler(this.History_DoubleClick);
@@ -1221,7 +1172,7 @@
             this.TBOutput.Location = new System.Drawing.Point(3, 3);
             this.TBOutput.Name = "TBOutput";
             this.TBOutput.ReadOnly = true;
-            this.TBOutput.Size = new System.Drawing.Size(546, 445);
+            this.TBOutput.Size = new System.Drawing.Size(931, 488);
             this.TBOutput.TabIndex = 1;
             this.TBOutput.Text = "";
             // 
@@ -1236,9 +1187,9 @@
             this.panel5.Controls.Add(this.TBOrder);
             this.panel5.Controls.Add(this.label6);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel5.Location = new System.Drawing.Point(3, 448);
+            this.panel5.Location = new System.Drawing.Point(3, 491);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(546, 55);
+            this.panel5.Size = new System.Drawing.Size(931, 55);
             this.panel5.TabIndex = 0;
             // 
             // TBWaitTime
@@ -1306,7 +1257,7 @@
             this.TBOrder.Dock = System.Windows.Forms.DockStyle.Top;
             this.TBOrder.Location = new System.Drawing.Point(0, 0);
             this.TBOrder.Name = "TBOrder";
-            this.TBOrder.Size = new System.Drawing.Size(546, 20);
+            this.TBOrder.Size = new System.Drawing.Size(931, 20);
             this.TBOrder.TabIndex = 0;
             this.TBOrder.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TBOrder_KeyDown);
             // 
@@ -1328,7 +1279,7 @@
             this.tabPage4.Location = new System.Drawing.Point(23, 4);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(552, 506);
+            this.tabPage4.Size = new System.Drawing.Size(937, 549);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "User";
             // 
@@ -1338,7 +1289,7 @@
             this.panel13.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel13.Location = new System.Drawing.Point(3, 42);
             this.panel13.Name = "panel13";
-            this.panel13.Size = new System.Drawing.Size(546, 3);
+            this.panel13.Size = new System.Drawing.Size(931, 3);
             this.panel13.TabIndex = 9;
             // 
             // groupBox4
@@ -1414,13 +1365,13 @@
             this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel8.Location = new System.Drawing.Point(3, 3);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(546, 39);
+            this.panel8.Size = new System.Drawing.Size(931, 39);
             this.panel8.TabIndex = 4;
             // 
             // User_image
             // 
             this.User_image.Dock = System.Windows.Forms.DockStyle.Right;
-            this.User_image.Location = new System.Drawing.Point(296, 0);
+            this.User_image.Location = new System.Drawing.Point(681, 0);
             this.User_image.Name = "User_image";
             this.User_image.Size = new System.Drawing.Size(250, 39);
             this.User_image.TabIndex = 3;
@@ -1447,7 +1398,7 @@
             this.tabPage6.Location = new System.Drawing.Point(23, 4);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(552, 506);
+            this.tabPage6.Size = new System.Drawing.Size(937, 549);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Settings";
             // 
@@ -1459,7 +1410,7 @@
             this.panel16.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel16.Location = new System.Drawing.Point(3, 45);
             this.panel16.Name = "panel16";
-            this.panel16.Size = new System.Drawing.Size(546, 458);
+            this.panel16.Size = new System.Drawing.Size(931, 501);
             this.panel16.TabIndex = 8;
             // 
             // groupBox13
@@ -1677,7 +1628,7 @@
             this.panel11.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel11.Location = new System.Drawing.Point(3, 42);
             this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(546, 3);
+            this.panel11.Size = new System.Drawing.Size(931, 3);
             this.panel11.TabIndex = 7;
             // 
             // panel10
@@ -1688,13 +1639,13 @@
             this.panel10.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel10.Location = new System.Drawing.Point(3, 3);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(546, 39);
+            this.panel10.Size = new System.Drawing.Size(931, 39);
             this.panel10.TabIndex = 6;
             // 
             // Settings_image
             // 
             this.Settings_image.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Settings_image.Location = new System.Drawing.Point(296, 0);
+            this.Settings_image.Location = new System.Drawing.Point(681, 0);
             this.Settings_image.Name = "Settings_image";
             this.Settings_image.Size = new System.Drawing.Size(250, 39);
             this.Settings_image.TabIndex = 2;
@@ -1720,7 +1671,7 @@
             this.tabPage7.Location = new System.Drawing.Point(23, 4);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(552, 506);
+            this.tabPage7.Size = new System.Drawing.Size(937, 549);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "Render";
             // 
@@ -1730,7 +1681,7 @@
             this.panel19.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel19.Location = new System.Drawing.Point(3, 42);
             this.panel19.Name = "panel19";
-            this.panel19.Size = new System.Drawing.Size(546, 3);
+            this.panel19.Size = new System.Drawing.Size(931, 3);
             this.panel19.TabIndex = 10;
             // 
             // panel18
@@ -1741,13 +1692,13 @@
             this.panel18.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel18.Location = new System.Drawing.Point(3, 3);
             this.panel18.Name = "panel18";
-            this.panel18.Size = new System.Drawing.Size(546, 39);
+            this.panel18.Size = new System.Drawing.Size(931, 39);
             this.panel18.TabIndex = 5;
             // 
             // Render_image
             // 
             this.Render_image.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Render_image.Location = new System.Drawing.Point(296, 0);
+            this.Render_image.Location = new System.Drawing.Point(681, 0);
             this.Render_image.Name = "Render_image";
             this.Render_image.Size = new System.Drawing.Size(250, 39);
             this.Render_image.TabIndex = 4;
@@ -1775,7 +1726,7 @@
             this.tabPage5.Location = new System.Drawing.Point(23, 4);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(552, 506);
+            this.tabPage5.Size = new System.Drawing.Size(937, 549);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Help";
             // 
@@ -1785,7 +1736,7 @@
             this.panel12.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel12.Location = new System.Drawing.Point(3, 42);
             this.panel12.Name = "panel12";
-            this.panel12.Size = new System.Drawing.Size(546, 3);
+            this.panel12.Size = new System.Drawing.Size(931, 3);
             this.panel12.TabIndex = 8;
             // 
             // groupBox6
@@ -1834,13 +1785,13 @@
             this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel9.Location = new System.Drawing.Point(3, 3);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(546, 39);
+            this.panel9.Size = new System.Drawing.Size(931, 39);
             this.panel9.TabIndex = 5;
             // 
             // Help_image
             // 
             this.Help_image.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Help_image.Location = new System.Drawing.Point(296, 0);
+            this.Help_image.Location = new System.Drawing.Point(681, 0);
             this.Help_image.Name = "Help_image";
             this.Help_image.Size = new System.Drawing.Size(250, 39);
             this.Help_image.TabIndex = 3;
@@ -1868,7 +1819,7 @@
             this.tabPage3.Location = new System.Drawing.Point(23, 4);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(552, 506);
+            this.tabPage3.Size = new System.Drawing.Size(937, 549);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Tools";
             this.tabPage3.Click += new System.EventHandler(this.tabPage3_Click);
@@ -2774,7 +2725,6 @@
             // 
             // CB_ADG_Terminal
             // 
-            this.CB_ADG_Terminal.Enabled = false;
             this.CB_ADG_Terminal.FormattingEnabled = true;
             this.CB_ADG_Terminal.Items.AddRange(new object[] {
             "0",
@@ -2794,10 +2744,12 @@
             // RB_ADG
             // 
             this.RB_ADG.AutoSize = true;
+            this.RB_ADG.Checked = true;
             this.RB_ADG.Location = new System.Drawing.Point(12, 56);
             this.RB_ADG.Name = "RB_ADG";
             this.RB_ADG.Size = new System.Drawing.Size(48, 17);
             this.RB_ADG.TabIndex = 2;
+            this.RB_ADG.TabStop = true;
             this.RB_ADG.Text = "ADG";
             this.RB_ADG.UseVisualStyleBackColor = true;
             this.RB_ADG.CheckedChanged += new System.EventHandler(this.RB_ADG_CheckedChanged);
@@ -2825,12 +2777,10 @@
             // RB_Direct
             // 
             this.RB_Direct.AutoSize = true;
-            this.RB_Direct.Checked = true;
             this.RB_Direct.Location = new System.Drawing.Point(12, 33);
             this.RB_Direct.Name = "RB_Direct";
             this.RB_Direct.Size = new System.Drawing.Size(53, 17);
             this.RB_Direct.TabIndex = 0;
-            this.RB_Direct.TabStop = true;
             this.RB_Direct.Text = "Direct";
             this.RB_Direct.UseVisualStyleBackColor = true;
             this.RB_Direct.CheckedChanged += new System.EventHandler(this.RB_Direct_CheckedChanged);
@@ -6183,7 +6133,11 @@
             // 
             // GB_Detectors
             // 
-            this.GB_Detectors.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(105)))), ((int)(((byte)(128)))));
+            this.GB_Detectors.BackColor = System.Drawing.Color.Transparent;
+            this.GB_Detectors.Controls.Add(this.button_se_init);
+            this.GB_Detectors.Controls.Add(this.button_hv_init);
+            this.GB_Detectors.Controls.Add(this.button_lens_init);
+            this.GB_Detectors.Controls.Add(this.button_main_init);
             this.GB_Detectors.Controls.Add(this.numericUpDown13);
             this.GB_Detectors.Controls.Add(this.numericUpDown14);
             this.GB_Detectors.Controls.Add(this.label132);
@@ -6192,6 +6146,7 @@
             this.GB_Detectors.Controls.Add(this.label113);
             this.GB_Detectors.Controls.Add(this.label104);
             this.GB_Detectors.Controls.Add(this.trackBar_wob);
+            this.GB_Detectors.Controls.Add(this.label92);
             this.GB_Detectors.Controls.Add(this.button19);
             this.GB_Detectors.Controls.Add(this.label103);
             this.GB_Detectors.Controls.Add(this.numeric_PCF);
@@ -6202,12 +6157,52 @@
             this.GB_Detectors.Controls.Add(this.button_stage);
             this.GB_Detectors.Dock = System.Windows.Forms.DockStyle.Right;
             this.GB_Detectors.ForeColor = System.Drawing.Color.White;
-            this.GB_Detectors.Location = new System.Drawing.Point(634, 0);
+            this.GB_Detectors.Location = new System.Drawing.Point(471, 0);
             this.GB_Detectors.Name = "GB_Detectors";
-            this.GB_Detectors.Size = new System.Drawing.Size(370, 215);
+            this.GB_Detectors.Size = new System.Drawing.Size(493, 172);
             this.GB_Detectors.TabIndex = 0;
             this.GB_Detectors.TabStop = false;
             this.GB_Detectors.Text = "Detector";
+            // 
+            // button_se_init
+            // 
+            this.button_se_init.Location = new System.Drawing.Point(429, 146);
+            this.button_se_init.Name = "button_se_init";
+            this.button_se_init.Size = new System.Drawing.Size(30, 23);
+            this.button_se_init.TabIndex = 94;
+            this.button_se_init.Text = "SE";
+            this.button_se_init.UseVisualStyleBackColor = false;
+            this.button_se_init.Click += new System.EventHandler(this.button_se_init_Click);
+            // 
+            // button_hv_init
+            // 
+            this.button_hv_init.Location = new System.Drawing.Point(395, 146);
+            this.button_hv_init.Name = "button_hv_init";
+            this.button_hv_init.Size = new System.Drawing.Size(30, 23);
+            this.button_hv_init.TabIndex = 93;
+            this.button_hv_init.Text = "HV";
+            this.button_hv_init.UseVisualStyleBackColor = false;
+            // 
+            // button_lens_init
+            // 
+            this.button_lens_init.Location = new System.Drawing.Point(361, 146);
+            this.button_lens_init.Name = "button_lens_init";
+            this.button_lens_init.Size = new System.Drawing.Size(30, 23);
+            this.button_lens_init.TabIndex = 92;
+            this.button_lens_init.Text = "L";
+            this.button_lens_init.UseVisualStyleBackColor = false;
+            this.button_lens_init.Click += new System.EventHandler(this.button_lens_init_Click);
+            // 
+            // button_main_init
+            // 
+            this.button_main_init.ForeColor = System.Drawing.Color.White;
+            this.button_main_init.Location = new System.Drawing.Point(327, 146);
+            this.button_main_init.Name = "button_main_init";
+            this.button_main_init.Size = new System.Drawing.Size(30, 23);
+            this.button_main_init.TabIndex = 91;
+            this.button_main_init.Text = "M";
+            this.button_main_init.UseVisualStyleBackColor = false;
+            this.button_main_init.Click += new System.EventHandler(this.button_main_init_Click);
             // 
             // numericUpDown13
             // 
@@ -6296,7 +6291,7 @@
             // numeric_Speed
             // 
             this.numeric_Speed.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numeric_Speed.Location = new System.Drawing.Point(109, 124);
+            this.numeric_Speed.Location = new System.Drawing.Point(401, 113);
             this.numeric_Speed.Maximum = new decimal(new int[] {
             7,
             0,
@@ -6317,18 +6312,19 @@
             this.label113.AutoSize = true;
             this.label113.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label113.ForeColor = System.Drawing.Color.White;
-            this.label113.Location = new System.Drawing.Point(39, 126);
+            this.label113.Location = new System.Drawing.Point(323, 119);
             this.label113.Name = "label113";
             this.label113.Size = new System.Drawing.Size(60, 20);
             this.label113.TabIndex = 85;
             this.label113.Text = "Speed:";
+            this.label113.Click += new System.EventHandler(this.label113_Click);
             // 
             // label104
             // 
             this.label104.AutoSize = true;
             this.label104.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label104.ForeColor = System.Drawing.Color.White;
-            this.label104.Location = new System.Drawing.Point(19, 166);
+            this.label104.Location = new System.Drawing.Point(9, 119);
             this.label104.Name = "label104";
             this.label104.Size = new System.Drawing.Size(72, 20);
             this.label104.TabIndex = 84;
@@ -6336,13 +6332,32 @@
             // 
             // trackBar_wob
             // 
-            this.trackBar_wob.Location = new System.Drawing.Point(99, 166);
+            this.trackBar_wob.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(99)))), ((int)(((byte)(112)))), ((int)(((byte)(132)))));
+            this.trackBar_wob.Cursor = System.Windows.Forms.Cursors.NoMoveHoriz;
+            this.trackBar_wob.Location = new System.Drawing.Point(88, 119);
             this.trackBar_wob.Margin = new System.Windows.Forms.Padding(2);
             this.trackBar_wob.Maximum = 9;
             this.trackBar_wob.Name = "trackBar_wob";
             this.trackBar_wob.Size = new System.Drawing.Size(230, 45);
             this.trackBar_wob.TabIndex = 57;
             this.trackBar_wob.Scroll += new System.EventHandler(this.trackBar_wob_Scroll);
+            // 
+            // label92
+            // 
+            this.label92.AutoSize = true;
+            this.label92.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label92.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
+            this.label92.ForeColor = System.Drawing.Color.Moccasin;
+            this.label92.Location = new System.Drawing.Point(404, 85);
+            this.label92.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label92.Name = "label92";
+            this.label92.Size = new System.Drawing.Size(55, 15);
+            this.label92.TabIndex = 55;
+            this.label92.Text = "window";
+            this.label92.Click += new System.EventHandler(this.label92_Click);
+            this.label92.MouseDown += new System.Windows.Forms.MouseEventHandler(this.label92_MouseDown);
+            this.label92.MouseEnter += new System.EventHandler(this.label92_MouseEnter);
+            this.label92.MouseLeave += new System.EventHandler(this.label92_MouseLeave);
             // 
             // button19
             // 
@@ -6352,7 +6367,7 @@
             this.button19.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button19.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button19.ForeColor = System.Drawing.Color.Maroon;
-            this.button19.Location = new System.Drawing.Point(195, 121);
+            this.button19.Location = new System.Drawing.Point(367, 10);
             this.button19.Name = "button19";
             this.button19.Size = new System.Drawing.Size(119, 30);
             this.button19.TabIndex = 48;
@@ -6442,9 +6457,9 @@
             this.button_stage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
             this.button_stage.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button_stage.ForeColor = System.Drawing.Color.White;
-            this.button_stage.Location = new System.Drawing.Point(272, 52);
+            this.button_stage.Location = new System.Drawing.Point(367, 46);
             this.button_stage.Name = "button_stage";
-            this.button_stage.Size = new System.Drawing.Size(76, 50);
+            this.button_stage.Size = new System.Drawing.Size(119, 31);
             this.button_stage.TabIndex = 58;
             this.button_stage.Text = "Stage";
             this.button_stage.UseVisualStyleBackColor = false;
@@ -6452,22 +6467,22 @@
             // 
             // groupBox36
             // 
-            this.groupBox36.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(105)))), ((int)(((byte)(128)))));
+            this.groupBox36.BackColor = System.Drawing.Color.Transparent;
             this.groupBox36.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.groupBox36.Controls.Add(this.label108);
             this.groupBox36.Controls.Add(this.tableLayoutPanel1);
             this.groupBox36.Controls.Add(this.label107);
-            this.groupBox36.Controls.Add(this.buttonFB);
             this.groupBox36.Controls.Add(this.numericFilament);
-            this.groupBox36.Controls.Add(this.button_VAC);
-            this.groupBox36.Controls.Add(this.numericHV);
+            this.groupBox36.Controls.Add(this.buttonFB);
             this.groupBox36.Controls.Add(this.buttonHV);
+            this.groupBox36.Controls.Add(this.numericHV);
+            this.groupBox36.Controls.Add(this.button_VAC);
             this.groupBox36.Dock = System.Windows.Forms.DockStyle.Right;
             this.groupBox36.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.groupBox36.ForeColor = System.Drawing.Color.White;
-            this.groupBox36.Location = new System.Drawing.Point(1004, 0);
+            this.groupBox36.Location = new System.Drawing.Point(964, 0);
             this.groupBox36.Name = "groupBox36";
-            this.groupBox36.Size = new System.Drawing.Size(382, 215);
+            this.groupBox36.Size = new System.Drawing.Size(422, 172);
             this.groupBox36.TabIndex = 35;
             this.groupBox36.TabStop = false;
             this.groupBox36.Text = "Main";
@@ -6478,7 +6493,7 @@
             this.label108.AutoSize = true;
             this.label108.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label108.ForeColor = System.Drawing.Color.White;
-            this.label108.Location = new System.Drawing.Point(329, -28);
+            this.label108.Location = new System.Drawing.Point(349, -50);
             this.label108.Name = "label108";
             this.label108.Size = new System.Drawing.Size(32, 25);
             this.label108.TabIndex = 86;
@@ -6487,9 +6502,9 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 67.33669F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 47.4026F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.66331F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 52.5974F));
             this.tableLayoutPanel1.Controls.Add(this.label112, 2, 5);
             this.tableLayoutPanel1.Controls.Add(this.label111, 2, 4);
             this.tableLayoutPanel1.Controls.Add(this.label110, 2, 3);
@@ -6518,14 +6533,14 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(376, 119);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(416, 119);
             this.tableLayoutPanel1.TabIndex = 54;
             // 
             // label112
             // 
             this.label112.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label112.AutoSize = true;
-            this.label112.Location = new System.Drawing.Point(317, 100);
+            this.label112.Location = new System.Drawing.Point(325, 100);
             this.label112.Name = "label112";
             this.label112.Size = new System.Drawing.Size(45, 13);
             this.label112.TabIndex = 57;
@@ -6535,7 +6550,7 @@
             // 
             this.label111.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label111.AutoSize = true;
-            this.label111.Location = new System.Drawing.Point(317, 79);
+            this.label111.Location = new System.Drawing.Point(325, 79);
             this.label111.Name = "label111";
             this.label111.Size = new System.Drawing.Size(45, 13);
             this.label111.TabIndex = 56;
@@ -6545,7 +6560,7 @@
             // 
             this.label110.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label110.AutoSize = true;
-            this.label110.Location = new System.Drawing.Point(322, 60);
+            this.label110.Location = new System.Drawing.Point(330, 60);
             this.label110.Name = "label110";
             this.label110.Size = new System.Drawing.Size(35, 13);
             this.label110.TabIndex = 55;
@@ -6555,7 +6570,7 @@
             // 
             this.label109.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label109.AutoSize = true;
-            this.label109.Location = new System.Drawing.Point(318, 41);
+            this.label109.Location = new System.Drawing.Point(325, 41);
             this.label109.Name = "label109";
             this.label109.Size = new System.Drawing.Size(44, 13);
             this.label109.TabIndex = 54;
@@ -6564,7 +6579,7 @@
             // progressBar2
             // 
             this.progressBar2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.progressBar2.Location = new System.Drawing.Point(151, 103);
+            this.progressBar2.Location = new System.Drawing.Point(126, 103);
             this.progressBar2.Margin = new System.Windows.Forms.Padding(2);
             this.progressBar2.MarqueeAnimationSpeed = 500;
             this.progressBar2.Name = "progressBar2";
@@ -6576,7 +6591,7 @@
             // 
             this.label96.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label96.AutoSize = true;
-            this.label96.Location = new System.Drawing.Point(323, 22);
+            this.label96.Location = new System.Drawing.Point(331, 22);
             this.label96.Name = "label96";
             this.label96.Size = new System.Drawing.Size(33, 13);
             this.label96.TabIndex = 42;
@@ -6585,7 +6600,7 @@
             // progressBar1
             // 
             this.progressBar1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.progressBar1.Location = new System.Drawing.Point(151, 82);
+            this.progressBar1.Location = new System.Drawing.Point(126, 82);
             this.progressBar1.Margin = new System.Windows.Forms.Padding(2);
             this.progressBar1.MarqueeAnimationSpeed = 500;
             this.progressBar1.Name = "progressBar1";
@@ -6597,7 +6612,7 @@
             // 
             this.label98.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label98.AutoSize = true;
-            this.label98.Location = new System.Drawing.Point(317, 3);
+            this.label98.Location = new System.Drawing.Point(325, 3);
             this.label98.Name = "label98";
             this.label98.Size = new System.Drawing.Size(45, 13);
             this.label98.TabIndex = 40;
@@ -6607,7 +6622,7 @@
             // 
             this.label97.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label97.AutoSize = true;
-            this.label97.Location = new System.Drawing.Point(31, 41);
+            this.label97.Location = new System.Drawing.Point(19, 41);
             this.label97.Name = "label97";
             this.label97.Size = new System.Drawing.Size(85, 13);
             this.label97.TabIndex = 45;
@@ -6617,7 +6632,7 @@
             // 
             this.label99.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label99.AutoSize = true;
-            this.label99.Location = new System.Drawing.Point(57, 22);
+            this.label99.Location = new System.Drawing.Point(45, 22);
             this.label99.Name = "label99";
             this.label99.Size = new System.Drawing.Size(33, 13);
             this.label99.TabIndex = 38;
@@ -6627,7 +6642,7 @@
             // 
             this.label105.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label105.AutoSize = true;
-            this.label105.Location = new System.Drawing.Point(31, 79);
+            this.label105.Location = new System.Drawing.Point(18, 79);
             this.label105.Name = "label105";
             this.label105.Size = new System.Drawing.Size(86, 13);
             this.label105.TabIndex = 52;
@@ -6637,7 +6652,7 @@
             // 
             this.label100.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label100.AutoSize = true;
-            this.label100.Location = new System.Drawing.Point(38, 60);
+            this.label100.Location = new System.Drawing.Point(25, 60);
             this.label100.Name = "label100";
             this.label100.Size = new System.Drawing.Size(72, 13);
             this.label100.TabIndex = 46;
@@ -6646,7 +6661,7 @@
             // progressBar_EC
             // 
             this.progressBar_EC.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.progressBar_EC.Location = new System.Drawing.Point(151, 44);
+            this.progressBar_EC.Location = new System.Drawing.Point(126, 44);
             this.progressBar_EC.Margin = new System.Windows.Forms.Padding(2);
             this.progressBar_EC.MarqueeAnimationSpeed = 500;
             this.progressBar_EC.Name = "progressBar_EC";
@@ -6656,7 +6671,7 @@
             // progressBar_PC
             // 
             this.progressBar_PC.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.progressBar_PC.Location = new System.Drawing.Point(151, 63);
+            this.progressBar_PC.Location = new System.Drawing.Point(126, 63);
             this.progressBar_PC.Margin = new System.Windows.Forms.Padding(2);
             this.progressBar_PC.MarqueeAnimationSpeed = 500;
             this.progressBar_PC.Name = "progressBar_PC";
@@ -6668,7 +6683,7 @@
             // 
             this.label101.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label101.AutoSize = true;
-            this.label101.Location = new System.Drawing.Point(61, 3);
+            this.label101.Location = new System.Drawing.Point(49, 3);
             this.label101.Name = "label101";
             this.label101.Size = new System.Drawing.Size(25, 13);
             this.label101.TabIndex = 32;
@@ -6677,7 +6692,7 @@
             // progressBar_FB
             // 
             this.progressBar_FB.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.progressBar_FB.Location = new System.Drawing.Point(151, 25);
+            this.progressBar_FB.Location = new System.Drawing.Point(126, 25);
             this.progressBar_FB.Name = "progressBar_FB";
             this.progressBar_FB.Size = new System.Drawing.Size(150, 7);
             this.progressBar_FB.TabIndex = 48;
@@ -6686,7 +6701,7 @@
             // 
             this.label106.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label106.AutoSize = true;
-            this.label106.Location = new System.Drawing.Point(27, 100);
+            this.label106.Location = new System.Drawing.Point(15, 100);
             this.label106.Name = "label106";
             this.label106.Size = new System.Drawing.Size(93, 13);
             this.label106.TabIndex = 53;
@@ -6695,7 +6710,7 @@
             // progressBar_HV
             // 
             this.progressBar_HV.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.progressBar_HV.Location = new System.Drawing.Point(151, 6);
+            this.progressBar_HV.Location = new System.Drawing.Point(126, 6);
             this.progressBar_HV.Maximum = 30;
             this.progressBar_HV.Name = "progressBar_HV";
             this.progressBar_HV.Size = new System.Drawing.Size(150, 7);
@@ -6708,11 +6723,21 @@
             this.label107.AutoSize = true;
             this.label107.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label107.ForeColor = System.Drawing.Color.White;
-            this.label107.Location = new System.Drawing.Point(206, -28);
+            this.label107.Location = new System.Drawing.Point(226, -50);
             this.label107.Name = "label107";
             this.label107.Size = new System.Drawing.Size(42, 25);
             this.label107.TabIndex = 85;
             this.label107.Text = "KV";
+            // 
+            // numericFilament
+            // 
+            this.numericFilament.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericFilament.Location = new System.Drawing.Point(249, 138);
+            this.numericFilament.Name = "numericFilament";
+            this.numericFilament.Size = new System.Drawing.Size(59, 26);
+            this.numericFilament.TabIndex = 37;
+            this.numericFilament.Tag = "0";
+            this.numericFilament.ValueChanged += new System.EventHandler(this.numericUpDown13_ValueChanged);
             // 
             // buttonFB
             // 
@@ -6721,39 +6746,28 @@
             this.buttonFB.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(139)))), ((int)(((byte)(180)))));
             this.buttonFB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonFB.ForeColor = System.Drawing.Color.Maroon;
-            this.buttonFB.Location = new System.Drawing.Point(257, 138);
+            this.buttonFB.Location = new System.Drawing.Point(160, 135);
             this.buttonFB.Name = "buttonFB";
-            this.buttonFB.Size = new System.Drawing.Size(106, 33);
+            this.buttonFB.Size = new System.Drawing.Size(83, 33);
             this.buttonFB.TabIndex = 44;
             this.buttonFB.Text = "HEAT";
             this.buttonFB.UseVisualStyleBackColor = false;
             this.buttonFB.Click += new System.EventHandler(this.buttonFB_Click);
             // 
-            // numericFilament
+            // buttonHV
             // 
-            this.numericFilament.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericFilament.Location = new System.Drawing.Point(265, 175);
-            this.numericFilament.Name = "numericFilament";
-            this.numericFilament.Size = new System.Drawing.Size(59, 26);
-            this.numericFilament.TabIndex = 37;
-            this.numericFilament.Tag = "0";
-            this.numericFilament.ValueChanged += new System.EventHandler(this.numericUpDown13_ValueChanged);
-            // 
-            // button_VAC
-            // 
-            this.button_VAC.BackColor = System.Drawing.Color.Transparent;
-            this.button_VAC.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.button_VAC.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(139)))), ((int)(((byte)(180)))));
-            this.button_VAC.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_VAC.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_VAC.ForeColor = System.Drawing.Color.Maroon;
-            this.button_VAC.Location = new System.Drawing.Point(8, 139);
-            this.button_VAC.Name = "button_VAC";
-            this.button_VAC.Size = new System.Drawing.Size(130, 67);
-            this.button_VAC.TabIndex = 49;
-            this.button_VAC.Text = "START";
-            this.button_VAC.UseVisualStyleBackColor = false;
-            this.button_VAC.Click += new System.EventHandler(this.button_VAC_Click);
+            this.buttonHV.BackColor = System.Drawing.Color.Transparent;
+            this.buttonHV.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.buttonHV.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(139)))), ((int)(((byte)(180)))));
+            this.buttonHV.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonHV.ForeColor = System.Drawing.Color.Maroon;
+            this.buttonHV.Location = new System.Drawing.Point(1, 135);
+            this.buttonHV.Name = "buttonHV";
+            this.buttonHV.Size = new System.Drawing.Size(90, 33);
+            this.buttonHV.TabIndex = 43;
+            this.buttonHV.Text = "HV";
+            this.buttonHV.UseVisualStyleBackColor = false;
+            this.buttonHV.Click += new System.EventHandler(this.buttonHV_Click);
             // 
             // numericHV
             // 
@@ -6763,7 +6777,7 @@
             0,
             0,
             0});
-            this.numericHV.Location = new System.Drawing.Point(144, 175);
+            this.numericHV.Location = new System.Drawing.Point(96, 138);
             this.numericHV.Maximum = new decimal(new int[] {
             30,
             0,
@@ -6775,20 +6789,21 @@
             this.numericHV.Tag = "0";
             this.numericHV.ValueChanged += new System.EventHandler(this.numericHV_ValueChanged);
             // 
-            // buttonHV
+            // button_VAC
             // 
-            this.buttonHV.BackColor = System.Drawing.Color.Transparent;
-            this.buttonHV.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.buttonHV.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(139)))), ((int)(((byte)(180)))));
-            this.buttonHV.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonHV.ForeColor = System.Drawing.Color.Maroon;
-            this.buttonHV.Location = new System.Drawing.Point(143, 138);
-            this.buttonHV.Name = "buttonHV";
-            this.buttonHV.Size = new System.Drawing.Size(108, 33);
-            this.buttonHV.TabIndex = 43;
-            this.buttonHV.Text = "HV";
-            this.buttonHV.UseVisualStyleBackColor = false;
-            this.buttonHV.Click += new System.EventHandler(this.buttonHV_Click);
+            this.button_VAC.BackColor = System.Drawing.Color.Transparent;
+            this.button_VAC.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.button_VAC.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(139)))), ((int)(((byte)(180)))));
+            this.button_VAC.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_VAC.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_VAC.ForeColor = System.Drawing.Color.Maroon;
+            this.button_VAC.Location = new System.Drawing.Point(314, 135);
+            this.button_VAC.Name = "button_VAC";
+            this.button_VAC.Size = new System.Drawing.Size(102, 33);
+            this.button_VAC.TabIndex = 49;
+            this.button_VAC.Text = "START";
+            this.button_VAC.UseVisualStyleBackColor = false;
+            this.button_VAC.Click += new System.EventHandler(this.button_VAC_Click);
             // 
             // TerminalTimerReceiver
             // 
@@ -6830,146 +6845,6 @@
             // 
             this.backgroundWorker2.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker2_DoWork);
             this.backgroundWorker2.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker2_RunWorkerCompleted);
-            // 
-            // button3
-            // 
-            this.button3.BackColor = System.Drawing.Color.Transparent;
-            this.button3.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Lime;
-            this.button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(206, 56);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(86, 24);
-            this.button3.TabIndex = 54;
-            this.button3.Text = "Run time";
-            this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            this.button3.MouseEnter += new System.EventHandler(this.button3_MouseEnter);
-            this.button3.MouseLeave += new System.EventHandler(this.button3_MouseLeave);
-            // 
-            // label52
-            // 
-            this.label52.AutoSize = true;
-            this.label52.ForeColor = System.Drawing.Color.White;
-            this.label52.Location = new System.Drawing.Point(10, 65);
-            this.label52.Name = "label52";
-            this.label52.Size = new System.Drawing.Size(54, 13);
-            this.label52.TabIndex = 53;
-            this.label52.Text = "Itteration :";
-            // 
-            // UD_AcquireNumber
-            // 
-            this.UD_AcquireNumber.Location = new System.Drawing.Point(70, 58);
-            this.UD_AcquireNumber.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.UD_AcquireNumber.Name = "UD_AcquireNumber";
-            this.UD_AcquireNumber.Size = new System.Drawing.Size(42, 20);
-            this.UD_AcquireNumber.TabIndex = 47;
-            this.UD_AcquireNumber.Tag = "100";
-            this.UD_AcquireNumber.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // Btn_Acquire
-            // 
-            this.Btn_Acquire.BackColor = System.Drawing.Color.Transparent;
-            this.Btn_Acquire.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Lime;
-            this.Btn_Acquire.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
-            this.Btn_Acquire.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.Btn_Acquire.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.Btn_Acquire.ForeColor = System.Drawing.Color.White;
-            this.Btn_Acquire.Location = new System.Drawing.Point(124, 55);
-            this.Btn_Acquire.Name = "Btn_Acquire";
-            this.Btn_Acquire.Size = new System.Drawing.Size(79, 24);
-            this.Btn_Acquire.TabIndex = 1;
-            this.Btn_Acquire.Text = "Acquire";
-            this.Btn_Acquire.UseVisualStyleBackColor = false;
-            this.Btn_Acquire.Click += new System.EventHandler(this.Btn_Acquire_Click);
-            this.Btn_Acquire.MouseEnter += new System.EventHandler(this.Btn_Acquire_MouseEnter);
-            this.Btn_Acquire.MouseLeave += new System.EventHandler(this.Btn_Acquire_MouseLeave);
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.White;
-            this.panel1.Controls.Add(this.label_winsize);
-            this.panel1.Controls.Add(this.label_rate);
-            this.panel1.Controls.Add(this.labelscalekx);
-            this.panel1.Controls.Add(this.scalebar);
-            this.panel1.Controls.Add(this.scalelabel);
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(385, 445);
-            this.panel1.TabIndex = 3;
-            this.panel1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.panel1_Scroll);
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
-            // 
-            // label_winsize
-            // 
-            this.label_winsize.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.label_winsize.AutoSize = true;
-            this.label_winsize.Location = new System.Drawing.Point(262, 414);
-            this.label_winsize.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label_winsize.Name = "label_winsize";
-            this.label_winsize.Size = new System.Drawing.Size(46, 13);
-            this.label_winsize.TabIndex = 8;
-            this.label_winsize.Text = "window:";
-            // 
-            // label_rate
-            // 
-            this.label_rate.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.label_rate.AutoSize = true;
-            this.label_rate.Location = new System.Drawing.Point(263, 428);
-            this.label_rate.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label_rate.Name = "label_rate";
-            this.label_rate.Size = new System.Drawing.Size(28, 13);
-            this.label_rate.TabIndex = 7;
-            this.label_rate.Text = "rate:";
-            // 
-            // labelscalekx
-            // 
-            this.labelscalekx.AutoSize = true;
-            this.labelscalekx.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.labelscalekx.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelscalekx.Location = new System.Drawing.Point(0, 414);
-            this.labelscalekx.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelscalekx.Name = "labelscalekx";
-            this.labelscalekx.Size = new System.Drawing.Size(108, 31);
-            this.labelscalekx.TabIndex = 6;
-            this.labelscalekx.Text = "1000 kx";
-            this.labelscalekx.Click += new System.EventHandler(this.labelscalekx_Click);
-            // 
-            // scalebar
-            // 
-            this.scalebar.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.scalebar.Image = ((System.Drawing.Image)(resources.GetObject("scalebar.Image")));
-            this.scalebar.Location = new System.Drawing.Point(44, 414);
-            this.scalebar.Margin = new System.Windows.Forms.Padding(2);
-            this.scalebar.Name = "scalebar";
-            this.scalebar.Size = new System.Drawing.Size(150, 12);
-            this.scalebar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.scalebar.TabIndex = 4;
-            this.scalebar.TabStop = false;
-            this.scalebar.Click += new System.EventHandler(this.scalebar_Click);
-            // 
-            // scalelabel
-            // 
-            this.scalelabel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.scalelabel.AutoSize = true;
-            this.scalelabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.scalelabel.Location = new System.Drawing.Point(40, 428);
-            this.scalelabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.scalelabel.Name = "scalelabel";
-            this.scalelabel.Size = new System.Drawing.Size(43, 17);
-            this.scalelabel.TabIndex = 5;
-            this.scalelabel.Text = "1 um";
             // 
             // groupBox_gun
             // 
@@ -7423,433 +7298,6 @@
             this.IMLCenteringLight.TabIndex = 1;
             this.IMLCenteringLight.TabStop = false;
             // 
-            // group1
-            // 
-            this.group1.AutoScroll = true;
-            this.group1.AutoSize = true;
-            this.group1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(105)))), ((int)(((byte)(128)))));
-            this.group1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.group1.Controls.Add(this.button_load);
-            this.group1.Controls.Add(this.checkBox6);
-            this.group1.Controls.Add(this.label136);
-            this.group1.Controls.Add(this.trackBar9);
-            this.group1.Controls.Add(this.label137);
-            this.group1.Controls.Add(this.trackBar10);
-            this.group1.Controls.Add(this.checkBox5);
-            this.group1.Controls.Add(this.label135);
-            this.group1.Controls.Add(this.checkBox4);
-            this.group1.Controls.Add(this.trackBar8);
-            this.group1.Controls.Add(this.label134);
-            this.group1.Controls.Add(this.trackBar7);
-            this.group1.Controls.Add(this.CheckBox_EqualizeHist);
-            this.group1.Controls.Add(this.label133);
-            this.group1.Controls.Add(this.CheckBox_FLIP_VERTICAL);
-            this.group1.Controls.Add(this.trackBar6);
-            this.group1.Controls.Add(this.CheckBox_FLIP_HORIZONTAL);
-            this.group1.Controls.Add(this.label119);
-            this.group1.Controls.Add(this.Filter_Contrast);
-            this.group1.Controls.Add(this.label118);
-            this.group1.Controls.Add(this.Filter_Brightness);
-            this.group1.Controls.Add(this.button23);
-            this.group1.Controls.Add(this.label117);
-            this.group1.Controls.Add(this.label116);
-            this.group1.Controls.Add(this.button_save);
-            this.group1.Controls.Add(this.numericUpDown_imagepercent);
-            this.group1.Controls.Add(this.ImageSize);
-            this.group1.Controls.Add(this.label92);
-            this.group1.Controls.Add(this.button3);
-            this.group1.Controls.Add(this.label52);
-            this.group1.Controls.Add(this.Btn_Acquire);
-            this.group1.Controls.Add(this.UD_AcquireNumber);
-            this.group1.Controls.Add(this.trackBar11);
-            this.group1.Location = new System.Drawing.Point(0, 0);
-            this.group1.Margin = new System.Windows.Forms.Padding(0);
-            this.group1.Name = "group1";
-            this.group1.Size = new System.Drawing.Size(592, 215);
-            this.group1.TabIndex = 0;
-            this.group1.Paint += new System.Windows.Forms.PaintEventHandler(this.group1_Paint);
-            // 
-            // button_load
-            // 
-            this.button_load.BackColor = System.Drawing.Color.Transparent;
-            this.button_load.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Lime;
-            this.button_load.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
-            this.button_load.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button_load.ForeColor = System.Drawing.Color.White;
-            this.button_load.Location = new System.Drawing.Point(8, 30);
-            this.button_load.Name = "button_load";
-            this.button_load.Size = new System.Drawing.Size(88, 22);
-            this.button_load.TabIndex = 87;
-            this.button_load.Text = "Load";
-            this.button_load.UseVisualStyleBackColor = false;
-            this.button_load.Click += new System.EventHandler(this.button_load_Click);
-            // 
-            // checkBox6
-            // 
-            this.checkBox6.AutoSize = true;
-            this.checkBox6.ForeColor = System.Drawing.Color.White;
-            this.checkBox6.Location = new System.Drawing.Point(209, 89);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(100, 17);
-            this.checkBox6.TabIndex = 84;
-            this.checkBox6.Text = "Median Smooth";
-            this.checkBox6.UseVisualStyleBackColor = true;
-            this.checkBox6.CheckedChanged += new System.EventHandler(this.checkBox6_CheckedChanged);
-            // 
-            // label136
-            // 
-            this.label136.AutoSize = true;
-            this.label136.ForeColor = System.Drawing.Color.White;
-            this.label136.Location = new System.Drawing.Point(332, 183);
-            this.label136.Name = "label136";
-            this.label136.Size = new System.Drawing.Size(44, 13);
-            this.label136.TabIndex = 83;
-            this.label136.Text = "Linking:";
-            // 
-            // trackBar9
-            // 
-            this.trackBar9.Enabled = false;
-            this.trackBar9.Location = new System.Drawing.Point(306, 156);
-            this.trackBar9.Maximum = 100;
-            this.trackBar9.Name = "trackBar9";
-            this.trackBar9.Size = new System.Drawing.Size(97, 45);
-            this.trackBar9.TabIndex = 82;
-            this.trackBar9.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBar9.Value = 60;
-            this.trackBar9.Scroll += new System.EventHandler(this.trackBar9_Scroll);
-            // 
-            // label137
-            // 
-            this.label137.AutoSize = true;
-            this.label137.ForeColor = System.Drawing.Color.White;
-            this.label137.Location = new System.Drawing.Point(233, 183);
-            this.label137.Name = "label137";
-            this.label137.Size = new System.Drawing.Size(57, 13);
-            this.label137.TabIndex = 81;
-            this.label137.Text = "Threshold:";
-            // 
-            // trackBar10
-            // 
-            this.trackBar10.Enabled = false;
-            this.trackBar10.Location = new System.Drawing.Point(209, 156);
-            this.trackBar10.Maximum = 200;
-            this.trackBar10.Name = "trackBar10";
-            this.trackBar10.Size = new System.Drawing.Size(100, 45);
-            this.trackBar10.TabIndex = 80;
-            this.trackBar10.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBar10.Value = 100;
-            this.trackBar10.Scroll += new System.EventHandler(this.trackBar10_Scroll);
-            // 
-            // checkBox5
-            // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.ForeColor = System.Drawing.Color.White;
-            this.checkBox5.Location = new System.Drawing.Point(209, 137);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(56, 17);
-            this.checkBox5.TabIndex = 79;
-            this.checkBox5.Text = "Edges";
-            this.checkBox5.UseVisualStyleBackColor = true;
-            this.checkBox5.CheckedChanged += new System.EventHandler(this.checkBox5_CheckedChanged);
-            // 
-            // label135
-            // 
-            this.label135.AutoSize = true;
-            this.label135.ForeColor = System.Drawing.Color.White;
-            this.label135.Location = new System.Drawing.Point(-1, 158);
-            this.label135.Name = "label135";
-            this.label135.Size = new System.Drawing.Size(73, 13);
-            this.label135.TabIndex = 77;
-            this.label135.Text = "Space Sigma:";
-            // 
-            // checkBox4
-            // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.ForeColor = System.Drawing.Color.White;
-            this.checkBox4.Location = new System.Drawing.Point(8, 89);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(96, 17);
-            this.checkBox4.TabIndex = 78;
-            this.checkBox4.Text = "Bilatral Smooth";
-            this.checkBox4.UseVisualStyleBackColor = true;
-            this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
-            // 
-            // trackBar8
-            // 
-            this.trackBar8.Enabled = false;
-            this.trackBar8.Location = new System.Drawing.Point(70, 156);
-            this.trackBar8.Maximum = 200;
-            this.trackBar8.Minimum = 10;
-            this.trackBar8.Name = "trackBar8";
-            this.trackBar8.Size = new System.Drawing.Size(136, 45);
-            this.trackBar8.TabIndex = 76;
-            this.trackBar8.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBar8.Value = 50;
-            this.trackBar8.Scroll += new System.EventHandler(this.trackBar8_Scroll);
-            // 
-            // label134
-            // 
-            this.label134.AutoSize = true;
-            this.label134.ForeColor = System.Drawing.Color.White;
-            this.label134.Location = new System.Drawing.Point(6, 133);
-            this.label134.Name = "label134";
-            this.label134.Size = new System.Drawing.Size(66, 13);
-            this.label134.TabIndex = 75;
-            this.label134.Text = "Color Sigma:";
-            // 
-            // trackBar7
-            // 
-            this.trackBar7.Enabled = false;
-            this.trackBar7.Location = new System.Drawing.Point(70, 131);
-            this.trackBar7.Maximum = 200;
-            this.trackBar7.Minimum = 10;
-            this.trackBar7.Name = "trackBar7";
-            this.trackBar7.Size = new System.Drawing.Size(136, 45);
-            this.trackBar7.TabIndex = 74;
-            this.trackBar7.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBar7.Value = 50;
-            this.trackBar7.Scroll += new System.EventHandler(this.trackBar7_Scroll);
-            // 
-            // CheckBox_EqualizeHist
-            // 
-            this.CheckBox_EqualizeHist.AutoSize = true;
-            this.CheckBox_EqualizeHist.ForeColor = System.Drawing.Color.White;
-            this.CheckBox_EqualizeHist.Location = new System.Drawing.Point(310, 5);
-            this.CheckBox_EqualizeHist.Name = "CheckBox_EqualizeHist";
-            this.CheckBox_EqualizeHist.Size = new System.Drawing.Size(87, 17);
-            this.CheckBox_EqualizeHist.TabIndex = 76;
-            this.CheckBox_EqualizeHist.Text = "Equalize Hist";
-            this.CheckBox_EqualizeHist.UseVisualStyleBackColor = true;
-            this.CheckBox_EqualizeHist.CheckedChanged += new System.EventHandler(this.CheckBox_EqualizeHist_CheckedChanged);
-            // 
-            // label133
-            // 
-            this.label133.AutoSize = true;
-            this.label133.ForeColor = System.Drawing.Color.White;
-            this.label133.Location = new System.Drawing.Point(7, 109);
-            this.label133.Name = "label133";
-            this.label133.Size = new System.Drawing.Size(63, 13);
-            this.label133.TabIndex = 73;
-            this.label133.Text = "Kernel Size:";
-            // 
-            // CheckBox_FLIP_VERTICAL
-            // 
-            this.CheckBox_FLIP_VERTICAL.AutoSize = true;
-            this.CheckBox_FLIP_VERTICAL.ForeColor = System.Drawing.Color.White;
-            this.CheckBox_FLIP_VERTICAL.Location = new System.Drawing.Point(222, 6);
-            this.CheckBox_FLIP_VERTICAL.Name = "CheckBox_FLIP_VERTICAL";
-            this.CheckBox_FLIP_VERTICAL.Size = new System.Drawing.Size(87, 17);
-            this.CheckBox_FLIP_VERTICAL.TabIndex = 75;
-            this.CheckBox_FLIP_VERTICAL.Text = "Flip Vertically";
-            this.CheckBox_FLIP_VERTICAL.UseVisualStyleBackColor = true;
-            this.CheckBox_FLIP_VERTICAL.CheckedChanged += new System.EventHandler(this.CheckBox_FLIP_VERTICAL_CheckedChanged);
-            // 
-            // trackBar6
-            // 
-            this.trackBar6.Enabled = false;
-            this.trackBar6.Location = new System.Drawing.Point(70, 107);
-            this.trackBar6.Maximum = 9;
-            this.trackBar6.Minimum = 1;
-            this.trackBar6.Name = "trackBar6";
-            this.trackBar6.Size = new System.Drawing.Size(136, 45);
-            this.trackBar6.TabIndex = 72;
-            this.trackBar6.TickFrequency = 2;
-            this.trackBar6.Value = 2;
-            this.trackBar6.Scroll += new System.EventHandler(this.trackBar6_Scroll);
-            // 
-            // CheckBox_FLIP_HORIZONTAL
-            // 
-            this.CheckBox_FLIP_HORIZONTAL.AutoSize = true;
-            this.CheckBox_FLIP_HORIZONTAL.ForeColor = System.Drawing.Color.White;
-            this.CheckBox_FLIP_HORIZONTAL.Location = new System.Drawing.Point(125, 6);
-            this.CheckBox_FLIP_HORIZONTAL.Name = "CheckBox_FLIP_HORIZONTAL";
-            this.CheckBox_FLIP_HORIZONTAL.Size = new System.Drawing.Size(99, 17);
-            this.CheckBox_FLIP_HORIZONTAL.TabIndex = 74;
-            this.CheckBox_FLIP_HORIZONTAL.Text = "Flip Horizontally";
-            this.CheckBox_FLIP_HORIZONTAL.UseVisualStyleBackColor = true;
-            this.CheckBox_FLIP_HORIZONTAL.CheckedChanged += new System.EventHandler(this.CheckBox_FLIP_HORIZONTAL_CheckedChanged);
-            // 
-            // label119
-            // 
-            this.label119.AutoSize = true;
-            this.label119.ForeColor = System.Drawing.Color.White;
-            this.label119.Location = new System.Drawing.Point(403, 6);
-            this.label119.Name = "label119";
-            this.label119.Size = new System.Drawing.Size(49, 13);
-            this.label119.TabIndex = 73;
-            this.label119.Text = "Contrast:";
-            // 
-            // Filter_Contrast
-            // 
-            this.Filter_Contrast.Location = new System.Drawing.Point(423, 20);
-            this.Filter_Contrast.Maximum = 100;
-            this.Filter_Contrast.Name = "Filter_Contrast";
-            this.Filter_Contrast.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.Filter_Contrast.Size = new System.Drawing.Size(45, 179);
-            this.Filter_Contrast.TabIndex = 72;
-            this.Filter_Contrast.Value = 50;
-            this.Filter_Contrast.Scroll += new System.EventHandler(this.Filter_Contrast_Scroll);
-            // 
-            // label118
-            // 
-            this.label118.AutoSize = true;
-            this.label118.ForeColor = System.Drawing.Color.White;
-            this.label118.Location = new System.Drawing.Point(451, 6);
-            this.label118.Name = "label118";
-            this.label118.Size = new System.Drawing.Size(59, 13);
-            this.label118.TabIndex = 71;
-            this.label118.Text = "Brightness:";
-            // 
-            // Filter_Brightness
-            // 
-            this.Filter_Brightness.Location = new System.Drawing.Point(465, 20);
-            this.Filter_Brightness.Maximum = 100;
-            this.Filter_Brightness.Name = "Filter_Brightness";
-            this.Filter_Brightness.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.Filter_Brightness.Size = new System.Drawing.Size(45, 179);
-            this.Filter_Brightness.TabIndex = 70;
-            this.Filter_Brightness.Value = 50;
-            this.Filter_Brightness.Scroll += new System.EventHandler(this.Filter_Brightness_Scroll);
-            // 
-            // button23
-            // 
-            this.button23.BackColor = System.Drawing.Color.Transparent;
-            this.button23.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Lime;
-            this.button23.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
-            this.button23.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button23.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.button23.ForeColor = System.Drawing.Color.White;
-            this.button23.Location = new System.Drawing.Point(301, 55);
-            this.button23.Name = "button23";
-            this.button23.Size = new System.Drawing.Size(79, 25);
-            this.button23.TabIndex = 66;
-            this.button23.Text = "Analyze";
-            this.button23.UseVisualStyleBackColor = false;
-            this.button23.Click += new System.EventHandler(this.button23_Click);
-            // 
-            // label117
-            // 
-            this.label117.AutoSize = true;
-            this.label117.ForeColor = System.Drawing.Color.White;
-            this.label117.Location = new System.Drawing.Point(203, 34);
-            this.label117.Name = "label117";
-            this.label117.Size = new System.Drawing.Size(49, 13);
-            this.label117.TabIndex = 62;
-            this.label117.Text = "Rescale:";
-            // 
-            // label116
-            // 
-            this.label116.AutoSize = true;
-            this.label116.ForeColor = System.Drawing.Color.White;
-            this.label116.Location = new System.Drawing.Point(307, 34);
-            this.label116.Name = "label116";
-            this.label116.Size = new System.Drawing.Size(30, 13);
-            this.label116.TabIndex = 61;
-            this.label116.Text = "Size:";
-            // 
-            // button_save
-            // 
-            this.button_save.BackColor = System.Drawing.Color.Transparent;
-            this.button_save.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Lime;
-            this.button_save.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
-            this.button_save.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button_save.ForeColor = System.Drawing.Color.White;
-            this.button_save.Location = new System.Drawing.Point(98, 29);
-            this.button_save.Name = "button_save";
-            this.button_save.Size = new System.Drawing.Size(94, 23);
-            this.button_save.TabIndex = 4;
-            this.button_save.Text = "Save";
-            this.button_save.UseVisualStyleBackColor = false;
-            this.button_save.Click += new System.EventHandler(this.button_save_Click);
-            // 
-            // numericUpDown_imagepercent
-            // 
-            this.numericUpDown_imagepercent.DecimalPlaces = 1;
-            this.numericUpDown_imagepercent.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.numericUpDown_imagepercent.Location = new System.Drawing.Point(257, 32);
-            this.numericUpDown_imagepercent.Margin = new System.Windows.Forms.Padding(2);
-            this.numericUpDown_imagepercent.Maximum = new decimal(new int[] {
-            25,
-            0,
-            0,
-            65536});
-            this.numericUpDown_imagepercent.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            65536});
-            this.numericUpDown_imagepercent.Name = "numericUpDown_imagepercent";
-            this.numericUpDown_imagepercent.Size = new System.Drawing.Size(42, 20);
-            this.numericUpDown_imagepercent.TabIndex = 57;
-            this.numericUpDown_imagepercent.Value = new decimal(new int[] {
-            11,
-            0,
-            0,
-            65536});
-            this.numericUpDown_imagepercent.ValueChanged += new System.EventHandler(this.numericUpDown_imagepercent_ValueChanged);
-            // 
-            // ImageSize
-            // 
-            this.ImageSize.Increment = new decimal(new int[] {
-            512,
-            0,
-            0,
-            0});
-            this.ImageSize.Location = new System.Drawing.Point(343, 32);
-            this.ImageSize.Maximum = new decimal(new int[] {
-            2048,
-            0,
-            0,
-            0});
-            this.ImageSize.Minimum = new decimal(new int[] {
-            512,
-            0,
-            0,
-            0});
-            this.ImageSize.Name = "ImageSize";
-            this.ImageSize.Size = new System.Drawing.Size(54, 20);
-            this.ImageSize.TabIndex = 56;
-            this.ImageSize.Tag = "512";
-            this.ImageSize.Value = new decimal(new int[] {
-            512,
-            0,
-            0,
-            0});
-            // 
-            // label92
-            // 
-            this.label92.AutoSize = true;
-            this.label92.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label92.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.label92.ForeColor = System.Drawing.Color.Moccasin;
-            this.label92.Location = new System.Drawing.Point(5, 5);
-            this.label92.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label92.Name = "label92";
-            this.label92.Size = new System.Drawing.Size(115, 15);
-            this.label92.TabIndex = 55;
-            this.label92.Text = "separate window";
-            this.label92.Click += new System.EventHandler(this.label92_Click);
-            this.label92.MouseDown += new System.Windows.Forms.MouseEventHandler(this.label92_MouseDown);
-            this.label92.MouseEnter += new System.EventHandler(this.label92_MouseEnter);
-            this.label92.MouseLeave += new System.EventHandler(this.label92_MouseLeave);
-            // 
-            // trackBar11
-            // 
-            this.trackBar11.Enabled = false;
-            this.trackBar11.LargeChange = 1;
-            this.trackBar11.Location = new System.Drawing.Point(209, 107);
-            this.trackBar11.Maximum = 5;
-            this.trackBar11.Minimum = 1;
-            this.trackBar11.Name = "trackBar11";
-            this.trackBar11.Size = new System.Drawing.Size(194, 45);
-            this.trackBar11.TabIndex = 85;
-            this.trackBar11.Value = 3;
-            this.trackBar11.Scroll += new System.EventHandler(this.trackBar11_Scroll);
-            // 
             // leftpanel
             // 
             this.leftpanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(99)))), ((int)(((byte)(112)))), ((int)(((byte)(132)))));
@@ -7867,7 +7315,7 @@
             this.leftpanel.Margin = new System.Windows.Forms.Padding(1);
             this.leftpanel.Name = "leftpanel";
             this.leftpanel.Padding = new System.Windows.Forms.Padding(3);
-            this.leftpanel.Size = new System.Drawing.Size(422, 514);
+            this.leftpanel.Size = new System.Drawing.Size(422, 557);
             this.leftpanel.TabIndex = 4;
             this.leftpanel.Paint += new System.Windows.Forms.PaintEventHandler(this.leftpanel_Paint);
             // 
@@ -7885,7 +7333,7 @@
             this.flowLayoutPanel1.Location = new System.Drawing.Point(353, 3);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(66, 508);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(66, 551);
             this.flowLayoutPanel1.TabIndex = 72;
             // 
             // button24
@@ -8757,27 +8205,27 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(99)))), ((int)(((byte)(112)))), ((int)(((byte)(132)))));
-            this.panel2.Controls.Add(this.group1);
+            this.panel2.Controls.Add(this.pictureBox6);
             this.panel2.Controls.Add(this.GB_Detectors);
             this.panel2.Controls.Add(this.groupBox36);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 573);
+            this.panel2.Location = new System.Drawing.Point(0, 616);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1386, 215);
+            this.panel2.Size = new System.Drawing.Size(1386, 172);
             this.panel2.TabIndex = 60;
             // 
-            // buttompanel
+            // pictureBox6
             // 
-            this.buttompanel.AutoSize = true;
-            this.buttompanel.BackColor = System.Drawing.Color.Transparent;
-            this.buttompanel.Controls.Add(this.panel1);
-            this.buttompanel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.buttompanel.Location = new System.Drawing.Point(0, 59);
-            this.buttompanel.Margin = new System.Windows.Forms.Padding(0);
-            this.buttompanel.Name = "buttompanel";
-            this.buttompanel.Size = new System.Drawing.Size(385, 514);
-            this.buttompanel.TabIndex = 6;
-            this.buttompanel.Paint += new System.Windows.Forms.PaintEventHandler(this.buttompanel_Paint);
+            this.pictureBox6.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox6.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pictureBox6.Image = global::HelloWorld.Properties.Resources.QuantaEye;
+            this.pictureBox6.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox6.Name = "pictureBox6";
+            this.pictureBox6.Size = new System.Drawing.Size(469, 172);
+            this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox6.TabIndex = 36;
+            this.pictureBox6.TabStop = false;
             // 
             // AnimationTimer
             // 
@@ -8828,11 +8276,11 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.Menu;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1386, 788);
             this.ControlBox = false;
             this.Controls.Add(this.TabControl_Main);
             this.Controls.Add(this.leftpanel);
-            this.Controls.Add(this.buttompanel);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.Buttons);
             this.Controls.Add(this.Border);
@@ -9075,10 +8523,6 @@
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericFilament)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericHV)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UD_AcquireNumber)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.scalebar)).EndInit();
             this.groupBox_gun.ResumeLayout(false);
             this.groupBox_gun.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_guntilt_y)).EndInit();
@@ -9101,18 +8545,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_iml_x)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dCtrl2D_IMLCentering)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.IMLCenteringLight)).EndInit();
-            this.group1.ResumeLayout(false);
-            this.group1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar9)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar10)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Filter_Contrast)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Filter_Brightness)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_imagepercent)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ImageSize)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar11)).EndInit();
             this.leftpanel.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.groupBox_stig.ResumeLayout(false);
@@ -9146,13 +8578,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.tcp_status_light)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Border)).EndInit();
             this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.buttompanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.userControl1BindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.userControl1BindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -9517,15 +8947,9 @@
         private System.Windows.Forms.NumericUpDown numericUpDown7;
         private System.Windows.Forms.Label label91;
         private System.ComponentModel.BackgroundWorker backgroundWorker3;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Label label52;
-        private System.Windows.Forms.NumericUpDown UD_AcquireNumber;
-        private System.Windows.Forms.Button Btn_Acquire;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.PictureBox Border;
         private System.Windows.Forms.Panel leftpanel;
-        private System.Windows.Forms.Panel group1;
         private System.Windows.Forms.Label label92;
         private System.Windows.Forms.GroupBox groupBox_object;
         private UserControl1 Ctrl2D_ObjectCentering;
@@ -9577,18 +9001,11 @@
         private System.Windows.Forms.Label label101;
         private System.Windows.Forms.NumericUpDown numericHV;
         private System.Windows.Forms.ProgressBar progressBar_PC;
-        private System.Windows.Forms.PictureBox scalebar;
-        private System.Windows.Forms.Label scalelabel;
         private System.Windows.Forms.ProgressBar progressBar_EC;
         private System.Windows.Forms.Label label97;
         private System.Windows.Forms.Label label100;
-        private System.Windows.Forms.Label labelscalekx;
         private System.Windows.Forms.Label label102;
         private System.Windows.Forms.NumericUpDown speed_multiply;
-        private System.Windows.Forms.NumericUpDown ImageSize;
-        private System.Windows.Forms.Label label_winsize;
-        private System.Windows.Forms.Label label_rate;
-        private System.Windows.Forms.NumericUpDown numericUpDown_imagepercent;
         private System.Windows.Forms.NumericUpDown numericUpDown_objc;
         private System.Windows.Forms.Label label104;
         private System.Windows.Forms.TrackBar trackBar_wob;
@@ -9637,7 +9054,6 @@
         private System.Windows.Forms.TrackBar dCtrl2D_Gain;
         private UserControl1 Ctrl2D_Gain;
         private System.Windows.Forms.Button button_settings;
-        private System.Windows.Forms.Button button_save;
         private System.Windows.Forms.Panel Buttons;
         private System.Windows.Forms.Label label113;
         private System.Windows.Forms.Button button20;
@@ -9648,10 +9064,7 @@
         private System.Windows.Forms.ComboBox HVProfile;
         private System.Windows.Forms.Label label114;
         private System.Windows.Forms.Button button22;
-        private System.Windows.Forms.Label label117;
-        private System.Windows.Forms.Label label116;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel buttompanel;
         private System.Windows.Forms.Timer AnimationTimer;
         private System.Windows.Forms.Label label130;
         private System.Windows.Forms.NumericUpDown num_guntilt_y;
@@ -9677,7 +9090,6 @@
         private System.Windows.Forms.NumericUpDown num_gain_y;
         private System.Windows.Forms.Label label123;
         private System.Windows.Forms.NumericUpDown num_gain_x;
-        private System.Windows.Forms.Button button23;
         private System.Windows.Forms.NumericUpDown numericUpDown13;
         private System.Windows.Forms.NumericUpDown numericUpDown14;
         private System.Windows.Forms.Label label132;
@@ -9693,28 +9105,6 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Timer TimerHVUpdater;
         private System.Windows.Forms.Timer TimerFBUpdater;
-        private System.Windows.Forms.Label label119;
-        private System.Windows.Forms.TrackBar Filter_Contrast;
-        private System.Windows.Forms.Label label118;
-        private System.Windows.Forms.TrackBar Filter_Brightness;
-        private System.Windows.Forms.CheckBox CheckBox_FLIP_HORIZONTAL;
-        private System.Windows.Forms.CheckBox CheckBox_FLIP_VERTICAL;
-        private System.Windows.Forms.CheckBox CheckBox_EqualizeHist;
-        private System.Windows.Forms.Label label135;
-        private System.Windows.Forms.TrackBar trackBar8;
-        private System.Windows.Forms.Label label134;
-        private System.Windows.Forms.TrackBar trackBar7;
-        private System.Windows.Forms.Label label133;
-        private System.Windows.Forms.TrackBar trackBar6;
-        private System.Windows.Forms.CheckBox checkBox4;
-        private System.Windows.Forms.Label label136;
-        private System.Windows.Forms.TrackBar trackBar9;
-        private System.Windows.Forms.Label label137;
-        private System.Windows.Forms.TrackBar trackBar10;
-        private System.Windows.Forms.CheckBox checkBox5;
-        private System.Windows.Forms.TrackBar trackBar11;
-        private System.Windows.Forms.CheckBox checkBox6;
-        private System.Windows.Forms.Button button_load;
         private System.Windows.Forms.OpenFileDialog openFileDialog_Images;
         private System.Windows.Forms.Timer TCP_Connection_Listener;
         private System.Windows.Forms.PictureBox tcp_status_light;
@@ -9723,5 +9113,10 @@
         private System.Windows.Forms.Timer timeout_timer;
         private System.Windows.Forms.Label label_tcp_error;
         private System.Windows.Forms.Label label_lens_ok_error;
+        private System.Windows.Forms.PictureBox pictureBox6;
+        private System.Windows.Forms.Button button_se_init;
+        private System.Windows.Forms.Button button_hv_init;
+        private System.Windows.Forms.Button button_lens_init;
+        private System.Windows.Forms.Button button_main_init;
     }
 }
