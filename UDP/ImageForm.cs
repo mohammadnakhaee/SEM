@@ -127,6 +127,9 @@ namespace HelloWorld
               border.Dock = System.Windows.Forms.DockStyle.Top;
               */
             this.Owner = ownerform;
+
+            SetCustomBorder();
+
             InitializeUDP();
             frame = new Image<Gray, byte>(512, 512, new Gray(100));
             ViewPort = new Emgu.CV.UI.ImageBox();
@@ -149,6 +152,7 @@ namespace HelloWorld
             ViewPort.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ViewPort_MouseUp);
             ViewPort.MouseClick+= new System.Windows.Forms.MouseEventHandler(this.ViewPort_MouseClick);
             ViewPort.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ViewPort_MouseDoubleClick);
+            ViewPort.KeyPress += ViewPort_KeyPress;
             ViewPort.Paint += new PaintEventHandler(this.ViewPort_paint);
 
             points = new Point[4];
@@ -166,6 +170,163 @@ namespace HelloWorld
 
             //frame.DrawPolyline()
         }
+
+        private void SetCustomBorder()
+        {
+            //this.FormBorderStyle = FormBorderStyle.None;
+
+            //PictureBox Border = new PictureBox();
+            //Border.Parent = this;
+            //Border.Location = new Point(0, 0);
+            //Border.Size = new Size(100, 32);
+            //Border.Dock = DockStyle.Top;
+            //Border.Image = global::CAngle.Properties.Resources.border;
+            //Border.Image = global::CAngle.Properties.Resources.cangleiconpng;
+            Border.SizeMode = PictureBoxSizeMode.StretchImage;
+            Border.Paint += ToolsPicture_Paint;
+            Border.MouseDown += ToolsPicture_MouseDown;
+            Border.MouseMove += ToolsPicture_MouseMove;
+            Border.MouseUp += ToolsPicture_MouseUp;
+
+            label_winsize.Parent = Border;
+            Font drawFont1 = new Font("Symbola", 10, FontStyle.Regular);
+            Font drawFont2 = new Font("Marlett", 10, FontStyle.Bold);
+
+            Button AdvancedButton = new Button();
+            AdvancedButton.Parent = Border;
+            AdvancedButton.Size = new Size(Border.Height - 3, Border.Height - 3);
+            AdvancedButton.FlatStyle = FlatStyle.Flat;
+            AdvancedButton.FlatAppearance.BorderSize = 0;
+            AdvancedButton.Dock = DockStyle.Right;
+            AdvancedButton.Font = drawFont1;
+            AdvancedButton.ForeColor = Color.White;
+            char c = '\u2699';
+            AdvancedButton.Text = c.ToString();
+            AdvancedButton.Click += AdvancedButton_Click;
+
+            Button MinimizeButton = new Button();
+            MinimizeButton.Parent = Border;
+            MinimizeButton.Size = new Size(Border.Height - 3, Border.Height - 3);
+            MinimizeButton.FlatStyle = FlatStyle.Flat;
+            MinimizeButton.FlatAppearance.BorderSize = 0;
+            MinimizeButton.Dock = DockStyle.Right;
+            MinimizeButton.Font = drawFont2;
+            MinimizeButton.ForeColor = Color.White;
+            c = '\u0030';
+            MinimizeButton.Text = c.ToString();
+            MinimizeButton.Click += MinimizeButton_Click;
+
+            Button CloseButton = new Button();
+            CloseButton.Parent = Border;
+            CloseButton.Size = new Size(Border.Height - 3, Border.Height - 3);
+            CloseButton.FlatStyle = FlatStyle.Flat;
+            CloseButton.FlatAppearance.BorderSize = 0;
+            CloseButton.Dock = DockStyle.Right;
+            CloseButton.Font = drawFont2;
+            CloseButton.ForeColor = Color.White;
+            c = '\u0072';
+            CloseButton.Text = c.ToString();
+            CloseButton.Click += CloseButton_Click;
+
+
+
+            //LeaveFullScreenMode();
+            //EnterFullScreenMode();
+
+        }
+
+        private void CloseButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Close();
+            }
+            catch
+            {
+                try
+                {
+                    this.Dispose();
+                }
+                catch
+                {
+                }
+            }
+        }
+
+        private void MinimizeButton_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+        private void AdvancedButton_Click(object sender, EventArgs e)
+        {
+            if (group1.Visible)
+                group1.Visible = false;
+            else
+                group1.Visible = true;
+
+            if (group1.Visible)
+                this.Size = panel1.Size + new Size(group1.Width, 35 + 11);
+            else
+                this.Size = panel1.Size + new Size(0, 35 + 11);
+        }
+
+        private void ToolsPicture_Paint(object sender, PaintEventArgs e)
+        {
+
+            // Create string to draw.
+            String drawString = "Viewport" + UserInfo;
+
+            // Create font and brush.
+            Font drawFont = new Font("Arial", 11, FontStyle.Bold);
+
+            SolidBrush drawBrush = new SolidBrush(Color.FromArgb(255, 255, 255));
+
+            // Create point for upper-left corner of drawing.
+            int x0 = 5;
+            int y0 = 7;
+            float x = 59.0F;
+            float y = 8.0F;
+
+            // Set format of string.
+            StringFormat drawFormat = new StringFormat();
+            drawFormat.FormatFlags = StringFormatFlags.NoWrap;
+
+            // Draw string to screen.
+            e.Graphics.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);
+            //e.Graphics.DrawImage(System.Drawing.Image.FromFile("./QuantaEye.png"), (int)x0, (int)y0,50,20);
+
+            e.Graphics.DrawImage(new Bitmap(Properties.Resources.QuantaEye), (int)x0, (int)y0, 50, 20);
+        }
+
+        int mouseX = 0; int mouseY = 0; int thisLocationX = 0; int thisLocationY = 0; bool isMove = false;
+        private void ToolsPicture_MouseDown(object sender, MouseEventArgs e)
+        {
+            isMove = true;
+            //mouseX = e.X;
+            //mouseY = e.Y;
+            mouseX = System.Windows.Forms.Control.MousePosition.X;
+            mouseY = System.Windows.Forms.Control.MousePosition.Y;
+            thisLocationX = this.Location.X;
+            thisLocationY = this.Location.Y;
+        }
+
+        private void ToolsPicture_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isMove)
+            {
+                int dx = System.Windows.Forms.Control.MousePosition.X - mouseX;
+                int dy = System.Windows.Forms.Control.MousePosition.Y - mouseY;
+                //richTextBox1.AppendText(mouseX.ToString() + " " + mouseY.ToString() + " " + System.Windows.Forms.Control.MousePosition.X.ToString() + " " + System.Windows.Forms.Control.MousePosition.Y.ToString() + " " + dx.ToString() + " " + dy.ToString() + "\n");
+                //this.SetDesktopLocation(this.Location.X + dx, this.Location.Y + dy);
+                this.Location = new Point(thisLocationX + dx, thisLocationY + dy);
+            }
+        }
+
+        private void ToolsPicture_MouseUp(object sender, MouseEventArgs e)
+        {
+            isMove = false;
+        }
+
         void InitializeUDP()
         {
             
@@ -321,7 +482,6 @@ namespace HelloWorld
             }
             catch
             {
-
 
             }
 
@@ -641,7 +801,10 @@ namespace HelloWorld
         {
             Image_multiply = (double)numericUpDown_imagepercent.Value;
             panel1.Size = new Size((int)((Image_multiply >= 1) ? 512 * Image_multiply + 1 : 512 + 1), (int)((Image_multiply >= 1) ? (512 * Image_multiply + 35) : (512 + 35)));
-            this.Size = panel1.Size + new Size(splitContainer1.Size.Width-splitContainer1.SplitterDistance, 35);
+            if (group1.Visible)
+                this.Size = panel1.Size + new Size(group1.Width, 35 + 11);
+            else
+                this.Size = panel1.Size + new Size(0, 35 + 11);
             ViewPort.Size = new Size((int)((Image_multiply >= 1) ? 512 * Image_multiply : 512), (int)((Image_multiply >= 1) ? (512 * Image_multiply) : (512)));
             ViewPort.SetZoomScale(Image_multiply, Point.Empty);
         }
@@ -693,12 +856,12 @@ namespace HelloWorld
             //  MessageBox.Show(p.X.ToString() + "   " + p.Y.ToString());
             ChangeWindow(0, 0, 512, 512);//(decimal)p.X, (decimal)p.Y);
         }
-        
+
         private void ViewPort_MouseDown(object sender, MouseEventArgs e)
-            {
-                P1 = new Point((int)(e.X / Image_multiply), (int)(e.Y / Image_multiply));
-                StartClick = true;
-            }
+        {
+            P1 = new Point((int)(e.X / Image_multiply), (int)(e.Y / Image_multiply));
+            StartClick = true;
+        }
 
         private void ImageSize_ValueChanged(object sender, EventArgs e)
         {
@@ -708,42 +871,41 @@ namespace HelloWorld
         private void ViewPort_MouseMove(object sender, MouseEventArgs e)
         {
             if (Edit_mode == true)
-            { 
+            {
                 if (moving == false) return;
-            move_point = new Point((int)(e.X / Image_multiply), (int)(e.Y / Image_multiply));
-            pic_edit_paint(drawObj.Last().ObjectType, move_point, pic_edit_step);
+                move_point = new Point((int)(e.X / Image_multiply), (int)(e.Y / Image_multiply));
+                pic_edit_paint(drawObj.Last().ObjectType, move_point, pic_edit_step);
 
-            ViewPort.Invalidate();
+                ViewPort.Invalidate();
             }
-            else
-            if (StartClick)
-                {
-                    P2 = new Point((int)(e.X / Image_multiply), (int)(e.Y / Image_multiply));
-                    double adjustmentx = 1;
-                    double adjustmenty = 1;
-                    int x1 = (int)(Math.Min(P1.X, P2.X) * adjustmentx);
-                    int x2 = (int)(Math.Max(P1.X, P2.X) * adjustmentx);
-                    int y1 = (int)(Math.Min(P1.Y, P2.Y) * adjustmenty);
-                    int y2 = (int)(Math.Max(P1.Y, P2.Y) * adjustmenty);
-                    if (x1 < 1) x1 = 1;
-                    if (x2 < 1) x2 = 1;
-                    if (y1 < 1) y1 = 1;
-                    if (y2 < 1) y2 = 1;
-                    if (x1 > 510) x1 = 510;
-                    if (x2 > 510) x2 = 510;
-                    if (y1 > 510) y1 = 510;
-                    if (y2 > 510) y2 = 510;
-                    SelectionRec[0] = new Point(x1, y1);
-                    SelectionRec[1] = new Point(x1, y2);
-                    SelectionRec[2] = new Point(x2, y2);
-                    SelectionRec[3] = new Point(x2, y1);
-                    SelectionRec2[0] = new Point(x1 - 1, y1 - 1);
-                    SelectionRec2[1] = new Point(x1 + 1, y2 - 1);
-                    SelectionRec2[2] = new Point(x2 + 1, y2 + 1);
-                    SelectionRec2[3] = new Point(x2 - 1, y1 + 1);
-                    StartMove = true;
-                }
+            else if (StartClick)
+            {
+                P2 = new Point((int)(e.X / Image_multiply), (int)(e.Y / Image_multiply));
+                double adjustmentx = 1;
+                double adjustmenty = 1;
+                int x1 = (int)(Math.Min(P1.X, P2.X) * adjustmentx);
+                int x2 = (int)(Math.Max(P1.X, P2.X) * adjustmentx);
+                int y1 = (int)(Math.Min(P1.Y, P2.Y) * adjustmenty);
+                int y2 = (int)(Math.Max(P1.Y, P2.Y) * adjustmenty);
+                if (x1 < 1) x1 = 1;
+                if (x2 < 1) x2 = 1;
+                if (y1 < 1) y1 = 1;
+                if (y2 < 1) y2 = 1;
+                if (x1 > 510) x1 = 510;
+                if (x2 > 510) x2 = 510;
+                if (y1 > 510) y1 = 510;
+                if (y2 > 510) y2 = 510;
+                SelectionRec[0] = new Point(x1, y1);
+                SelectionRec[1] = new Point(x1, y2);
+                SelectionRec[2] = new Point(x2, y2);
+                SelectionRec[3] = new Point(x2, y1);
+                SelectionRec2[0] = new Point(x1 - 1, y1 - 1);
+                SelectionRec2[1] = new Point(x1 + 1, y2 - 1);
+                SelectionRec2[2] = new Point(x2 + 1, y2 + 1);
+                SelectionRec2[3] = new Point(x2 - 1, y1 + 1);
+                StartMove = true;
             }
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -813,10 +975,10 @@ namespace HelloWorld
             
             }
 
-            private bool Window (decimal wix, decimal wiy, decimal wnx, decimal wny)
-            {
-                label_winsize.Text = "window(X:{" + wnx.ToString() + "}{Y:" + wny.ToString() + "})";
-                string CompleteOrder = "window " + wix.ToString() + " " + wiy.ToString() + " " + wnx.ToString() + " " + wny.ToString() + "\r";
+        private bool Window(decimal wix, decimal wiy, decimal wnx, decimal wny)
+        {
+            label_winsize.Text = "window(X:{" + wnx.ToString() + "}{Y:" + wny.ToString() + "})";
+            string CompleteOrder = "window " + wix.ToString() + " " + wiy.ToString() + " " + wnx.ToString() + " " + wny.ToString() + "\r";
             // Invoke()
             // ((FormMain)(this.ParentForm)).in.SendAndReceiveOK(CompleteOrder);
             //Onnotify(CompleteOrder);
@@ -824,7 +986,7 @@ namespace HelloWorld
             return (bool)Invoke(new tcpcommand(((FormMain)(this.ownerform)).SendAndReceiveOK), parms);
             // you'll get a new value of 'x' here (incremented by 10)
             return true;// SendAndReceiveOK(CompleteOrder);
-            }
+        }
 
             private bool ChangeWindow(decimal wix, decimal wiy, decimal wnx, decimal wny)
             {
@@ -870,7 +1032,6 @@ namespace HelloWorld
 
         private void button_distance_Click(object sender, EventArgs e)
         {
-
             if (pic_edit == true) drawObj.RemoveAt(drawObj.Count - 1);
             pic_edit = true;
             pic_edit_step = 4;
@@ -880,7 +1041,6 @@ namespace HelloWorld
 
         private void button_circle_Click(object sender, EventArgs e)
         {
-
             if (pic_edit == true) drawObj.RemoveAt(drawObj.Count - 1);
             pic_edit = true;
             pic_edit_step = 4;
@@ -925,10 +1085,29 @@ namespace HelloWorld
             labelscalekx.Text = (150 / vf).ToString("0.0") + "kx";
         }
 
+
+
         public delegate bool tcpcommand(string command);  // delegate
 
-        
-         public event tcpcommand tcpavailable; // event
+
+
+        public event tcpcommand tcpavailable; // event
+
+        private void label92_MouseDown(object sender, MouseEventArgs e)
+        {
+            label92.ForeColor = Color.White;
+        }
+
+        private void label92_MouseEnter(object sender, EventArgs e)
+        {
+            label92.ForeColor = Color.OrangeRed;
+        }
+
+        private void label92_MouseLeave(object sender, EventArgs e)
+        {
+            label92.ForeColor = Color.Moccasin;
+        }
+
         void Onnotify(string command)
         {
             tcpavailable?.Invoke(command);
@@ -946,17 +1125,70 @@ namespace HelloWorld
                     moving = false;
                 }
             }
+            else
+            {
+                if (Edit_mode == true)
+                {
+                    move_point = new Point((int)(e.X / Image_multiply), (int)(e.Y / Image_multiply));
+                    foreach (DrawObject obj in drawObj)
+                    {
+                        obj.selected = obj.gp.IsVisible(move_point);
+                        if (obj.selected) break;
+                    }
+
+                    ViewPort.Focus();
+                    ViewPort.Invalidate();
+                }
+            }
         }
-        void ViewPort_paint(Object sender,PaintEventArgs e)
+
+        private void ViewPort_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            bool isAnySelected = false;
+            int index = -1;
+            foreach (DrawObject obj in drawObj)
+            {
+                index++;
+                if (obj.selected)
+                {
+                    isAnySelected = true;
+                    break;
+                }
+            }
+
+            if (isAnySelected)
+                drawObj.RemoveAt(index);
+
+            ViewPort.Invalidate();
+        }
+
+        private void label92_Click(object sender, EventArgs e)
+        {
+            ViewPort_KeyPress(this, null);
+        }
+        private void ImageForm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            
+        }
+
+        void ViewPort_paint(Object sender, PaintEventArgs e)
         {
             //e.Graphics.DrawLine(Pens.White, Point.Empty, move_point);
             //if (pic_edit == false) return;
-            if(Edit_mode==true)
-            foreach (DrawObject obj in drawObj)
-            {
-                e.Graphics.DrawPath(Pens.White, obj.gp);
-                e.Graphics.DrawPath(Pens.LightGoldenrodYellow, obj.gp_Text);
-            }
+            if (Edit_mode == true)
+                foreach (DrawObject obj in drawObj)
+                {
+                    if (obj.selected)
+                    {
+                        e.Graphics.DrawPath(Pens.Red, obj.gp);
+                        e.Graphics.DrawPath(Pens.OrangeRed, obj.gp_Text);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawPath(Pens.White, obj.gp);
+                        e.Graphics.DrawPath(Pens.LightGoldenrodYellow, obj.gp_Text);
+                    }
+                }
         }
         void pic_edit_paint(String s,Point move_point,int pic_edit_step)
         {
@@ -1075,7 +1307,8 @@ namespace HelloWorld
     public class DrawObject:Object
     {
         public IList<Point> points = new List<Point>();
-        
+
+        public bool selected = false;
         public string Text { get;  set; }
         public string ObjectType { get;  set; }
         public GraphicsPath gp = new GraphicsPath();
