@@ -118,46 +118,55 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="pad" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pad.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="images (1)" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\images (1).jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="empty512" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\empty512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Ruler" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ruler.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="pad1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pad1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="gradient2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gradient2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Drawing (1)" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Drawing (1).jpeg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="bn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\bn.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="greenbuttonoff" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\greenbuttonoff.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="pad" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pad.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="greenbuttonon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\greenbuttonon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="QuantaEye" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\QuantaEye.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="QuantaEyeBackground1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\QuantaEyeBackground1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="QuantaEyeIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\QuantaEyeIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="gradient" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gradient.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="well" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\well.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="empty512" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\empty512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="QuantaEyeBackground1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\QuantaEyeBackground1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pad1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pad1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Connection" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Connection.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bn.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QuantaEye" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\QuantaEye.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Drawing (1)" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Drawing (1).jpeg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QuantaEyeIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\QuantaEyeIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="images (1)" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\images (1).jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="greenbuttonoff" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\greenbuttonoff.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gradient (1)" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gradient (1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

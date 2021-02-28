@@ -133,13 +133,11 @@
             this.speedper = new System.Windows.Forms.NumericUpDown();
             this.UD_Zoom = new System.Windows.Forms.NumericUpDown();
             this.UD_dRotation = new System.Windows.Forms.NumericUpDown();
-            this.Scanner_ISelect = new System.Windows.Forms.ComboBox();
             this.UD_dSpeed = new System.Windows.Forms.NumericUpDown();
             this.UD_dZoom = new System.Windows.Forms.NumericUpDown();
             this.label45 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
-            this.UD_Speed = new System.Windows.Forms.NumericUpDown();
             this.label13 = new System.Windows.Forms.Label();
             this.UD_Rotation = new System.Windows.Forms.NumericUpDown();
             this.log = new System.Windows.Forms.TextBox();
@@ -333,8 +331,6 @@
             this.L_Lens_IML = new System.Windows.Forms.Label();
             this.L_Lens_CON2 = new System.Windows.Forms.Label();
             this.L_Lens_CON1 = new System.Windows.Forms.Label();
-            this.UD_dLens_OBJ = new System.Windows.Forms.NumericUpDown();
-            this.UD_Lens_OBJ = new System.Windows.Forms.NumericUpDown();
             this.UD_dLens_IML = new System.Windows.Forms.NumericUpDown();
             this.UD_Lens_IML = new System.Windows.Forms.NumericUpDown();
             this.label44 = new System.Windows.Forms.Label();
@@ -353,15 +349,12 @@
             this.L_HV_Filament = new System.Windows.Forms.Label();
             this.L_HV_Wehnelt = new System.Windows.Forms.Label();
             this.L_HV_HV = new System.Windows.Forms.Label();
-            this.label40 = new System.Windows.Forms.Label();
             this.UD_dHV_Filament = new System.Windows.Forms.NumericUpDown();
-            this.UD_HV_Filament = new System.Windows.Forms.NumericUpDown();
             this.label39 = new System.Windows.Forms.Label();
             this.UD_dHV_Wehnelt = new System.Windows.Forms.NumericUpDown();
             this.UD_HV_Wehnelt = new System.Windows.Forms.NumericUpDown();
             this.label38 = new System.Windows.Forms.Label();
             this.UD_dHV_HV = new System.Windows.Forms.NumericUpDown();
-            this.UD_HV_HV = new System.Windows.Forms.NumericUpDown();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.groupBox18 = new System.Windows.Forms.GroupBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
@@ -400,6 +393,13 @@
             this.panel7 = new System.Windows.Forms.Panel();
             this.Tools_image = new System.Windows.Forms.PictureBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.Scanner_ISelect = new System.Windows.Forms.ComboBox();
+            this.UD_Speed = new System.Windows.Forms.NumericUpDown();
+            this.UD_dLens_OBJ = new System.Windows.Forms.NumericUpDown();
+            this.UD_Lens_OBJ = new System.Windows.Forms.NumericUpDown();
+            this.label40 = new System.Windows.Forms.Label();
+            this.UD_HV_Filament = new System.Windows.Forms.NumericUpDown();
+            this.UD_HV_HV = new System.Windows.Forms.NumericUpDown();
             this.GB_Detectors = new System.Windows.Forms.GroupBox();
             this.button_se_init = new System.Windows.Forms.Button();
             this.button_hv_init = new System.Windows.Forms.Button();
@@ -427,11 +427,11 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label112 = new System.Windows.Forms.Label();
             this.label111 = new System.Windows.Forms.Label();
-            this.label110 = new System.Windows.Forms.Label();
+            this.label_PC = new System.Windows.Forms.Label();
             this.label109 = new System.Windows.Forms.Label();
             this.progressBar2 = new System.Windows.Forms.ProgressBar();
             this.label96 = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.progressBar_CLP = new System.Windows.Forms.ProgressBar();
             this.label98 = new System.Windows.Forms.Label();
             this.label97 = new System.Windows.Forms.Label();
             this.label99 = new System.Windows.Forms.Label();
@@ -499,6 +499,9 @@
             this.button27 = new System.Windows.Forms.Button();
             this.button31 = new System.Windows.Forms.Button();
             this.button30 = new System.Windows.Forms.Button();
+            this.label_lens_ok_error = new System.Windows.Forms.Label();
+            this.label_tcp_error = new System.Windows.Forms.Label();
+            this.label_tcp_err = new System.Windows.Forms.Label();
             this.groupBox_stig = new System.Windows.Forms.GroupBox();
             this.label121 = new System.Windows.Forms.Label();
             this.num_stig_y = new System.Windows.Forms.NumericUpDown();
@@ -538,8 +541,7 @@
             this.timer_hv = new System.Windows.Forms.Timer(this.components);
             this.button_settings = new System.Windows.Forms.Button();
             this.Buttons = new System.Windows.Forms.Panel();
-            this.label_tcp_error = new System.Windows.Forms.Label();
-            this.label_lens_ok_error = new System.Windows.Forms.Label();
+            this.button_mem = new System.Windows.Forms.Button();
             this.MicroscopyMode = new System.Windows.Forms.ComboBox();
             this.label115 = new System.Windows.Forms.Label();
             this.HVProfile = new System.Windows.Forms.ComboBox();
@@ -548,7 +550,6 @@
             this.button20 = new System.Windows.Forms.Button();
             this.button22 = new System.Windows.Forms.Button();
             this.tcp_status_light = new System.Windows.Forms.PictureBox();
-            this.Border = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.AnimationTimer = new System.Windows.Forms.Timer(this.components);
@@ -557,6 +558,7 @@
             this.openFileDialog_Images = new System.Windows.Forms.OpenFileDialog();
             this.TCP_Connection_Listener = new System.Windows.Forms.Timer(this.components);
             this.timeout_timer = new System.Windows.Forms.Timer(this.components);
+            this.Border = new System.Windows.Forms.PictureBox();
             this.userControl1BindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.userControl1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
@@ -599,7 +601,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.UD_dRotation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UD_dSpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UD_dZoom)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UD_Speed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UD_Rotation)).BeginInit();
             this.groupBox32.SuspendLayout();
             this.groupBox35.SuspendLayout();
@@ -688,8 +689,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.UD_Lens_shiftx)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UD_dLens_OBJ)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UD_Lens_OBJ)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UD_dLens_IML)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UD_Lens_IML)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UD_dLens_CON2)).BeginInit();
@@ -700,11 +699,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
             this.groupBox14.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UD_dHV_Filament)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UD_HV_Filament)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UD_dHV_Wehnelt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UD_HV_Wehnelt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UD_dHV_HV)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UD_HV_HV)).BeginInit();
             this.groupBox8.SuspendLayout();
             this.groupBox18.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
@@ -730,6 +727,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.UD_DacxMeanVal)).BeginInit();
             this.panel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Tools_image)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UD_Speed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UD_dLens_OBJ)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UD_Lens_OBJ)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UD_HV_Filament)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UD_HV_HV)).BeginInit();
             this.GB_Detectors.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown13)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown14)).BeginInit();
@@ -786,9 +788,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dCtrl1D_Focus)).BeginInit();
             this.Buttons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tcp_status_light)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Border)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Border)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.userControl1BindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.userControl1BindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
@@ -895,7 +897,7 @@
             this.TabControl_Main.Name = "TabControl_Main";
             this.TabControl_Main.SelectedIndex = 0;
             this.TabControl_Main.ShowToolTips = true;
-            this.TabControl_Main.Size = new System.Drawing.Size(964, 557);
+            this.TabControl_Main.Size = new System.Drawing.Size(1027, 557);
             this.TabControl_Main.TabIndex = 0;
             this.TabControl_Main.Visible = false;
             // 
@@ -914,7 +916,7 @@
             this.tabPage2.Location = new System.Drawing.Point(23, 4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(937, 549);
+            this.tabPage2.Size = new System.Drawing.Size(1000, 549);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Connections";
             // 
@@ -953,7 +955,7 @@
             this.panel15.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel15.Location = new System.Drawing.Point(3, 42);
             this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(931, 3);
+            this.panel15.Size = new System.Drawing.Size(994, 3);
             this.panel15.TabIndex = 8;
             // 
             // groupBox3
@@ -1110,13 +1112,13 @@
             this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel6.Location = new System.Drawing.Point(3, 3);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(931, 39);
+            this.panel6.Size = new System.Drawing.Size(994, 39);
             this.panel6.TabIndex = 2;
             // 
             // Connection_image
             // 
             this.Connection_image.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Connection_image.Location = new System.Drawing.Point(681, 0);
+            this.Connection_image.Location = new System.Drawing.Point(744, 0);
             this.Connection_image.Name = "Connection_image";
             this.Connection_image.Size = new System.Drawing.Size(250, 39);
             this.Connection_image.TabIndex = 3;
@@ -1143,7 +1145,7 @@
             this.tabPage1.Location = new System.Drawing.Point(23, 4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(937, 549);
+            this.tabPage1.Size = new System.Drawing.Size(1000, 549);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Terminal";
             // 
@@ -1155,7 +1157,7 @@
             this.History.Location = new System.Drawing.Point(3, 474);
             this.History.Margin = new System.Windows.Forms.Padding(0);
             this.History.Name = "History";
-            this.History.Size = new System.Drawing.Size(931, 17);
+            this.History.Size = new System.Drawing.Size(994, 17);
             this.History.TabIndex = 1;
             this.History.Click += new System.EventHandler(this.terminalHistory_Click);
             this.History.DoubleClick += new System.EventHandler(this.History_DoubleClick);
@@ -1172,7 +1174,7 @@
             this.TBOutput.Location = new System.Drawing.Point(3, 3);
             this.TBOutput.Name = "TBOutput";
             this.TBOutput.ReadOnly = true;
-            this.TBOutput.Size = new System.Drawing.Size(931, 488);
+            this.TBOutput.Size = new System.Drawing.Size(994, 488);
             this.TBOutput.TabIndex = 1;
             this.TBOutput.Text = "";
             // 
@@ -1189,7 +1191,7 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel5.Location = new System.Drawing.Point(3, 491);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(931, 55);
+            this.panel5.Size = new System.Drawing.Size(994, 55);
             this.panel5.TabIndex = 0;
             // 
             // TBWaitTime
@@ -1257,7 +1259,7 @@
             this.TBOrder.Dock = System.Windows.Forms.DockStyle.Top;
             this.TBOrder.Location = new System.Drawing.Point(0, 0);
             this.TBOrder.Name = "TBOrder";
-            this.TBOrder.Size = new System.Drawing.Size(931, 20);
+            this.TBOrder.Size = new System.Drawing.Size(994, 20);
             this.TBOrder.TabIndex = 0;
             this.TBOrder.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TBOrder_KeyDown);
             // 
@@ -1279,7 +1281,7 @@
             this.tabPage4.Location = new System.Drawing.Point(23, 4);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(937, 549);
+            this.tabPage4.Size = new System.Drawing.Size(1000, 549);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "User";
             // 
@@ -1289,7 +1291,7 @@
             this.panel13.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel13.Location = new System.Drawing.Point(3, 42);
             this.panel13.Name = "panel13";
-            this.panel13.Size = new System.Drawing.Size(931, 3);
+            this.panel13.Size = new System.Drawing.Size(994, 3);
             this.panel13.TabIndex = 9;
             // 
             // groupBox4
@@ -1365,13 +1367,13 @@
             this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel8.Location = new System.Drawing.Point(3, 3);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(931, 39);
+            this.panel8.Size = new System.Drawing.Size(994, 39);
             this.panel8.TabIndex = 4;
             // 
             // User_image
             // 
             this.User_image.Dock = System.Windows.Forms.DockStyle.Right;
-            this.User_image.Location = new System.Drawing.Point(681, 0);
+            this.User_image.Location = new System.Drawing.Point(744, 0);
             this.User_image.Name = "User_image";
             this.User_image.Size = new System.Drawing.Size(250, 39);
             this.User_image.TabIndex = 3;
@@ -1398,7 +1400,7 @@
             this.tabPage6.Location = new System.Drawing.Point(23, 4);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(937, 549);
+            this.tabPage6.Size = new System.Drawing.Size(1000, 549);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Settings";
             // 
@@ -1410,7 +1412,7 @@
             this.panel16.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel16.Location = new System.Drawing.Point(3, 45);
             this.panel16.Name = "panel16";
-            this.panel16.Size = new System.Drawing.Size(931, 501);
+            this.panel16.Size = new System.Drawing.Size(994, 501);
             this.panel16.TabIndex = 8;
             // 
             // groupBox13
@@ -1628,7 +1630,7 @@
             this.panel11.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel11.Location = new System.Drawing.Point(3, 42);
             this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(931, 3);
+            this.panel11.Size = new System.Drawing.Size(994, 3);
             this.panel11.TabIndex = 7;
             // 
             // panel10
@@ -1639,13 +1641,13 @@
             this.panel10.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel10.Location = new System.Drawing.Point(3, 3);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(931, 39);
+            this.panel10.Size = new System.Drawing.Size(994, 39);
             this.panel10.TabIndex = 6;
             // 
             // Settings_image
             // 
             this.Settings_image.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Settings_image.Location = new System.Drawing.Point(681, 0);
+            this.Settings_image.Location = new System.Drawing.Point(744, 0);
             this.Settings_image.Name = "Settings_image";
             this.Settings_image.Size = new System.Drawing.Size(250, 39);
             this.Settings_image.TabIndex = 2;
@@ -1671,7 +1673,7 @@
             this.tabPage7.Location = new System.Drawing.Point(23, 4);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(937, 549);
+            this.tabPage7.Size = new System.Drawing.Size(1000, 549);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "Render";
             // 
@@ -1681,7 +1683,7 @@
             this.panel19.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel19.Location = new System.Drawing.Point(3, 42);
             this.panel19.Name = "panel19";
-            this.panel19.Size = new System.Drawing.Size(931, 3);
+            this.panel19.Size = new System.Drawing.Size(994, 3);
             this.panel19.TabIndex = 10;
             // 
             // panel18
@@ -1692,13 +1694,13 @@
             this.panel18.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel18.Location = new System.Drawing.Point(3, 3);
             this.panel18.Name = "panel18";
-            this.panel18.Size = new System.Drawing.Size(931, 39);
+            this.panel18.Size = new System.Drawing.Size(994, 39);
             this.panel18.TabIndex = 5;
             // 
             // Render_image
             // 
             this.Render_image.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Render_image.Location = new System.Drawing.Point(681, 0);
+            this.Render_image.Location = new System.Drawing.Point(744, 0);
             this.Render_image.Name = "Render_image";
             this.Render_image.Size = new System.Drawing.Size(250, 39);
             this.Render_image.TabIndex = 4;
@@ -1726,7 +1728,7 @@
             this.tabPage5.Location = new System.Drawing.Point(23, 4);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(937, 549);
+            this.tabPage5.Size = new System.Drawing.Size(1000, 549);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Help";
             // 
@@ -1736,7 +1738,7 @@
             this.panel12.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel12.Location = new System.Drawing.Point(3, 42);
             this.panel12.Name = "panel12";
-            this.panel12.Size = new System.Drawing.Size(931, 3);
+            this.panel12.Size = new System.Drawing.Size(994, 3);
             this.panel12.TabIndex = 8;
             // 
             // groupBox6
@@ -1785,13 +1787,13 @@
             this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel9.Location = new System.Drawing.Point(3, 3);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(931, 39);
+            this.panel9.Size = new System.Drawing.Size(994, 39);
             this.panel9.TabIndex = 5;
             // 
             // Help_image
             // 
             this.Help_image.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Help_image.Location = new System.Drawing.Point(681, 0);
+            this.Help_image.Location = new System.Drawing.Point(744, 0);
             this.Help_image.Name = "Help_image";
             this.Help_image.Size = new System.Drawing.Size(250, 39);
             this.Help_image.TabIndex = 3;
@@ -1819,7 +1821,7 @@
             this.tabPage3.Location = new System.Drawing.Point(23, 4);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(937, 549);
+            this.tabPage3.Size = new System.Drawing.Size(1000, 549);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Tools";
             this.tabPage3.Click += new System.EventHandler(this.tabPage3_Click);
@@ -1837,7 +1839,7 @@
             this.groupBox7.Controls.Add(this.groupBox16);
             this.groupBox7.Controls.Add(this.groupBox14);
             this.groupBox7.Controls.Add(this.groupBox8);
-            this.groupBox7.Location = new System.Drawing.Point(3, 24);
+            this.groupBox7.Location = new System.Drawing.Point(3, 45);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(940, 850);
             this.groupBox7.TabIndex = 31;
@@ -1855,13 +1857,11 @@
             this.groupBox19.Controls.Add(this.speedper);
             this.groupBox19.Controls.Add(this.UD_Zoom);
             this.groupBox19.Controls.Add(this.UD_dRotation);
-            this.groupBox19.Controls.Add(this.Scanner_ISelect);
             this.groupBox19.Controls.Add(this.UD_dSpeed);
             this.groupBox19.Controls.Add(this.UD_dZoom);
             this.groupBox19.Controls.Add(this.label45);
             this.groupBox19.Controls.Add(this.label22);
             this.groupBox19.Controls.Add(this.label30);
-            this.groupBox19.Controls.Add(this.UD_Speed);
             this.groupBox19.Controls.Add(this.label13);
             this.groupBox19.Controls.Add(this.UD_Rotation);
             this.groupBox19.Location = new System.Drawing.Point(442, 15);
@@ -1999,20 +1999,6 @@
             65536});
             this.UD_dRotation.ValueChanged += new System.EventHandler(this.UD_dRotation_ValueChanged);
             // 
-            // Scanner_ISelect
-            // 
-            this.Scanner_ISelect.FormattingEnabled = true;
-            this.Scanner_ISelect.Items.AddRange(new object[] {
-            "1 mA",
-            "10 mA",
-            "100 mA",
-            "1 A"});
-            this.Scanner_ISelect.Location = new System.Drawing.Point(129, 91);
-            this.Scanner_ISelect.Name = "Scanner_ISelect";
-            this.Scanner_ISelect.Size = new System.Drawing.Size(68, 21);
-            this.Scanner_ISelect.TabIndex = 15;
-            this.Scanner_ISelect.SelectedIndexChanged += new System.EventHandler(this.Scanner_ISelect_SelectedIndexChanged);
-            // 
             // UD_dSpeed
             // 
             this.UD_dSpeed.Location = new System.Drawing.Point(130, 54);
@@ -2085,35 +2071,6 @@
             this.label30.Size = new System.Drawing.Size(50, 13);
             this.label30.TabIndex = 32;
             this.label30.Text = "Rotation:";
-            // 
-            // UD_Speed
-            // 
-            this.UD_Speed.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.UD_Speed.Location = new System.Drawing.Point(58, 54);
-            this.UD_Speed.Maximum = new decimal(new int[] {
-            60000,
-            0,
-            0,
-            0});
-            this.UD_Speed.Minimum = new decimal(new int[] {
-            80,
-            0,
-            0,
-            0});
-            this.UD_Speed.Name = "UD_Speed";
-            this.UD_Speed.Size = new System.Drawing.Size(66, 20);
-            this.UD_Speed.TabIndex = 23;
-            this.UD_Speed.Tag = "200";
-            this.UD_Speed.Value = new decimal(new int[] {
-            200,
-            0,
-            0,
-            0});
-            this.UD_Speed.ValueChanged += new System.EventHandler(this.UDSpeed_ValueChanged);
             // 
             // label13
             // 
@@ -3885,8 +3842,6 @@
             this.groupBox16.Controls.Add(this.L_Lens_IML);
             this.groupBox16.Controls.Add(this.L_Lens_CON2);
             this.groupBox16.Controls.Add(this.L_Lens_CON1);
-            this.groupBox16.Controls.Add(this.UD_dLens_OBJ);
-            this.groupBox16.Controls.Add(this.UD_Lens_OBJ);
             this.groupBox16.Controls.Add(this.UD_dLens_IML);
             this.groupBox16.Controls.Add(this.UD_Lens_IML);
             this.groupBox16.Controls.Add(this.label44);
@@ -4001,6 +3956,7 @@
             // 
             // userControl12
             // 
+            this.userControl12.autocross = true;
             this.userControl12.AutoScroll = true;
             this.userControl12.BackColor = System.Drawing.Color.Honeydew;
             this.userControl12.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("userControl12.BackgroundImage")));
@@ -4030,6 +3986,7 @@
             // 
             // userControl11
             // 
+            this.userControl11.autocross = true;
             this.userControl11.AutoScroll = true;
             this.userControl11.BackColor = System.Drawing.Color.Honeydew;
             this.userControl11.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("userControl11.BackgroundImage")));
@@ -4075,6 +4032,7 @@
             this.TB_Wobbler.Name = "TB_Wobbler";
             this.TB_Wobbler.Size = new System.Drawing.Size(199, 45);
             this.TB_Wobbler.TabIndex = 56;
+            this.TB_Wobbler.Tag = "0";
             this.TB_Wobbler.Scroll += new System.EventHandler(this.TB_Wobbler_Scroll);
             // 
             // groupBox23
@@ -4582,6 +4540,7 @@
             // 
             // userControl15
             // 
+            this.userControl15.autocross = true;
             this.userControl15.AutoScroll = true;
             this.userControl15.BackColor = System.Drawing.Color.Honeydew;
             this.userControl15.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("userControl15.BackgroundImage")));
@@ -4600,6 +4559,7 @@
             // 
             // userControl14
             // 
+            this.userControl14.autocross = true;
             this.userControl14.AutoScroll = true;
             this.userControl14.BackColor = System.Drawing.Color.Honeydew;
             this.userControl14.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("userControl14.BackgroundImage")));
@@ -5071,50 +5031,6 @@
             this.L_Lens_CON1.TabIndex = 46;
             this.L_Lens_CON1.Text = "0.0 %";
             // 
-            // UD_dLens_OBJ
-            // 
-            this.UD_dLens_OBJ.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.UD_dLens_OBJ.Location = new System.Drawing.Point(126, 93);
-            this.UD_dLens_OBJ.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.UD_dLens_OBJ.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.UD_dLens_OBJ.Name = "UD_dLens_OBJ";
-            this.UD_dLens_OBJ.Size = new System.Drawing.Size(36, 26);
-            this.UD_dLens_OBJ.TabIndex = 45;
-            this.UD_dLens_OBJ.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.UD_dLens_OBJ.ValueChanged += new System.EventHandler(this.UD_dLens_OBJ_ValueChanged);
-            // 
-            // UD_Lens_OBJ
-            // 
-            this.UD_Lens_OBJ.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.UD_Lens_OBJ.Increment = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            this.UD_Lens_OBJ.Location = new System.Drawing.Point(52, 93);
-            this.UD_Lens_OBJ.Maximum = new decimal(new int[] {
-            4095,
-            0,
-            0,
-            0});
-            this.UD_Lens_OBJ.Name = "UD_Lens_OBJ";
-            this.UD_Lens_OBJ.Size = new System.Drawing.Size(68, 26);
-            this.UD_Lens_OBJ.TabIndex = 44;
-            this.UD_Lens_OBJ.Tag = "0";
-            this.UD_Lens_OBJ.ValueChanged += new System.EventHandler(this.UD_Lens_OBJ_ValueChanged);
-            // 
             // UD_dLens_IML
             // 
             this.UD_dLens_IML.Location = new System.Drawing.Point(110, 69);
@@ -5308,15 +5224,12 @@
             this.groupBox14.Controls.Add(this.L_HV_Filament);
             this.groupBox14.Controls.Add(this.L_HV_Wehnelt);
             this.groupBox14.Controls.Add(this.L_HV_HV);
-            this.groupBox14.Controls.Add(this.label40);
             this.groupBox14.Controls.Add(this.UD_dHV_Filament);
-            this.groupBox14.Controls.Add(this.UD_HV_Filament);
             this.groupBox14.Controls.Add(this.label39);
             this.groupBox14.Controls.Add(this.UD_dHV_Wehnelt);
             this.groupBox14.Controls.Add(this.UD_HV_Wehnelt);
             this.groupBox14.Controls.Add(this.label38);
             this.groupBox14.Controls.Add(this.UD_dHV_HV);
-            this.groupBox14.Controls.Add(this.UD_HV_HV);
             this.groupBox14.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.groupBox14.Location = new System.Drawing.Point(6, 165);
             this.groupBox14.Name = "groupBox14";
@@ -5374,15 +5287,6 @@
             this.L_HV_HV.TabIndex = 40;
             this.L_HV_HV.Text = "0.0 (KV)";
             // 
-            // label40
-            // 
-            this.label40.AutoSize = true;
-            this.label40.Location = new System.Drawing.Point(8, 85);
-            this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(49, 13);
-            this.label40.TabIndex = 38;
-            this.label40.Text = "Filament:";
-            // 
             // UD_dHV_Filament
             // 
             this.UD_dHV_Filament.Location = new System.Drawing.Point(132, 83);
@@ -5405,25 +5309,6 @@
             0,
             0});
             this.UD_dHV_Filament.ValueChanged += new System.EventHandler(this.UD_dHV_Filament_ValueChanged);
-            // 
-            // UD_HV_Filament
-            // 
-            this.UD_HV_Filament.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.UD_HV_Filament.Location = new System.Drawing.Point(58, 83);
-            this.UD_HV_Filament.Maximum = new decimal(new int[] {
-            85,
-            0,
-            0,
-            0});
-            this.UD_HV_Filament.Name = "UD_HV_Filament";
-            this.UD_HV_Filament.Size = new System.Drawing.Size(66, 20);
-            this.UD_HV_Filament.TabIndex = 37;
-            this.UD_HV_Filament.Tag = "0";
-            this.UD_HV_Filament.ValueChanged += new System.EventHandler(this.UD_HV_Filament_ValueChanged);
             // 
             // label39
             // 
@@ -5508,25 +5393,6 @@
             0});
             this.UD_dHV_HV.ValueChanged += new System.EventHandler(this.UD_dHV_HV_ValueChanged);
             // 
-            // UD_HV_HV
-            // 
-            this.UD_HV_HV.Increment = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            this.UD_HV_HV.Location = new System.Drawing.Point(58, 23);
-            this.UD_HV_HV.Maximum = new decimal(new int[] {
-            4095,
-            0,
-            0,
-            0});
-            this.UD_HV_HV.Name = "UD_HV_HV";
-            this.UD_HV_HV.Size = new System.Drawing.Size(66, 20);
-            this.UD_HV_HV.TabIndex = 31;
-            this.UD_HV_HV.Tag = "0";
-            this.UD_HV_HV.ValueChanged += new System.EventHandler(this.UD_HV_HV_ValueChanged);
-            // 
             // groupBox8
             // 
             this.groupBox8.Controls.Add(this.groupBox18);
@@ -5575,6 +5441,7 @@
             // 
             // userControl13
             // 
+            this.userControl13.autocross = true;
             this.userControl13.AutoScroll = true;
             this.userControl13.BackColor = System.Drawing.Color.Honeydew;
             this.userControl13.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("userControl13.BackgroundImage")));
@@ -5746,7 +5613,7 @@
             0,
             0});
             this.UD_STrim_dVal4.Name = "UD_STrim_dVal4";
-            this.UD_STrim_dVal4.Size = new System.Drawing.Size(66, 20);
+            this.UD_STrim_dVal4.Size = new System.Drawing.Size(34, 20);
             this.UD_STrim_dVal4.TabIndex = 57;
             this.UD_STrim_dVal4.Value = new decimal(new int[] {
             10,
@@ -5790,7 +5657,7 @@
             // 
             // UD_STrim_dVal3
             // 
-            this.UD_STrim_dVal3.Location = new System.Drawing.Point(138, 41);
+            this.UD_STrim_dVal3.Location = new System.Drawing.Point(124, 41);
             this.UD_STrim_dVal3.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -5802,7 +5669,7 @@
             0,
             0});
             this.UD_STrim_dVal3.Name = "UD_STrim_dVal3";
-            this.UD_STrim_dVal3.Size = new System.Drawing.Size(66, 20);
+            this.UD_STrim_dVal3.Size = new System.Drawing.Size(35, 20);
             this.UD_STrim_dVal3.TabIndex = 54;
             this.UD_STrim_dVal3.Value = new decimal(new int[] {
             10,
@@ -5831,7 +5698,7 @@
             0,
             -2147483648});
             this.UD_STrim_Val3.Name = "UD_STrim_Val3";
-            this.UD_STrim_Val3.Size = new System.Drawing.Size(66, 20);
+            this.UD_STrim_Val3.Size = new System.Drawing.Size(53, 20);
             this.UD_STrim_Val3.TabIndex = 53;
             this.UD_STrim_Val3.Tag = "4095";
             this.UD_STrim_Val3.Value = global::HelloWorld.Properties.Settings.Default.UD_STrim_Val3;
@@ -5860,7 +5727,7 @@
             0,
             0});
             this.UD_STrim_dVal2.Name = "UD_STrim_dVal2";
-            this.UD_STrim_dVal2.Size = new System.Drawing.Size(66, 20);
+            this.UD_STrim_dVal2.Size = new System.Drawing.Size(34, 20);
             this.UD_STrim_dVal2.TabIndex = 51;
             this.UD_STrim_dVal2.Value = new decimal(new int[] {
             10,
@@ -5904,7 +5771,7 @@
             // 
             // UD_STrim_dVal1
             // 
-            this.UD_STrim_dVal1.Location = new System.Drawing.Point(138, 15);
+            this.UD_STrim_dVal1.Location = new System.Drawing.Point(124, 15);
             this.UD_STrim_dVal1.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -5916,7 +5783,7 @@
             0,
             0});
             this.UD_STrim_dVal1.Name = "UD_STrim_dVal1";
-            this.UD_STrim_dVal1.Size = new System.Drawing.Size(66, 20);
+            this.UD_STrim_dVal1.Size = new System.Drawing.Size(35, 20);
             this.UD_STrim_dVal1.TabIndex = 47;
             this.UD_STrim_dVal1.Value = new decimal(new int[] {
             10,
@@ -5945,7 +5812,7 @@
             0,
             -2147483648});
             this.UD_STrim_Val1.Name = "UD_STrim_Val1";
-            this.UD_STrim_Val1.Size = new System.Drawing.Size(66, 20);
+            this.UD_STrim_Val1.Size = new System.Drawing.Size(53, 20);
             this.UD_STrim_Val1.TabIndex = 46;
             this.UD_STrim_Val1.Tag = "4095";
             this.UD_STrim_Val1.Value = global::HelloWorld.Properties.Settings.Default.UD_STrim_Val1;
@@ -6095,7 +5962,7 @@
             this.panel14.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel14.Location = new System.Drawing.Point(3, 21);
             this.panel14.Name = "panel14";
-            this.panel14.Size = new System.Drawing.Size(937, 3);
+            this.panel14.Size = new System.Drawing.Size(977, 3);
             this.panel14.TabIndex = 33;
             // 
             // panel7
@@ -6107,13 +5974,13 @@
             this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel7.Location = new System.Drawing.Point(3, 3);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(937, 18);
+            this.panel7.Size = new System.Drawing.Size(977, 18);
             this.panel7.TabIndex = 3;
             // 
             // Tools_image
             // 
             this.Tools_image.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Tools_image.Location = new System.Drawing.Point(687, 0);
+            this.Tools_image.Location = new System.Drawing.Point(727, 0);
             this.Tools_image.Name = "Tools_image";
             this.Tools_image.Size = new System.Drawing.Size(250, 18);
             this.Tools_image.TabIndex = 3;
@@ -6131,6 +5998,141 @@
             this.label8.TabIndex = 1;
             this.label8.Text = "Tools";
             // 
+            // Scanner_ISelect
+            // 
+            this.Scanner_ISelect.FormattingEnabled = true;
+            this.Scanner_ISelect.Items.AddRange(new object[] {
+            "1 mA",
+            "10 mA",
+            "100 mA",
+            "1 A"});
+            this.Scanner_ISelect.Location = new System.Drawing.Point(273, 54);
+            this.Scanner_ISelect.Name = "Scanner_ISelect";
+            this.Scanner_ISelect.Size = new System.Drawing.Size(68, 21);
+            this.Scanner_ISelect.TabIndex = 15;
+            this.Scanner_ISelect.SelectedIndexChanged += new System.EventHandler(this.Scanner_ISelect_SelectedIndexChanged);
+            // 
+            // UD_Speed
+            // 
+            this.UD_Speed.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.UD_Speed.Location = new System.Drawing.Point(325, 94);
+            this.UD_Speed.Maximum = new decimal(new int[] {
+            60000,
+            0,
+            0,
+            0});
+            this.UD_Speed.Minimum = new decimal(new int[] {
+            80,
+            0,
+            0,
+            0});
+            this.UD_Speed.Name = "UD_Speed";
+            this.UD_Speed.Size = new System.Drawing.Size(66, 20);
+            this.UD_Speed.TabIndex = 23;
+            this.UD_Speed.Tag = "200";
+            this.UD_Speed.Value = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+            this.UD_Speed.ValueChanged += new System.EventHandler(this.UDSpeed_ValueChanged);
+            // 
+            // UD_dLens_OBJ
+            // 
+            this.UD_dLens_OBJ.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UD_dLens_OBJ.Location = new System.Drawing.Point(210, 12);
+            this.UD_dLens_OBJ.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.UD_dLens_OBJ.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.UD_dLens_OBJ.Name = "UD_dLens_OBJ";
+            this.UD_dLens_OBJ.Size = new System.Drawing.Size(36, 26);
+            this.UD_dLens_OBJ.TabIndex = 45;
+            this.UD_dLens_OBJ.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.UD_dLens_OBJ.ValueChanged += new System.EventHandler(this.UD_dLens_OBJ_ValueChanged);
+            // 
+            // UD_Lens_OBJ
+            // 
+            this.UD_Lens_OBJ.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UD_Lens_OBJ.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.UD_Lens_OBJ.Location = new System.Drawing.Point(144, 12);
+            this.UD_Lens_OBJ.Maximum = new decimal(new int[] {
+            4095,
+            0,
+            0,
+            0});
+            this.UD_Lens_OBJ.Name = "UD_Lens_OBJ";
+            this.UD_Lens_OBJ.Size = new System.Drawing.Size(60, 26);
+            this.UD_Lens_OBJ.TabIndex = 44;
+            this.UD_Lens_OBJ.Tag = "0";
+            this.UD_Lens_OBJ.ValueChanged += new System.EventHandler(this.UD_Lens_OBJ_ValueChanged);
+            // 
+            // label40
+            // 
+            this.label40.AutoSize = true;
+            this.label40.ForeColor = System.Drawing.Color.White;
+            this.label40.Location = new System.Drawing.Point(1179, 5);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(49, 13);
+            this.label40.TabIndex = 38;
+            this.label40.Text = "Filament:";
+            // 
+            // UD_HV_Filament
+            // 
+            this.UD_HV_Filament.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.UD_HV_Filament.Location = new System.Drawing.Point(1226, 3);
+            this.UD_HV_Filament.Maximum = new decimal(new int[] {
+            85,
+            0,
+            0,
+            0});
+            this.UD_HV_Filament.Name = "UD_HV_Filament";
+            this.UD_HV_Filament.Size = new System.Drawing.Size(44, 20);
+            this.UD_HV_Filament.TabIndex = 37;
+            this.UD_HV_Filament.Tag = "0";
+            this.UD_HV_Filament.ValueChanged += new System.EventHandler(this.UD_HV_Filament_ValueChanged);
+            // 
+            // UD_HV_HV
+            // 
+            this.UD_HV_HV.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.UD_HV_HV.Location = new System.Drawing.Point(1123, 3);
+            this.UD_HV_HV.Maximum = new decimal(new int[] {
+            4095,
+            0,
+            0,
+            0});
+            this.UD_HV_HV.Name = "UD_HV_HV";
+            this.UD_HV_HV.Size = new System.Drawing.Size(52, 20);
+            this.UD_HV_HV.TabIndex = 31;
+            this.UD_HV_HV.Tag = "0";
+            this.UD_HV_HV.ValueChanged += new System.EventHandler(this.UD_HV_HV_ValueChanged);
+            // 
             // GB_Detectors
             // 
             this.GB_Detectors.BackColor = System.Drawing.Color.Transparent;
@@ -6145,7 +6147,9 @@
             this.GB_Detectors.Controls.Add(this.numeric_Speed);
             this.GB_Detectors.Controls.Add(this.label113);
             this.GB_Detectors.Controls.Add(this.label104);
+            this.GB_Detectors.Controls.Add(this.Scanner_ISelect);
             this.GB_Detectors.Controls.Add(this.trackBar_wob);
+            this.GB_Detectors.Controls.Add(this.UD_Speed);
             this.GB_Detectors.Controls.Add(this.label92);
             this.GB_Detectors.Controls.Add(this.button19);
             this.GB_Detectors.Controls.Add(this.label103);
@@ -6157,7 +6161,7 @@
             this.GB_Detectors.Controls.Add(this.button_stage);
             this.GB_Detectors.Dock = System.Windows.Forms.DockStyle.Right;
             this.GB_Detectors.ForeColor = System.Drawing.Color.White;
-            this.GB_Detectors.Location = new System.Drawing.Point(471, 0);
+            this.GB_Detectors.Location = new System.Drawing.Point(534, 0);
             this.GB_Detectors.Name = "GB_Detectors";
             this.GB_Detectors.Size = new System.Drawing.Size(493, 172);
             this.GB_Detectors.TabIndex = 0;
@@ -6293,7 +6297,7 @@
             this.numeric_Speed.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numeric_Speed.Location = new System.Drawing.Point(401, 113);
             this.numeric_Speed.Maximum = new decimal(new int[] {
-            7,
+            10,
             0,
             0,
             0});
@@ -6480,7 +6484,7 @@
             this.groupBox36.Dock = System.Windows.Forms.DockStyle.Right;
             this.groupBox36.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.groupBox36.ForeColor = System.Drawing.Color.White;
-            this.groupBox36.Location = new System.Drawing.Point(964, 0);
+            this.groupBox36.Location = new System.Drawing.Point(1027, 0);
             this.groupBox36.Name = "groupBox36";
             this.groupBox36.Size = new System.Drawing.Size(422, 172);
             this.groupBox36.TabIndex = 35;
@@ -6507,11 +6511,11 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 52.5974F));
             this.tableLayoutPanel1.Controls.Add(this.label112, 2, 5);
             this.tableLayoutPanel1.Controls.Add(this.label111, 2, 4);
-            this.tableLayoutPanel1.Controls.Add(this.label110, 2, 3);
+            this.tableLayoutPanel1.Controls.Add(this.label_PC, 2, 3);
             this.tableLayoutPanel1.Controls.Add(this.label109, 2, 2);
             this.tableLayoutPanel1.Controls.Add(this.progressBar2, 1, 5);
             this.tableLayoutPanel1.Controls.Add(this.label96, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this.progressBar1, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.progressBar_CLP, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.label98, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.label97, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.label99, 0, 1);
@@ -6540,41 +6544,42 @@
             // 
             this.label112.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label112.AutoSize = true;
-            this.label112.Location = new System.Drawing.Point(325, 100);
+            this.label112.Location = new System.Drawing.Point(317, 100);
             this.label112.Name = "label112";
-            this.label112.Size = new System.Drawing.Size(45, 13);
+            this.label112.Size = new System.Drawing.Size(60, 13);
             this.label112.TabIndex = 57;
-            this.label112.Text = "0 (mbar)";
+            this.label112.Text = "5e-5 (mbar)";
             // 
             // label111
             // 
             this.label111.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label111.AutoSize = true;
-            this.label111.Location = new System.Drawing.Point(325, 79);
+            this.label111.Location = new System.Drawing.Point(317, 79);
             this.label111.Name = "label111";
-            this.label111.Size = new System.Drawing.Size(45, 13);
+            this.label111.Size = new System.Drawing.Size(60, 13);
             this.label111.TabIndex = 56;
-            this.label111.Text = "0 (mbar)";
+            this.label111.Text = "2e-5 (mbar)";
             // 
-            // label110
+            // label_PC
             // 
-            this.label110.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label110.AutoSize = true;
-            this.label110.Location = new System.Drawing.Point(330, 60);
-            this.label110.Name = "label110";
-            this.label110.Size = new System.Drawing.Size(35, 13);
-            this.label110.TabIndex = 55;
-            this.label110.Text = "0 (pA)";
+            this.label_PC.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label_PC.AutoSize = true;
+            this.label_PC.Location = new System.Drawing.Point(327, 60);
+            this.label_PC.Name = "label_PC";
+            this.label_PC.Size = new System.Drawing.Size(41, 13);
+            this.label_PC.TabIndex = 55;
+            this.label_PC.Text = "20 (pA)";
+            this.label_PC.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label109
             // 
             this.label109.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label109.AutoSize = true;
-            this.label109.Location = new System.Drawing.Point(325, 41);
+            this.label109.Location = new System.Drawing.Point(322, 41);
             this.label109.Name = "label109";
-            this.label109.Size = new System.Drawing.Size(44, 13);
+            this.label109.Size = new System.Drawing.Size(50, 13);
             this.label109.TabIndex = 54;
-            this.label109.Text = "0.0 (uA)";
+            this.label109.Text = "70.0 (uA)";
             // 
             // progressBar2
             // 
@@ -6597,16 +6602,16 @@
             this.label96.TabIndex = 42;
             this.label96.Text = "0.0 %";
             // 
-            // progressBar1
+            // progressBar_CLP
             // 
-            this.progressBar1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.progressBar1.Location = new System.Drawing.Point(126, 82);
-            this.progressBar1.Margin = new System.Windows.Forms.Padding(2);
-            this.progressBar1.MarqueeAnimationSpeed = 500;
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(150, 7);
-            this.progressBar1.TabIndex = 50;
-            this.progressBar1.Value = 60;
+            this.progressBar_CLP.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.progressBar_CLP.Location = new System.Drawing.Point(126, 82);
+            this.progressBar_CLP.Margin = new System.Windows.Forms.Padding(2);
+            this.progressBar_CLP.MarqueeAnimationSpeed = 500;
+            this.progressBar_CLP.Name = "progressBar_CLP";
+            this.progressBar_CLP.Size = new System.Drawing.Size(150, 7);
+            this.progressBar_CLP.TabIndex = 50;
+            this.progressBar_CLP.Value = 75;
             // 
             // label98
             // 
@@ -6677,7 +6682,6 @@
             this.progressBar_PC.Name = "progressBar_PC";
             this.progressBar_PC.Size = new System.Drawing.Size(150, 7);
             this.progressBar_PC.TabIndex = 4;
-            this.progressBar_PC.Value = 60;
             // 
             // label101
             // 
@@ -6864,7 +6868,7 @@
             this.groupBox_gun.Controls.Add(this.GunShiftLight);
             this.groupBox_gun.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.groupBox_gun.ForeColor = System.Drawing.Color.White;
-            this.groupBox_gun.Location = new System.Drawing.Point(8, 800);
+            this.groupBox_gun.Location = new System.Drawing.Point(3, 807);
             this.groupBox_gun.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox_gun.Name = "groupBox_gun";
             this.groupBox_gun.Padding = new System.Windows.Forms.Padding(2);
@@ -7008,6 +7012,7 @@
             // 
             // Ctrl2D_GunTilt
             // 
+            this.Ctrl2D_GunTilt.autocross = true;
             this.Ctrl2D_GunTilt.AutoScroll = true;
             this.Ctrl2D_GunTilt.BackColor = System.Drawing.Color.Honeydew;
             this.Ctrl2D_GunTilt.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Ctrl2D_GunTilt.BackgroundImage")));
@@ -7037,6 +7042,7 @@
             // 
             // Ctrl2D_GunShift
             // 
+            this.Ctrl2D_GunShift.autocross = true;
             this.Ctrl2D_GunShift.AutoScroll = true;
             this.Ctrl2D_GunShift.BackColor = System.Drawing.Color.Honeydew;
             this.Ctrl2D_GunShift.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Ctrl2D_GunShift.BackgroundImage")));
@@ -7076,7 +7082,7 @@
             this.groupBox_object.Controls.Add(this.ObjectCenteringLight);
             this.groupBox_object.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.groupBox_object.ForeColor = System.Drawing.Color.White;
-            this.groupBox_object.Location = new System.Drawing.Point(8, 600);
+            this.groupBox_object.Location = new System.Drawing.Point(3, 603);
             this.groupBox_object.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox_object.Name = "groupBox_object";
             this.groupBox_object.Padding = new System.Windows.Forms.Padding(2);
@@ -7098,6 +7104,12 @@
             // 
             // num_obj_y
             // 
+            this.num_obj_y.DecimalPlaces = 1;
+            this.num_obj_y.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.num_obj_y.Location = new System.Drawing.Point(66, 51);
             this.num_obj_y.Margin = new System.Windows.Forms.Padding(2);
             this.num_obj_y.Name = "num_obj_y";
@@ -7124,6 +7136,12 @@
             // 
             // num_obj_x
             // 
+            this.num_obj_x.DecimalPlaces = 1;
+            this.num_obj_x.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.num_obj_x.Location = new System.Drawing.Point(66, 26);
             this.num_obj_x.Margin = new System.Windows.Forms.Padding(2);
             this.num_obj_x.Name = "num_obj_x";
@@ -7154,6 +7172,7 @@
             // 
             // Ctrl2D_ObjectCentering
             // 
+            this.Ctrl2D_ObjectCentering.autocross = true;
             this.Ctrl2D_ObjectCentering.AutoScroll = true;
             this.Ctrl2D_ObjectCentering.BackColor = System.Drawing.Color.Honeydew;
             this.Ctrl2D_ObjectCentering.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Ctrl2D_ObjectCentering.BackgroundImage")));
@@ -7192,7 +7211,7 @@
             this.groupBox_iml.Controls.Add(this.IMLCenteringLight);
             this.groupBox_iml.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.groupBox_iml.ForeColor = System.Drawing.Color.White;
-            this.groupBox_iml.Location = new System.Drawing.Point(180, 600);
+            this.groupBox_iml.Location = new System.Drawing.Point(175, 603);
             this.groupBox_iml.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox_iml.Name = "groupBox_iml";
             this.groupBox_iml.Padding = new System.Windows.Forms.Padding(2);
@@ -7215,6 +7234,12 @@
             // 
             // num_iml_y
             // 
+            this.num_iml_y.DecimalPlaces = 1;
+            this.num_iml_y.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.num_iml_y.Location = new System.Drawing.Point(77, 51);
             this.num_iml_y.Margin = new System.Windows.Forms.Padding(2);
             this.num_iml_y.Name = "num_iml_y";
@@ -7241,6 +7266,12 @@
             // 
             // num_iml_x
             // 
+            this.num_iml_x.DecimalPlaces = 1;
+            this.num_iml_x.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.num_iml_x.Location = new System.Drawing.Point(77, 26);
             this.num_iml_x.Margin = new System.Windows.Forms.Padding(2);
             this.num_iml_x.Name = "num_iml_x";
@@ -7271,6 +7302,7 @@
             // 
             // Ctrl2D_IMLCentering
             // 
+            this.Ctrl2D_IMLCentering.autocross = true;
             this.Ctrl2D_IMLCentering.AutoScroll = true;
             this.Ctrl2D_IMLCentering.BackColor = System.Drawing.Color.Honeydew;
             this.Ctrl2D_IMLCentering.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Ctrl2D_IMLCentering.BackgroundImage")));
@@ -7311,7 +7343,7 @@
             this.leftpanel.Controls.Add(this.groupBox_focus);
             this.leftpanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.leftpanel.ForeColor = System.Drawing.Color.White;
-            this.leftpanel.Location = new System.Drawing.Point(964, 59);
+            this.leftpanel.Location = new System.Drawing.Point(1027, 59);
             this.leftpanel.Margin = new System.Windows.Forms.Padding(1);
             this.leftpanel.Name = "leftpanel";
             this.leftpanel.Padding = new System.Windows.Forms.Padding(3);
@@ -7329,6 +7361,9 @@
             this.flowLayoutPanel1.Controls.Add(this.button27);
             this.flowLayoutPanel1.Controls.Add(this.button31);
             this.flowLayoutPanel1.Controls.Add(this.button30);
+            this.flowLayoutPanel1.Controls.Add(this.label_lens_ok_error);
+            this.flowLayoutPanel1.Controls.Add(this.label_tcp_error);
+            this.flowLayoutPanel1.Controls.Add(this.label_tcp_err);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Right;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(353, 3);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -7464,6 +7499,37 @@
             this.button30.UseVisualStyleBackColor = false;
             this.button30.Click += new System.EventHandler(this.button30_Click);
             // 
+            // label_lens_ok_error
+            // 
+            this.label_lens_ok_error.AutoSize = true;
+            this.label_lens_ok_error.ForeColor = System.Drawing.Color.Red;
+            this.label_lens_ok_error.Location = new System.Drawing.Point(3, 360);
+            this.label_lens_ok_error.Name = "label_lens_ok_error";
+            this.label_lens_ok_error.Size = new System.Drawing.Size(55, 13);
+            this.label_lens_ok_error.TabIndex = 67;
+            this.label_lens_ok_error.Text = ".              .";
+            this.label_lens_ok_error.Click += new System.EventHandler(this.label_lens_ok_error_Click);
+            // 
+            // label_tcp_error
+            // 
+            this.label_tcp_error.AutoSize = true;
+            this.label_tcp_error.ForeColor = System.Drawing.Color.Red;
+            this.label_tcp_error.Location = new System.Drawing.Point(3, 373);
+            this.label_tcp_error.Name = "label_tcp_error";
+            this.label_tcp_error.Size = new System.Drawing.Size(55, 13);
+            this.label_tcp_error.TabIndex = 69;
+            this.label_tcp_error.Text = ".              .";
+            // 
+            // label_tcp_err
+            // 
+            this.label_tcp_err.AutoSize = true;
+            this.label_tcp_err.ForeColor = System.Drawing.Color.Red;
+            this.label_tcp_err.Location = new System.Drawing.Point(3, 386);
+            this.label_tcp_err.Name = "label_tcp_err";
+            this.label_tcp_err.Size = new System.Drawing.Size(55, 13);
+            this.label_tcp_err.TabIndex = 72;
+            this.label_tcp_err.Text = ".              .";
+            // 
             // groupBox_stig
             // 
             this.groupBox_stig.Controls.Add(this.label121);
@@ -7475,7 +7541,7 @@
             this.groupBox_stig.Controls.Add(this.StigLight);
             this.groupBox_stig.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.groupBox_stig.ForeColor = System.Drawing.Color.White;
-            this.groupBox_stig.Location = new System.Drawing.Point(8, 400);
+            this.groupBox_stig.Location = new System.Drawing.Point(3, 403);
             this.groupBox_stig.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox_stig.Name = "groupBox_stig";
             this.groupBox_stig.Padding = new System.Windows.Forms.Padding(2);
@@ -7498,6 +7564,12 @@
             // 
             // num_stig_y
             // 
+            this.num_stig_y.DecimalPlaces = 1;
+            this.num_stig_y.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.num_stig_y.Location = new System.Drawing.Point(66, 51);
             this.num_stig_y.Margin = new System.Windows.Forms.Padding(2);
             this.num_stig_y.Name = "num_stig_y";
@@ -7524,6 +7596,12 @@
             // 
             // num_stig_x
             // 
+            this.num_stig_x.DecimalPlaces = 1;
+            this.num_stig_x.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.num_stig_x.Location = new System.Drawing.Point(66, 26);
             this.num_stig_x.Margin = new System.Windows.Forms.Padding(2);
             this.num_stig_x.Name = "num_stig_x";
@@ -7548,12 +7626,14 @@
             this.dCtrl2D_Stig.Size = new System.Drawing.Size(45, 104);
             this.dCtrl2D_Stig.TabIndex = 85;
             this.dCtrl2D_Stig.Value = 1;
+            this.dCtrl2D_Stig.Scroll += new System.EventHandler(this.dCtrl2D_Stig_Scroll_1);
             this.dCtrl2D_Stig.ValueChanged += new System.EventHandler(this.dCtrl2D_Stig_Scroll);
             this.dCtrl2D_Stig.Enter += new System.EventHandler(this.Ctrl2D_Stig_Enter);
             this.dCtrl2D_Stig.Leave += new System.EventHandler(this.Ctrl2D_Stig_Leave);
             // 
             // Ctrl2D_Stig
             // 
+            this.Ctrl2D_Stig.autocross = true;
             this.Ctrl2D_Stig.AutoScroll = true;
             this.Ctrl2D_Stig.BackColor = System.Drawing.Color.Honeydew;
             this.Ctrl2D_Stig.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Ctrl2D_Stig.BackgroundImage")));
@@ -7592,7 +7672,7 @@
             this.groupBox_gain.Controls.Add(this.Ctrl2D_Gain);
             this.groupBox_gain.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.groupBox_gain.ForeColor = System.Drawing.Color.White;
-            this.groupBox_gain.Location = new System.Drawing.Point(180, 400);
+            this.groupBox_gain.Location = new System.Drawing.Point(175, 403);
             this.groupBox_gain.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox_gain.Name = "groupBox_gain";
             this.groupBox_gain.Padding = new System.Windows.Forms.Padding(2);
@@ -7678,10 +7758,11 @@
             // 
             // Ctrl2D_Gain
             // 
+            this.Ctrl2D_Gain.autocross = true;
             this.Ctrl2D_Gain.AutoScroll = true;
-            this.Ctrl2D_Gain.BackColor = System.Drawing.Color.Honeydew;
-            this.Ctrl2D_Gain.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Ctrl2D_Gain.BackgroundImage")));
-            this.Ctrl2D_Gain.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.Ctrl2D_Gain.BackColor = System.Drawing.Color.White;
+            this.Ctrl2D_Gain.BackgroundImage = global::HelloWorld.Properties.Resources.gradient__1_;
+            this.Ctrl2D_Gain.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.Ctrl2D_Gain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Ctrl2D_Gain.Location = new System.Drawing.Point(4, 91);
             this.Ctrl2D_Gain.Margin = new System.Windows.Forms.Padding(0);
@@ -7693,6 +7774,7 @@
             this.Ctrl2D_Gain.Y = 0;
             this.Ctrl2D_Gain.valueChanged += new System.EventHandler(this.Ctrl2D_Gain_valueChanged);
             this.Ctrl2D_Gain.Load += new System.EventHandler(this.Ctrl2D_Gain_Load);
+            this.Ctrl2D_Gain.Paint += new System.Windows.Forms.PaintEventHandler(this.Ctrl2D_Gain_Paint);
             this.Ctrl2D_Gain.Enter += new System.EventHandler(this.Ctrl2D_Gain_Enter);
             this.Ctrl2D_Gain.Leave += new System.EventHandler(this.Ctrl2D_Gain_Leave);
             // 
@@ -7707,7 +7789,7 @@
             this.groupBox_zoom.Controls.Add(this.ZoomLight);
             this.groupBox_zoom.Controls.Add(this.dCtrl1D_Zoom);
             this.groupBox_zoom.ForeColor = System.Drawing.Color.White;
-            this.groupBox_zoom.Location = new System.Drawing.Point(8, 200);
+            this.groupBox_zoom.Location = new System.Drawing.Point(3, 203);
             this.groupBox_zoom.Name = "groupBox_zoom";
             this.groupBox_zoom.Size = new System.Drawing.Size(340, 200);
             this.groupBox_zoom.TabIndex = 13;
@@ -7837,6 +7919,7 @@
             this.dCtrl1D_Zoom.Size = new System.Drawing.Size(87, 45);
             this.dCtrl1D_Zoom.TabIndex = 88;
             this.dCtrl1D_Zoom.Value = 1;
+            this.dCtrl1D_Zoom.Scroll += new System.EventHandler(this.dCtrl1D_Zoom_Scroll);
             this.dCtrl1D_Zoom.Enter += new System.EventHandler(this.Ctrl1D_Zoom_Enter);
             this.dCtrl1D_Zoom.Leave += new System.EventHandler(this.Ctrl1D_Zoom_Leave);
             // 
@@ -7849,8 +7932,10 @@
             this.groupBox_focus.Controls.Add(this.Ctrl1D_Focus);
             this.groupBox_focus.Controls.Add(this.FocusLight);
             this.groupBox_focus.Controls.Add(this.dCtrl1D_Focus);
+            this.groupBox_focus.Controls.Add(this.UD_Lens_OBJ);
+            this.groupBox_focus.Controls.Add(this.UD_dLens_OBJ);
             this.groupBox_focus.ForeColor = System.Drawing.Color.White;
-            this.groupBox_focus.Location = new System.Drawing.Point(8, 0);
+            this.groupBox_focus.Location = new System.Drawing.Point(3, 3);
             this.groupBox_focus.Name = "groupBox_focus";
             this.groupBox_focus.Size = new System.Drawing.Size(340, 200);
             this.groupBox_focus.TabIndex = 14;
@@ -7905,11 +7990,6 @@
             196608});
             this.numericFocus.Location = new System.Drawing.Point(50, 14);
             this.numericFocus.Margin = new System.Windows.Forms.Padding(2);
-            this.numericFocus.Maximum = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
             this.numericFocus.Minimum = new decimal(new int[] {
             1,
             0,
@@ -7957,7 +8037,7 @@
             // dCtrl1D_Focus
             // 
             this.dCtrl1D_Focus.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(99)))), ((int)(((byte)(112)))), ((int)(((byte)(132)))));
-            this.dCtrl1D_Focus.Location = new System.Drawing.Point(232, 8);
+            this.dCtrl1D_Focus.Location = new System.Drawing.Point(249, 9);
             this.dCtrl1D_Focus.Minimum = 1;
             this.dCtrl1D_Focus.Name = "dCtrl1D_Focus";
             this.dCtrl1D_Focus.Size = new System.Drawing.Size(87, 45);
@@ -8007,7 +8087,7 @@
             // 
             // timer_hv
             // 
-            this.timer_hv.Interval = 500;
+            this.timer_hv.Interval = 2000;
             this.timer_hv.Tick += new System.EventHandler(this.timer_hv_Tick);
             // 
             // button_settings
@@ -8030,8 +8110,7 @@
             // Buttons
             // 
             this.Buttons.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(63)))), ((int)(((byte)(91)))));
-            this.Buttons.Controls.Add(this.label_tcp_error);
-            this.Buttons.Controls.Add(this.label_lens_ok_error);
+            this.Buttons.Controls.Add(this.button_mem);
             this.Buttons.Controls.Add(this.MicroscopyMode);
             this.Buttons.Controls.Add(this.label115);
             this.Buttons.Controls.Add(this.HVProfile);
@@ -8043,33 +8122,30 @@
             this.Buttons.Controls.Add(this.button20);
             this.Buttons.Controls.Add(this.button22);
             this.Buttons.Controls.Add(this.tcp_status_light);
+            this.Buttons.Controls.Add(this.UD_HV_Filament);
+            this.Buttons.Controls.Add(this.label40);
+            this.Buttons.Controls.Add(this.UD_HV_HV);
             this.Buttons.Dock = System.Windows.Forms.DockStyle.Top;
             this.Buttons.Location = new System.Drawing.Point(0, 32);
             this.Buttons.Margin = new System.Windows.Forms.Padding(2);
             this.Buttons.Name = "Buttons";
-            this.Buttons.Size = new System.Drawing.Size(1386, 27);
+            this.Buttons.Size = new System.Drawing.Size(1449, 27);
             this.Buttons.TabIndex = 59;
             // 
-            // label_tcp_error
+            // button_mem
             // 
-            this.label_tcp_error.AutoSize = true;
-            this.label_tcp_error.ForeColor = System.Drawing.Color.Red;
-            this.label_tcp_error.Location = new System.Drawing.Point(1278, 8);
-            this.label_tcp_error.Name = "label_tcp_error";
-            this.label_tcp_error.Size = new System.Drawing.Size(13, 13);
-            this.label_tcp_error.TabIndex = 69;
-            this.label_tcp_error.Text = "0";
-            // 
-            // label_lens_ok_error
-            // 
-            this.label_lens_ok_error.AutoSize = true;
-            this.label_lens_ok_error.ForeColor = System.Drawing.Color.Red;
-            this.label_lens_ok_error.Location = new System.Drawing.Point(1132, 8);
-            this.label_lens_ok_error.Name = "label_lens_ok_error";
-            this.label_lens_ok_error.Size = new System.Drawing.Size(13, 13);
-            this.label_lens_ok_error.TabIndex = 67;
-            this.label_lens_ok_error.Text = "0";
-            this.label_lens_ok_error.Click += new System.EventHandler(this.label_lens_ok_error_Click);
+            this.button_mem.BackColor = System.Drawing.Color.SlateGray;
+            this.button_mem.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_mem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_mem.ForeColor = System.Drawing.Color.White;
+            this.button_mem.Location = new System.Drawing.Point(1070, 0);
+            this.button_mem.Margin = new System.Windows.Forms.Padding(15, 3, 3, 3);
+            this.button_mem.Name = "button_mem";
+            this.button_mem.Size = new System.Drawing.Size(47, 27);
+            this.button_mem.TabIndex = 67;
+            this.button_mem.Text = "MEM";
+            this.button_mem.UseVisualStyleBackColor = false;
+            this.button_mem.Click += new System.EventHandler(this.button_mem_Click);
             // 
             // MicroscopyMode
             // 
@@ -8079,9 +8155,9 @@
             "Resolution",
             "Wide-Field",
             "Field"});
-            this.MicroscopyMode.Location = new System.Drawing.Point(1044, 0);
+            this.MicroscopyMode.Location = new System.Drawing.Point(1013, 0);
             this.MicroscopyMode.Name = "MicroscopyMode";
-            this.MicroscopyMode.Size = new System.Drawing.Size(84, 21);
+            this.MicroscopyMode.Size = new System.Drawing.Size(57, 21);
             this.MicroscopyMode.TabIndex = 64;
             this.MicroscopyMode.SelectedIndexChanged += new System.EventHandler(this.MicroscopyMode_SelectedIndexChanged);
             // 
@@ -8090,7 +8166,7 @@
             this.label115.Dock = System.Windows.Forms.DockStyle.Left;
             this.label115.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.label115.ForeColor = System.Drawing.Color.White;
-            this.label115.Location = new System.Drawing.Point(990, 0);
+            this.label115.Location = new System.Drawing.Point(959, 0);
             this.label115.Name = "label115";
             this.label115.Size = new System.Drawing.Size(54, 27);
             this.label115.TabIndex = 63;
@@ -8107,7 +8183,7 @@
             "HV3"});
             this.HVProfile.Location = new System.Drawing.Point(916, 0);
             this.HVProfile.Name = "HVProfile";
-            this.HVProfile.Size = new System.Drawing.Size(74, 21);
+            this.HVProfile.Size = new System.Drawing.Size(43, 21);
             this.HVProfile.TabIndex = 62;
             this.HVProfile.SelectedIndexChanged += new System.EventHandler(this.HVProfile_SelectedIndexChanged);
             // 
@@ -8185,23 +8261,6 @@
             this.tcp_status_light.TabIndex = 66;
             this.tcp_status_light.TabStop = false;
             // 
-            // Border
-            // 
-            this.Border.BackColor = System.Drawing.Color.Black;
-            this.Border.Dock = System.Windows.Forms.DockStyle.Top;
-            this.Border.Location = new System.Drawing.Point(0, 0);
-            this.Border.Margin = new System.Windows.Forms.Padding(2);
-            this.Border.Name = "Border";
-            this.Border.Size = new System.Drawing.Size(1386, 32);
-            this.Border.TabIndex = 7;
-            this.Border.TabStop = false;
-            this.Border.Click += new System.EventHandler(this.ToolsPicture_Click);
-            this.Border.Paint += new System.Windows.Forms.PaintEventHandler(this.ToolsPicture_Paint);
-            this.Border.DoubleClick += new System.EventHandler(this.ToolsPicture_DoubleClick);
-            this.Border.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ToolsPicture_MouseDown);
-            this.Border.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ToolsPicture_MouseMove);
-            this.Border.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ToolsPicture_MouseUp);
-            // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(99)))), ((int)(((byte)(112)))), ((int)(((byte)(132)))));
@@ -8211,7 +8270,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel2.Location = new System.Drawing.Point(0, 616);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1386, 172);
+            this.panel2.Size = new System.Drawing.Size(1449, 172);
             this.panel2.TabIndex = 60;
             // 
             // pictureBox6
@@ -8234,12 +8293,12 @@
             // 
             // TimerHVUpdater
             // 
-            this.TimerHVUpdater.Interval = 200;
+            this.TimerHVUpdater.Interval = 2000;
             this.TimerHVUpdater.Tick += new System.EventHandler(this.TimerHVUpdater_Tick);
             // 
             // TimerFBUpdater
             // 
-            this.TimerFBUpdater.Interval = 200;
+            this.TimerFBUpdater.Interval = 500;
             this.TimerFBUpdater.Tick += new System.EventHandler(this.TimerFBUpdater_Tick);
             // 
             // openFileDialog_Images
@@ -8256,6 +8315,23 @@
             // 
             this.timeout_timer.Interval = 1;
             this.timeout_timer.Tick += new System.EventHandler(this.timeout_timer_Tick);
+            // 
+            // Border
+            // 
+            this.Border.BackColor = System.Drawing.Color.Black;
+            this.Border.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Border.Location = new System.Drawing.Point(0, 0);
+            this.Border.Margin = new System.Windows.Forms.Padding(2);
+            this.Border.Name = "Border";
+            this.Border.Size = new System.Drawing.Size(1449, 32);
+            this.Border.TabIndex = 7;
+            this.Border.TabStop = false;
+            this.Border.Click += new System.EventHandler(this.ToolsPicture_Click);
+            this.Border.Paint += new System.Windows.Forms.PaintEventHandler(this.ToolsPicture_Paint);
+            this.Border.DoubleClick += new System.EventHandler(this.ToolsPicture_DoubleClick);
+            this.Border.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ToolsPicture_MouseDown);
+            this.Border.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ToolsPicture_MouseMove);
+            this.Border.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ToolsPicture_MouseUp);
             // 
             // userControl1BindingSource1
             // 
@@ -8277,7 +8353,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.Menu;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1386, 788);
+            this.ClientSize = new System.Drawing.Size(1449, 788);
             this.ControlBox = false;
             this.Controls.Add(this.TabControl_Main);
             this.Controls.Add(this.leftpanel);
@@ -8354,7 +8430,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.UD_dRotation)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UD_dSpeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UD_dZoom)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UD_Speed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UD_Rotation)).EndInit();
             this.groupBox32.ResumeLayout(false);
             this.groupBox35.ResumeLayout(false);
@@ -8461,8 +8536,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.UD_Lens_shiftx)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UD_dLens_OBJ)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UD_Lens_OBJ)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UD_dLens_IML)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UD_Lens_IML)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UD_dLens_CON2)).EndInit();
@@ -8474,11 +8547,9 @@
             this.groupBox14.ResumeLayout(false);
             this.groupBox14.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UD_dHV_Filament)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UD_HV_Filament)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UD_dHV_Wehnelt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UD_HV_Wehnelt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UD_dHV_HV)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UD_HV_HV)).EndInit();
             this.groupBox8.ResumeLayout(false);
             this.groupBox18.ResumeLayout(false);
             this.groupBox18.PerformLayout();
@@ -8509,6 +8580,11 @@
             this.panel7.ResumeLayout(false);
             this.panel7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Tools_image)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UD_Speed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UD_dLens_OBJ)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UD_Lens_OBJ)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UD_HV_Filament)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UD_HV_HV)).EndInit();
             this.GB_Detectors.ResumeLayout(false);
             this.GB_Detectors.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown13)).EndInit();
@@ -8547,6 +8623,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.IMLCenteringLight)).EndInit();
             this.leftpanel.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.groupBox_stig.ResumeLayout(false);
             this.groupBox_stig.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_stig_y)).EndInit();
@@ -8576,9 +8653,9 @@
             this.Buttons.ResumeLayout(false);
             this.Buttons.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tcp_status_light)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Border)).EndInit();
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Border)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.userControl1BindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.userControl1BindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
@@ -9018,14 +9095,14 @@
         private System.Windows.Forms.ProgressBar progressBar_HV;
         private System.Windows.Forms.Button button_VAC;
         private System.Windows.Forms.ProgressBar progressBar2;
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.ProgressBar progressBar_CLP;
         private System.Windows.Forms.Label label106;
         private System.Windows.Forms.Label label105;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label108;
         private System.Windows.Forms.Label label112;
         private System.Windows.Forms.Label label111;
-        private System.Windows.Forms.Label label110;
+        private System.Windows.Forms.Label label_PC;
         private System.Windows.Forms.Label label109;
         private System.Windows.Forms.Label label107;
         private System.Windows.Forms.BindingSource bindingSource1;
@@ -9118,5 +9195,7 @@
         private System.Windows.Forms.Button button_hv_init;
         private System.Windows.Forms.Button button_lens_init;
         private System.Windows.Forms.Button button_main_init;
+        private System.Windows.Forms.Label label_tcp_err;
+        private System.Windows.Forms.Button button_mem;
     }
 }

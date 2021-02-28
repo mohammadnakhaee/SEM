@@ -1,4 +1,5 @@
-﻿using Emgu.CV;
+﻿#define UDPCOM
+using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using InTheHand.Net;
@@ -8,6 +9,7 @@ using LibUsbDotNet;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.IO.Ports;
@@ -23,9 +25,11 @@ using System.Xml.Serialization;
 using Windows.Devices.Enumeration;
 using Windows.Devices.HumanInterfaceDevice;
 using Windows.Storage;
+//using System.Management.Automation;
 //test master2
 //using RawInput_dll;
 //test master
+
 namespace HelloWorld
 {
     public partial class FormMain : Form
@@ -55,13 +59,17 @@ namespace HelloWorld
         //UInt16 ready = 0;
         System.Diagnostics.Stopwatch watch = System.Diagnostics.Stopwatch.StartNew();
         IPAddress LocalHost = IPAddress.Parse("190.100.101.2"); //My IP
-        IPAddress ServerHost = IPAddress.Parse("190.100.101.1"); //My IP
-                                                                 //  IPAddress LocalHost = IPAddress.Parse("192.168.1.101"); //My IP
-                                                                 // IPAddress ServerHost = IPAddress.Parse("192.168.1.101"); //My IP
-        IPEndPoint EIP;
+        IPAddress ServerHost = IPAddress.Parse("190.100.101.0"); //My IP
+
+        private string ServerMAC = "00-80-e1-00-00-00";
+        //  IPAddress LocalHost = IPAddress.Parse("192.168.1.101"); //My IP
+        // IPAddress ServerHost = IPAddress.Parse("192.168.1.101"); //My IP
+        IPEndPoint UDPCOMEIP;
+        private IPEndPoint UDPCOMlocalEIP;
         IPEndPoint TCPEIP;
-        int VideoPort = 23;
+        int UDPCOMPort = 24;
         int ControllerPort = 152;
+        int ReceiveBufferSize=50;
         Image<Gray, byte> frame = new Image<Gray, byte>(512, 512, new Gray(0));
         int x = 0;
         int y = 0;
@@ -131,6 +139,7 @@ namespace HelloWorld
         int conscon2y = 0;
 
         TcpClient tcp;
+        UdpClient udpcom;
         NetworkStream TCPnetworkStream;
         NetworkStream btstream;
         BluetoothClient remoteDevice;
@@ -156,7 +165,8 @@ namespace HelloWorld
 
         // Create timer 
         System.Timers.Timer timeouttimer = new System.Timers.Timer();
-        System.Timers.Timer UDP_Timer = new System.Timers.Timer(20);
+        System.Timers.Timer timeouttimer2 = new System.Timers.Timer();
+        //System.Timers.Timer UDP_Timer = new System.Timers.Timer(20);
 
 
 
@@ -164,6 +174,9 @@ namespace HelloWorld
         public FormMain()
         {
             InitializeComponent();
+
+            tcp_status_light.Image = LightOff;
+            tcp_status_light.SizeMode = PictureBoxSizeMode.StretchImage;
             System.Net.NetworkInformation.NetworkChange.NetworkAddressChanged += new NetworkAddressChangedEventHandler(this.netchanged);
             netchanged(this, null);
             HVProfileLastIndex = HVProfile.SelectedIndex;
@@ -171,14 +184,14 @@ namespace HelloWorld
             SetCustomBorder();
 
 
-            UDP_Timer.Elapsed += new System.Timers.ElapsedEventHandler(UDP_Timer_Tick);
+           // UDP_Timer.Elapsed += new System.Timers.ElapsedEventHandler(UDP_Timer_Tick);
             //timeouttimer.Enabled = true;
             // Hook up the Elapsed event for the timer.
-            timeouttimer.Elapsed += new System.Timers.ElapsedEventHandler( OnTimedEvent);
+            timeouttimer.Elapsed += new System.Timers.ElapsedEventHandler(OnTimedEvent);
             timeouttimer.AutoReset = false;
-
-            tcp_status_light.Image = LightOff;
-            tcp_status_light.SizeMode = PictureBoxSizeMode.StretchImage;
+            timeouttimer2.AutoReset = false;
+            timeouttimer2.Interval = 100;
+            
             int NumberOfHVProfile = HVProfile.Items.Count;
             for (int i = 0; i < NumberOfHVProfile; i++) AllUserSettings.Add(new UserSettings());
 
@@ -198,7 +211,7 @@ namespace HelloWorld
             */
 
             ViewPort = new Emgu.CV.UI.ImageBox();
-           // panel1.Controls.Add(ViewPort);
+            // panel1.Controls.Add(ViewPort);
             //ViewPort.Dock = System.Windows.Forms.DockStyle.Fill;
             //ViewPort.Dock = System.Windows.Forms.DockStyle.Fill;
             ViewPort.Image = null;
@@ -218,8 +231,11 @@ namespace HelloWorld
             ViewPort.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ViewPort_MouseUp);
             */
             // Emgu.CV.UI.Operation a;
-            EIP = new IPEndPoint(LocalHost, VideoPort);
-            TCPEIP = new IPEndPoint(LocalHost, ControllerPort);
+            UDPCOMEIP = new IPEndPoint(ServerHost, UDPCOMPort);
+            UDPCOMlocalEIP = new IPEndPoint(LocalHost, UDPCOMPort);
+            udpcom = new UdpClient(UDPCOMlocalEIP);// (UDPCOMEIP);
+            udpcom.Connect(UDPCOMEIP);
+            TCPEIP = new IPEndPoint(ServerHost, ControllerPort);
             numericUpDown1.Value = nRow;
 
             //Terminal Tab Start
@@ -253,7 +269,7 @@ namespace HelloWorld
 
             //InitializeUDP();
             imgfrm = new PictureForm();
-           // this.panel1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseWheel);
+            // this.panel1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseWheel);
             this.userControl11.valueChanged += new EventHandler(this.u1_valueChanged);
             this.userControl12.valueChanged += new EventHandler(this.u2_valueChanged);
             this.userControl13.valueChanged += new EventHandler(this.u3_valueChanged);
@@ -342,7 +358,7 @@ namespace HelloWorld
 
 
             //group3.VerticalScroll.SmallChange = 300;
-           
+
 
             //stage
             //<<<<<<< master
@@ -361,21 +377,89 @@ namespace HelloWorld
 
             ApplyGeneralSettings();
             leftpanel.Enabled = false;
+            
+           // Ctrl2D_Gain.autocross = false;
+           // Process process = new Process();
+           // process.StartInfo.FileName = "cmd.exe "+"arp -s " + ServerHost.ToString() + " " + ServerMAC;
+            // process.StartInfo.Arguments = 
+           // process.StartInfo.CreateNoWindow = true; //Don't show window
+           // process.Start();
+           // MessageBox.Show(GetARPResult());
         }
+        /// <summary>
+        /// This runs the "arp" utility in Windows to retrieve all the MAC / IP Address entries.
+        /// </summary>
+        /// <returns></returns>
+        private string GetARPResult()
+        {
+            Process p = null;
+            string output = string.Empty;
+            
 
-        private void netchanged(object sender, EventArgs ee)
+            try
+            {
+                string net_id="";
+                NetworkInterface[] adapters = NetworkInterface.GetAllNetworkInterfaces();
+                //New - NetNeighbor - InterfaceIndex 0xe - IPAddress '190.100.101.0' - LinkLayerAddress '0080e1000000' - State Permanent
+                foreach (NetworkInterface n in adapters)
+                {
+                    if ((n.Name == "Ethernet"))
+                        net_id = n.Id;
+
+                    //Console.WriteLine("   {0} is {1}, {2}", n.Name, n.Description,n.NetworkInterfaceType);
+                }
+                p = Process.Start(new ProcessStartInfo("arp", "-s " + ServerHost.ToString() + " " + ServerMAC + " " +LocalHost.ToString())
+                {
+                    CreateNoWindow = true,
+                    UseShellExecute = true,
+                    RedirectStandardOutput = false,
+                    Verb = "runas"
+                });
+               
+                    output = "arp"+ "- s " + ServerHost.ToString() + " " + ServerMAC;
+
+                p.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("IPInfo: Error Retrieving 'arp -a' Results", ex);
+            }
+            finally
+            {
+                if (p != null)
+                {
+                    p.Close();
+                }
+            }
+
+            return output;
+        }
+    private void netchanged(object sender, EventArgs ee)
         {
             Eth_Link = 0; tcp_diconnected();
             NetworkInterface[] adapters = NetworkInterface.GetAllNetworkInterfaces();
             foreach (NetworkInterface n in adapters)
             {
                 if ((n.Name == "Ethernet") && (n.OperationalStatus == OperationalStatus.Up))
-                    { Eth_Link = 1; tcp_connected();break; }
+                    {
+                    Eth_Link = 1; tcp_connected();break;
+                }
                
                 //Console.WriteLine("   {0} is {1}, {2}", n.Name, n.Description,n.NetworkInterfaceType);
             }
             if(tcp_state==true && Eth_Link==1)
-            { Btn_TCPConnect_Click(this, null); }
+            {
+                Invoke(new MethodInvoker(tcp_reconnect));
+                
+            }
+        }
+        void tcp_reconnect()
+        {
+        #if UDPCOM
+                    return;
+        #endif
+            Btn_TCPDisconnect_Click(this, null);
+            Btn_TCPConnect_Click(this, null);
         }
 
         //<<<<<<< master
@@ -791,7 +875,8 @@ namespace HelloWorld
             //textBox4.Text = ((sbyte)e.Buffer[0]).ToString() + "|" + ((sbyte)e.Buffer[1]).ToString() + "|" + ((sbyte)e.Buffer[2]).ToString() + "||";
             //userControl21.X += (sbyte)e.Buffer[1];
             //userControl21.Y += (sbyte)e.Buffer[2];
-
+            trackball_dx +=(int) ((sbyte)e.Buffer[1]);
+            trackball_dy +=(int) ((sbyte)e.Buffer[2]);
             if (((sbyte)e.Buffer[0] & (sbyte)1) == (sbyte)1) DecreaseSensitivity();
             else if (((sbyte)e.Buffer[0] & (sbyte)2) == (sbyte)2) IncreaseSensitivity();
             else if (((sbyte)e.Buffer[0] & (sbyte)8) == (sbyte)8) SwitchToPrevious();
@@ -799,9 +884,11 @@ namespace HelloWorld
 
             //richTextBox1.AppendText(e.Buffer[0].ToString() + "|" + e.Buffer[1].ToString() + "\r");
             //richTextBox1.Text = e.Buffer[0].ToString() + "\r" + richTextBox1.Text;
-            int deltax = (int)((double)((sbyte)e.Buffer[1]) / (11 - GetSelectedDCtrlVal()));
-            int seltay = (int)((double)((sbyte)e.Buffer[2]) / (11 - GetSelectedDCtrlVal()));
-            if (deltax != 0 && seltay != 0) ChangeSelectedCtrlVal(deltax, seltay);
+            //trackbar_x_remainder=
+            //trackbar_y_remainder=
+            int deltax = Math.DivRem(trackball_dx, (11 - GetSelectedDCtrlVal())*10-8,out trackball_dx);
+            int seltay = Math.DivRem(trackball_dy, (11 - GetSelectedDCtrlVal())*10-8,out trackball_dy);
+            if ((deltax != 0) || (seltay != 0)) ChangeSelectedCtrlVal(deltax, seltay);
 
             //GetSelectedCtrl2D().X += (int)((double)((sbyte)e.Buffer[1]) / (11 - GetSelectedDCtrlVal()));
             //GetSelectedCtrl2D().Y += (int)((double)((sbyte)e.Buffer[2]) / (11 - GetSelectedDCtrlVal()));
@@ -812,7 +899,10 @@ namespace HelloWorld
 
         private void ChangeSelectedCtrlVal(int x, int y)
         {
-            if (isAdvancedMode)
+
+            trackball_dx = 0; //flush trackball remainder 
+            trackball_dy = 0; //flush trackball remainder
+            if (false)//isAdvancedMode)
             {
                 if (SelectedLightControl < 5)
                 {
@@ -1125,284 +1215,10 @@ namespace HelloWorld
             CvInvoke.cvDestroyWindow(win1); //Destory the window
         }
 
-        private void Play()
-        {
-            //LabelUDPConnected.Visible = true;
-            //LabelUDPConnected.Update();
-            //<<<<<<< master
-            //          //  int nreceivedData = socket.Receive(Packet);
-            //            socket.ReceiveBufferSize = (512 + 2)*512;
-            //            socket.BeginReceive(Packet, 0, 512 + 2, SocketFlags.None, new AsyncCallback(RecieveComplete), socket);
-            //=======
-            //  int nreceivedData = socket.Receive(Packet);
-            socket.ReceiveBufferSize = (512 + 2) * 512;
-            try
-            {
-                socket.BeginReceive(Packet, 0, 512 + 2, SocketFlags.None, new AsyncCallback(RecieveComplete), socket);
-            }
-            catch
-            {
-
-            }
-            //>>>>>>> master
-            //timer1.Start();
-            UDP_Timer.Start();
-            //     Application.Idle += new EventHandler(ProcessFrame);
-        }
-        public void RecieveComplete(IAsyncResult result)
-        {
-            try
-            {
-                //    if (  >= 514)
-                {
-                    socket.EndReceive(result);
-                    ;
-                    row = (Int16)(Packet[nX + 1] | (Packet[nX] << 8));
-
-                    //int nxm = nX/ multiply;
-                    if ((old_row == row))
-                        multiply_count++;
-                    else
-                        multiply_count = 0;
-                    if (multiply_count >= multiply) multiply_count = 0;
-                    if (row < old_row)
-                    {
-
-                        watch.Stop();
-                        FPS += 1000.0 / watch.ElapsedMilliseconds;
-                        FPS /= 2;
-                        watch.Reset();
-                        watch.Start();
-                    }
-                    old_row = row;
-
-                    if (row < 0 || row >= nY)
-                        row = 0;
-                    /*        int imatx = 0;
-                            int imaty = 0;
-                            if (SingleShotMode)
-                            {
-                                for (int ic = 0; ic < 512; ic++)
-                                {
-                                    if (MultiShotMode)
-                                    {
-                                        int nm = (int)numericUpDown2.Value;
-                                        imatx = ((iMultiScan - 1) % nm);
-                                        imaty = (int)((iMultiScan - 1 - imatx ) / nm);
-                                        if (SingleShotMode) myMatrix[SSPacketCnt + imatx * SingleShotnStep, SSRow + imaty * SingleShotnStep] = Packet[ic];
-                                    }
-                                    else
-                                    {
-                                        if (SingleShotMode) myMatrix[SSPacketCnt, SSRow] = Packet[ic];
-                                    }
-                                    SSPacketCnt++;
-                                    if (SSPacketCnt > SingleShotnStep - 1)
-                                    {
-                                        SSPacketCnt = 0;
-                                        SSRow++;
-
-                                        if (SSRow > SingleShotnStep - 1)
-                                        {
-                                            SingleShotMode = false;
-                                            if (!MultiShotMode)
-                                            {
-                                                //ChangeSpeed(oldspeedVal);
-                                            }
-                                            else
-                                            {
-                                                if (iMultiScan == MultiShotnStep)
-                                                {
-                                                    MultiShotMode = false;
-                                                    //ChangeSpeed(oldspeedVal);
-                                                }
-                                            }
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                            */
-                    // int pos = (row + iY) * 512  + iX;// + nX * multiply_count;// * multiply;// + nX* multiply_count;
-                    // int pos = row + nX * multiply_count;
-                    /*   for(int i=0;i<multiply;i++)
-                       {
-
-                           sum += Packet[i];
-                       }
-                    for (int j = 0; j < image_size; j++)
-                    {
-                        sum = 0;
-                        for (int i = 0; i < multiply; i++)
-                        {
-                            sum += receivedData[j + i];
-                            frame.Bytes[j] = (byte)(sum / multiply);
-                        }    
-                    }*/
-                    //sum = 0;
-                    //int j = 0;
-                    /*   if (nX < 500)
-                           sum=0;
-                       for (int i = 0; i < (nX / multiply); i++)
-                       {
-                           sum = 0;
-                           for (int j = 0; j < multiply; j++)
-                               sum += Packet[j+i*multiply];
-                           receivedData[pos + i] = (byte)(sum / multiply);
-                       }*/
-                    // for(int i;i<nX;i++)
-                    Buffer.BlockCopy(Packet, 0, receivedData, package_number * 512, nX);
-                    window_row[package_number] = row;
-                    if (multiply_count == (multiply - 1)) line_ready = multiply;
-                    if (line_ready > 0)
-                    {
-                        int num = 0;
-                        int linestart = (package_number - line_ready + 1);// * 512;
-                        if (linestart < 0) linestart += 65536;// 33554432;
-                        int pos = (row + iY) * 512 + iX;
-                        //sum = 0;
-                        for (int i = 0; i < (nX); i++)
-                        {
-                            sum = 0;
-                            for (int j = 0; j < line_ready; j++)
-                            {
-                                sum += receivedData[linestart * 512 + num];
-                                if ((++num) >= nX) { num = 0; linestart++; if (linestart >= 65536) linestart = 0; }
-                            }
-                            receivedData_frame[pos + i] = (byte)(sum / line_ready);
-                        }
-                        line_ready = 0;
-                    }
-                    //window_nX[package_number] = nX; 
-                    /*       if (isGunAlignment)
-                           {
-                               LastIntensity = 0;
-                               for (int i = 0; i < nX; i++) LastIntensity += receivedData[pos + i];
-                               LastIntensity = LastIntensity / ((double)nX);
-                           }*/
-                    //    ready = 1;
-                    /*    if (isAcquire)
-                        { 
-                            if (row == 512 - 1) AcquireCnt++;
-                            if (AcquireCnt == (int)UD_AcquireNumber.Value)
-                            {
-                                button3_Click(null, null);
-                            }
-                        }*/
-                    if ((++package_number) >= 65536) package_number = 0;
-
-                }
-                // watch.Reset(); watch.Start();// label26.Text= watch.ElapsedMilliseconds.ToString();
-                socket.BeginReceive(Packet, 0, 512 + 2, SocketFlags.None, new AsyncCallback(RecieveComplete), socket);
-            }
-            catch (Exception Exception)
-            {
-                MessageBox.Show(Exception.Message);
-            }
-
-        }
-
-        private void Stop()
-        {
-            //LabelUDPConnected.Visible = true;
-            //LabelUDPConnected.Update();
-            //timer1.Stop();
-            isUDPConnected = false;
-            //   Application.Idle -= new EventHandler(ProcessFrame);
-        }
-
-        private void ProcessFrame1(object sender, EventArgs e)
-        {
-            //using (Image<Bgr, Byte> image = _capture.RetrieveBgrFrame())
-            using (MemStorage storage = new MemStorage()) //create storage for motion components
-            {
-                count = count + 1;
-                overallMotionPixelCount = overallMotionPixelCount + 0.1;
-                //Display the amount of motions found on the current image
-                UpdateText(String.Format("Total Motions found: {0}; Motion Pixel count: {1}", count, overallMotionPixelCount));
-
-                //Display the image of the motion
-                //motionImageBox.Image = motionImage;
-            }
-        }
-
-        private void ProcessFrame(object sender, EventArgs arg)
-        {
-            try
-            {
-
-                //   if (ready == 0)
-                //   return;
-                //   ready = 0;
-                //socket.Send(new byte[1]);
-                //receivedData = udp.Receive(ref EIP);
-                // watch.Stop();
-
-                //  var watch = System.Diagnostics.Stopwatch.StartNew();
-
-                /*    for (int block = 0; block < nRow; block++)
-                    {
-                        int nreceivedData = socket.Receive(Packet);
-                        Int16 row = (Int16)(Packet[513] | (Packet[512] << 8));
-                        Buffer.BlockCopy(Packet, 0, receivedData, row * nY, 512);
-                        //int nreceivedData = socket.Receive(receivedData, count * nX * nY, nX * nY, SocketFlags.None);
-                        //count = count + 1;
-                        //if (count > 511) count = 0;
-                    }*/
-                frame.Bytes = receivedData;
-                //   ViewPort.Image = frame;
-                //Buffer.BlockCopy(receivedData, 0, frame.Bytes, count * nX * nY, nreceivedData);
-                //count = count + 1;
-                overallMotionPixelCount = overallMotionPixelCount + 1;
-
-                //UpdateText(overallMotionPixelCount.ToString());
-                //if (nX * count > 511) count = 0;
-                //Image<Bgr, Byte> frame = _capture.RetrieveBgrFrame();
-                //for (int i = 0; i < 512; i++) for (int j = 0; j < 512; j++) frame[i, j] = new Bgr(255 - 10 * count, count + 10 * Math.Sin(0.2 * i + 3.3 * count), count - 10 * Math.Sin(0.3 * j - 3.3 * count));
-
-                /*for (int ix = 0; ix < nX; ix++)
-                {
-                    for (int iy = 0; iy < nY; iy++)
-                    {
-                        byte clr = receivedData[ix + nX * iy];
-                        frame[x, iy] = new Bgr(clr, clr, clr);
-                    }
-                    x = x + 1;
-                    if (x > 511) x = 0;
-                }*/
-                //frame = new Image<Gray, byte>(512, 512, new Gray(count));
-
-
-
-                if (overallMotionPixelCount == 1)
-                {
-                    overallMotionPixelCount = -10;
-                    long n = watch.ElapsedMilliseconds;
-                    if (n == 0)
-                        FPS = 1000;
-                    else
-                        FPS = 1000.0 / n;
-                }
-
-                if (StartMove)
-                {
-                    frame.DrawPolyline(SelectionRec, true, new Gray(255), 1);
-                    frame.DrawPolyline(SelectionRec2, true, new Gray(1), 1);
-                }
-                // string info = String.Format("{0:0.0}FPS", FPS);
-                frame.Draw("hiiiiii", ref format, new System.Drawing.Point(100, 100), new Gray(200)); //Draw on the image using the specific font
-                
-                ViewPort.Image = SetFilter(frame);
-                // watch.Reset(); watch.Start();
-                //UpdateText(info);
-            }
-            catch (Exception e)
-            {
-                Stop();
-                log.Text = e.Message + "\r" + log.Text;
-                // MessageBox.Show(e.Message);
-            }
-        }
-
+        
+    
+      
+     
         double Filter_Brightness_Val = 1.0;
         double Filter_Contrast_Val = 1.0;
         bool Filter_FLIP_HORIZONTAL = false;
@@ -1519,13 +1335,14 @@ namespace HelloWorld
 
         void InitializeUDP()
         {
-            //udp = new UdpClient(EIP);
+           
+           // udp.
             //udp.Client.ReceiveBufferSize = 65000;
             try
             {
                 socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                 socket.ReceiveTimeout = 200;
-                socket.Bind(EIP);
+                socket.Bind(UDPCOMEIP);
             }
             catch (Exception e)
             {
@@ -1543,7 +1360,7 @@ namespace HelloWorld
         {
             tcp = new TcpClient();
             tcp.ReceiveTimeout = 1000;
-            tcp.ReceiveBufferSize = 100;
+            ReceiveBufferSize = 100;
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
@@ -1622,7 +1439,12 @@ namespace HelloWorld
                     //Form1.Port.DiscardInBuffer(); //Clear Buffer
                     //Form1.Port.Write(CompleteOrder);
                     byte[] buffer = PrepareBuffer(CompleteOrder);
+#if UDPCOM 
+                    //udpcom.Send(buffer, 22);
+                    udpcom.Client.Send(buffer, 26, SocketFlags.None);
+#else
                     TCPnetworkStream.Write(buffer, 0, nMaxCharacters);
+#endif
                     Thread.Sleep(50);
                     isDataReceived = true;
                     isDirectCOMPortComunication = false;
@@ -1656,7 +1478,7 @@ namespace HelloWorld
                 isDirectCOMPortComunication = true;
                 DirectCOMPortIndex = index;
             }
-            TCPnetworkStream.ReadTimeout = 1000;
+            //TCPnetworkStream.ReadTimeout = 1000;
             TotalTime = 0;
             TerminalTimerReceiver.Start();
         }
@@ -1716,7 +1538,12 @@ namespace HelloWorld
                         //Form1.Port.DiscardOutBuffer(); //Clear Buffer
                         //Form1.Port.DiscardInBuffer(); //Clear Buffer
                         byte[] buffer = PrepareBuffer(CompleteOrder);
-                        TCPnetworkStream.Write(buffer, 0, nMaxCharacters);
+#if UDPCOM
+                        udpcom.Send(buffer, 26);
+#else
+                    TCPnetworkStream.Write(buffer, 0, nMaxCharacters);
+#endif
+                      
                         Thread.Sleep(50);
                         isDataReceived = true;
                     }
@@ -1766,11 +1593,16 @@ namespace HelloWorld
                 if (TotalTime > WaitTime * 1000)
                 {
                     TerminalTimerReceiver.Stop();
-                    TCPnetworkStream.ReadTimeout = 1000;
+                   // TCPnetworkStream.ReadTimeout = 1000;
                     isAllowToTick = true;
                     return;
                 }
-                isDataReceived = TCPnetworkStream.DataAvailable;
+
+#if UDPCOM
+                isDataReceived = udpcom.Available > 0;
+#else
+                     isDataReceived = TCPnetworkStream.DataAvailable;
+#endif
                 if (isDataReceived)
                 {
                     //isDataReceived = false;
@@ -1781,8 +1613,14 @@ namespace HelloWorld
                         {
                             //while (Form1.Port.BytesToRead != 0)
                             //{
-                            byte[] buffer = new byte[tcp.ReceiveBufferSize];
-                            int bytesRead = TCPnetworkStream.Read(buffer, 0, tcp.ReceiveBufferSize);
+                            byte[] buffer = new byte[ReceiveBufferSize];
+
+#if UDPCOM
+                            int bytesRead = udpcom.Client.Receive(buffer, 22, SocketFlags.None);
+#else
+                      int bytesRead = TCPnetworkStream.Read(buffer, 0, ReceiveBufferSize);
+#endif
+                           
                             //TCPnetworkStream.rec
                             String OutputBuffer = Encoding.ASCII.GetString(buffer);
                             string[] outputs = OutputBuffer.Split('\r');
@@ -1839,6 +1677,9 @@ namespace HelloWorld
         
         private void Btn_TCPConnect_Click(object sender, EventArgs e)
         {
+#if UDPCOM
+            return;
+#endif
             if (Eth_Link == 0) return;
             try
             {
@@ -1874,33 +1715,32 @@ namespace HelloWorld
 
         private void mainInititialize()
         {
-            Thread.Sleep(5);
+            Thread.Sleep(20);
             UpdateDacxRange();
-            Thread.Sleep(5);
+            Thread.Sleep(20);
             UpdateDacyRange();
-            Thread.Sleep(5);
+            Thread.Sleep(20);
             Scanner_ISelect_SelectedIndexChanged(this, null);//UpdateScanner();
-
-            Thread.Sleep(5);
+            Thread.Sleep(20);
             UpdateDetector();
-            Thread.Sleep(5);
+            Thread.Sleep(20);
             rotate(4095, 0);
-            Thread.Sleep(5);
+            Thread.Sleep(20);
             UD_Zoom_ValueChanged(this,null);
-            Thread.Sleep(5);
+            Thread.Sleep(20);
             UDSpeed_ValueChanged(this, null);
-            Thread.Sleep(5);
+            Thread.Sleep(20);
             spead_multiply_ValueChanged(this, null);
-            Thread.Sleep(5);
+            Thread.Sleep(20);
             u3_valueChanged(this, null);
            
             //lens_gau(2047, 2047);
             //lens_gad(2047, 2047);
             //lens_ic(0, 0);
             //lens_stig(2047, 2047);
-            Thread.Sleep(5);
+            Thread.Sleep(20);
             u2itmode(1);
-            Thread.Sleep(5);
+            Thread.Sleep(20);
             u6itmode(1);
         }
 
@@ -1975,12 +1815,15 @@ namespace HelloWorld
         {
             string CompleteOrder = "dacper " + period.ToString() + " " + (((speedper.Value) * period) / 100).ToString() + "\r";
            // label_rate.Text = "rate: " + ((double)108000000 / (double)(period + 1) / nX / nY).ToString("0.00000") + " / line rate: " + ((double)108000000 / (double)(period + 1) / nX).ToString("0.00000");
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,10);
         }
 
-        internal bool SendAndReceiveOK(string CompleteOrder)
+        internal bool SendAndReceiveOK(string CompleteOrder,int timeout)
         {
-            board = 0;
+            // return true;
+            while (timeouttimer2.Enabled) ;
+                
+                board = 0;
             bool isOK = false;
             String command ;
             string[] outputs;
@@ -1989,16 +1832,20 @@ namespace HelloWorld
             //            // return true; //uncomment for offline test //return
             //=======
             //return true; //uncomment for offline test //return
+#if UDPCOM
+
+#else
             if (tcp == null) return true;
 
             if (!tcp.Connected)
             {
                 return true;
             }
+#endif
             //>>>>>>> master
             //while (tcp_readytosend==0) ;
             //while (timeouttimer.Enabled) ;
-            timeouttimer.Interval = 1000;//async timer
+            timeouttimer.Interval = timeout;//async timer
             //timeout_timer.Interval = 1000;
             if (!CompleteOrder.StartsWith("COM"))
             {
@@ -2012,52 +1859,77 @@ namespace HelloWorld
                     if (CompleteOrder.StartsWith("u2.hv.")) board = 3;
                     else
                     if (CompleteOrder.StartsWith("u2.st.")) board = 4;
-                    tcp_read_buffer= new byte[tcp.ReceiveBufferSize]; ;
+                    tcp_read_buffer= new byte[ReceiveBufferSize]; ;
                     byte[] buffer = PrepareBuffer(CompleteOrder);
                     
 
-                    if (board==1) timeouttimer.Interval = 1;
+                    if ((board==1) && (wob_is_on==true)) timeouttimer.Interval = 100;
+                    //if ((board == 1) && (wob_is_on == false)) timeouttimer.Interval = 50;
                     //Thread.Sleep(1);
                     /* //acync failld
                     TCPnetworkStream.BeginWrite(buffer, 0, nMaxCharacters,new AsyncCallback(tcp_write_complete), null);
-                    TCPnetworkStream.BeginRead(tcp_read_buffer, 0, tcp.ReceiveBufferSize, new AsyncCallback(tcp_read_complete), null);
+                    TCPnetworkStream.BeginRead(tcp_read_buffer, 0, ReceiveBufferSize, new AsyncCallback(tcp_read_complete), null);
                     timeouttimer.Start();
                     
 
                         return true;*/
 
-                    byte[] buffer2 = new byte[tcp.ReceiveBufferSize];
+                    byte[] buffer2 = new byte[ReceiveBufferSize];
                     //Thread.Sleep(1);
                     // tcp.Client.Blocking = true;
                     //TCPnetworkStream.ReadTimeout = 5000;
                     // int count=0;
+#if UDPCOM
+                    isDataReceived = udpcom.Available > 0;
+#else
+                     isDataReceived = TCPnetworkStream.DataAvailable;
+#endif
+                    if (isDataReceived) {
 
+#if UDPCOM
+                        udpcom.Client.Receive(buffer2, 22, SocketFlags.None);
+#else
+                       TCPnetworkStream.Read(buffer2, 0, ReceiveBufferSize);
+#endif
+
+                        label_tcp_err.Text = (Encoding.ASCII.GetString(buffer2));
+                    }
+                    //tcp.Client.Receive()
+#if UDPCOM
+                    udpcom.Send(buffer, 26);
+#else
                     TCPnetworkStream.Write(buffer, 0, nMaxCharacters);
+#endif
+                    int bytesRead=0;
                     timeouttimer.Start();
-                    while (timeouttimer.Enabled)
-                    {
-                       // Thread.Sleep(10);
-                        if (TCPnetworkStream.DataAvailable)
-                        {
-                            timeouttimer.Stop();
-                            int bytesRead = TCPnetworkStream.Read(buffer2, 0, tcp.ReceiveBufferSize);
-                             command = Encoding.ASCII.GetString(buffer2);
+#if UDPCOM
+                    while (timeouttimer.Enabled && bytesRead < 20)
+                        if (udpcom.Available > 0)
+                            bytesRead = udpcom.Client.Receive(buffer2, 22, SocketFlags.None);
+#else
+                       while (timeouttimer.Enabled && bytesRead < 25)
+                        if(TCPnetworkStream.DataAvailable)
+                       bytesRead += TCPnetworkStream.Read(buffer2, bytesRead, ReceiveBufferSize);
+#endif
+
+                    timeouttimer.Stop();
+                                command = Encoding.ASCII.GetString(buffer2);
                              outputs = command.Split('\r');
                              output = outputs[0];
                             if (output == "OK")
                                 return true;
                             else
                             {
-                                if (isAdmin)
+                              //  if (isAdmin)
                                     //notifyIcon1.ShowBalloonTip(2000,"Function: SendAndReceiveOK(string CompleteOrder)",output ,ToolTipIcon.Error);
-                                    log.Text = "SendAndReceiveOK:\r" + output + "\r" + log.Text;
+                                    log.Text = "S&ROK("+ board.ToString() + "):"+ output + "\r" + log.Text;
                                 //  MessageBox.Show("Error: Controller connection is not correctly connected.\rAdmin Error: The 'ok' command is not received.\r" + output + "\r\r" + "Function: SendAndReceiveOK(string CompleteOrder)");
-                                else
-                                    MessageBox.Show("Error: Bad command has been sent to device.");
+                              //  else
+                               //     MessageBox.Show("Error: Bad command has been sent to device.");
                             }
-                            break;
-                        }
-                    }
+                           
+                    
+                    
                     
                 
                 }
@@ -2107,40 +1979,81 @@ namespace HelloWorld
                         MessageBox.Show("Error: Bad command has been sent to device.");
                 }
             }
-
+            timeouttimer2.Interval = 100;
+            if ((board == 1) && (wob_is_on == false)) timeouttimer2.Interval = 5;
+            
+            if ((board == 1) && (wob_is_on == true)) timeouttimer2.Interval = 10;
+            timeouttimer2.Start();
+           
             return isOK;
         }
 
-        private string SendAndReceiveResponse(string CompleteOrder)
+        private string SendAndReceiveResponse(string CompleteOrder,int timeout)
         {
+            string ans;
+            while (timeouttimer2.Enabled) ;
             if (!CompleteOrder.StartsWith("COM"))
             {
                 //<<<<<<< master
                 //=======
-                if (TCPnetworkStream == null) return "null";
-
+#if UDPCOM
+                /////////
+#else
+                     if (TCPnetworkStream == null) return "null";
+#endif
+                
+                timeouttimer.Interval = timeout;
                 //>>>>>>> master
                 try
                 {
-                    int count = 0;
+                    if (CompleteOrder.StartsWith("u6.l.")) board = 1;
+                    else
+                    if (CompleteOrder.StartsWith("u2.se.")) board = 2;
+                    else
+                    if (CompleteOrder.StartsWith("u2.hv.")) board = 3;
+                    else
+                    if (CompleteOrder.StartsWith("u2.st.")) board = 4;
+                    
                     byte[] buffer = PrepareBuffer(CompleteOrder);
+
+
+                   // if (board == 1) timeouttimer.Interval = 2000;
+                    int count = 0;
+                    //tcp.Client.
+#if UDPCOM
+                    udpcom.Send(buffer, 26);
+#else
                     TCPnetworkStream.Write(buffer, 0, nMaxCharacters);
-                    byte[] buffer2 = new byte[tcp.ReceiveBufferSize];
-                    while (count++ < 100)
-                    {
-                        Thread.Sleep(10);
-                        if (TCPnetworkStream.DataAvailable)
-                        { Thread.Sleep(10); int bytesRead = TCPnetworkStream.Read(buffer2, 0, tcp.ReceiveBufferSize); break; }
-                    }
+#endif
+                    byte[] buffer2 = new byte[ReceiveBufferSize];
+
+                    int bytesRead = 0;
+                    timeouttimer.Start();
+                   
+ 
+#if UDPCOM
+                        while (timeouttimer.Enabled && bytesRead < 20)
+                            if (udpcom.Available > 0)
+                            bytesRead = udpcom.Client.Receive(buffer2, 22, SocketFlags.None);
+#else
+                       while (timeouttimer.Enabled && bytesRead < 25)
+                        if(TCPnetworkStream.DataAvailable)
+                       bytesRead += TCPnetworkStream.Read(buffer2, bytesRead, ReceiveBufferSize);
+#endif
+                    
+
+                    timeouttimer.Stop();
+         
                     String command = Encoding.ASCII.GetString(buffer2);
                     string[] outputs = command.Split('\r');
-                    return outputs[0];
+                    
+                    ans = outputs[0];
                 }
                 catch (Exception e)
                 {
                     if (isAdmin)
                         //notifyIcon1.ShowBalloonTip(2000,"Admin Error",e.Message + "\r\r" + "Function: SendAndReceiveOK(string CompleteOrder)",ToolTipIcon.Error);
-                        log.Text = "SendAndReceiveResponse:\r" + e.Message + "\r" + log.Text;
+                        log.Text = "S&RResponse:\r" + e.Message + "\r" + log.Text;
                     //MessageBox.Show("Admin Error: The 'ok' and 'er' command are not received.\r" + e.Message + "\r\r" + "Function: SendAndReceiveOK(string CompleteOrder)");
                     else
                         //notifyIcon1.ShowBalloonTip(2000, "Error", e.Message , ToolTipIcon.Error);
@@ -2169,9 +2082,13 @@ namespace HelloWorld
                 ComPorts[index].DiscardInBuffer();
                 ComPorts[index].DiscardOutBuffer();
                 ComPorts[index].Write(Command);
-                string ans = ComPorts[index].ReadTo(ReadToChar);
-                return ans;
+                ans = ComPorts[index].ReadTo(ReadToChar);
+                
             }
+
+            timeouttimer2.Interval = 100;
+                timeouttimer2.Start();
+                return ans;
         }
 
         private int SelectedDetectorPort()
@@ -2194,7 +2111,7 @@ namespace HelloWorld
         private bool setsignal(int DetectorPort, int GainType, int Terminal, decimal GainValue)
         {
             string CompleteOrder = "setsignal " + DetectorPort.ToString() + " " + GainType.ToString() + " " + Terminal.ToString() + " " + GainValue.ToString() + "\r";
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,10);
         }
 
         private void UpdateDetector()
@@ -2301,7 +2218,13 @@ namespace HelloWorld
 
         private void CB_ADG_Terminal_SelectedIndexChanged(object sender, EventArgs e)
         {
-            UpdateDetector();
+            //UpdateDetector(); 
+            Thread.Sleep(10);
+            int DetectorPort = SelectedDetectorPort();
+            int GainType = SelectedGainType();
+            int ADG_Terminal = CB_ADG_Terminal.SelectedIndex;
+            if (GainType == 2) setsignal(DetectorPort, GainType, ADG_Terminal, 0);
+            Thread.Sleep(10);
         }
 
         private void CB_MCP_Gain_SelectedIndexChanged(object sender, EventArgs e)
@@ -2323,7 +2246,7 @@ namespace HelloWorld
             //a01=-a10 but we made it in circut not in code
             //So a01=a10
             string CompleteOrder = "rotate " + a00.ToString() + " " + a10.ToString() + "\r";
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,10);
         }
 
         private void UD_Rotation_ValueChanged(object sender, EventArgs e)
@@ -2338,7 +2261,7 @@ namespace HelloWorld
         private bool zoom(decimal cx, decimal cy)
         {
             string CompleteOrder = "zoom " + cx.ToString() + " " + cy.ToString() + "\r";
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,10);
         }
 
         private void UD_dZoom_ValueChanged(object sender, EventArgs e)
@@ -2357,7 +2280,7 @@ namespace HelloWorld
             decimal dacxmeanval = UD_DacxMeanVal.Value;
             decimal dacxamp = UD_DacxAmp.Value;
             string CompleteOrder = "dacxrange " + dacxmeanval.ToString() + " " + dacxamp.ToString() + "\r";
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,10);
         }
 
         private bool UpdateDacyRange()
@@ -2365,7 +2288,7 @@ namespace HelloWorld
             decimal dacymeanval = UD_DacyMeanVal.Value;
             decimal dacyamp = UD_DacyAmp.Value;
             string CompleteOrder = "dacyrange " + dacymeanval.ToString() + " " + dacyamp.ToString() + "\r";
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,10);
         }
 
         private void UD_DacxMeanVal_ValueChanged(object sender, EventArgs e)
@@ -2612,7 +2535,7 @@ namespace HelloWorld
                 {
                     string CompleteOrder = "?." + Device_names[i] + ".you? " + i1.ToString() + " " + i2.ToString() + " " + i3.ToString() + " " + i4.ToString() + "\r";
                     Thread.Sleep(100);
-                    string response = SendAndReceiveResponse(CompleteOrder);
+                    string response = SendAndReceiveResponse(CompleteOrder,1000);
                     Port_names[i] = response;
                 }
             }
@@ -2631,7 +2554,7 @@ namespace HelloWorld
                 if (Port_names[i] != "null")
                 {
                     string CompleteOrder = CreateChildCommand(Device_names[i], "you?\r");
-                    string response = SendAndReceiveResponse(CompleteOrder);
+                    string response = SendAndReceiveResponse(CompleteOrder,1000);
                     if (response != Device_names[i])
                     {
                         isOk = false;
@@ -2660,19 +2583,19 @@ namespace HelloWorld
         private bool hv_hv(decimal value)
         {
             string CompleteOrder = CreateChildCommand("hv", "hv " + value.ToString() + "\r");
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,500);
         }
 
         private bool hv_wehnelt(decimal value)
         {
             string CompleteOrder = CreateChildCommand("hv", "wehnelt " + value.ToString() + "\r");
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,500);
         }
 
         private bool hv_filament(decimal value)
         {
             string CompleteOrder = CreateChildCommand("hv", "filament " + (255 - value).ToString() + "\r");
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,1000);
         }
 
         private void UD_HV_HV_ValueChanged(object sender, EventArgs e)
@@ -2764,68 +2687,68 @@ namespace HelloWorld
         private bool lens_con1(decimal value)
         {
             string CompleteOrder = CreateChildCommand("l", "conh " + value.ToString() + "\r");
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,2000);
         }
 
         private bool lens_con2(decimal value)
         {
             string CompleteOrder = CreateChildCommand("l", "conl " + value.ToString() + "\r");
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,2000);
         }
 
         private bool lens_iml(decimal value)
         {
             string CompleteOrder = CreateChildCommand("l", "iml " + value.ToString() + "\r");
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,20);
         }
 
         private bool lens_obj(decimal value)
         {
             string CompleteOrder = CreateChildCommand("l", "obj " + value.ToString() + "\r");
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,20);
         }
 
         private bool lens_objc(decimal value)
         {
             string CompleteOrder = CreateChildCommand("l", "objc " + value.ToString() + "\r");
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,20);
         }
 
         private bool lens_gau(decimal valuex, decimal valuey)
         {
             string CompleteOrder = CreateChildCommand("l", "gau " + valuex.ToString("0000") + " " + valuey.ToString("0000") + "\r");
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,20);
         }
 
         private bool lens_gaux(decimal value)
         {
             string CompleteOrder = CreateChildCommand("l", "gaux " + value.ToString() + "\r");
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,20);
         }
 
         private bool lens_gauy(decimal value)
         {
             string CompleteOrder = CreateChildCommand("l", "gauy " + value.ToString() + "\r");
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,20);
         }
 
         private bool lens_gad(decimal valuex, decimal valuey)
         {
             Thread.Sleep(1);
             string CompleteOrder = CreateChildCommand("l", "gad " + valuex.ToString("0000") + " " + valuey.ToString("0000") + "\r");
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,20);
         }
 
         private bool lens_gadx(decimal value)
         {
             string CompleteOrder = CreateChildCommand("l", "gadx " + value.ToString() + "\r");
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,20);
         }
 
         private bool lens_gady(decimal value)
         {
             string CompleteOrder = CreateChildCommand("l", "gady " + value.ToString() + "\r");
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,20);
         }
 
         private bool lens_ic(decimal xvalue, decimal yvalue)
@@ -2833,19 +2756,19 @@ namespace HelloWorld
             xvalue = (2047 - xvalue);
             yvalue = (2047 - yvalue);
             string CompleteOrder = CreateChildCommand("l", "ic " + xvalue.ToString("0000") + " " + yvalue.ToString("0000") + "\r");
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,20);
         }
 
         private bool lens_stig(decimal xvalue, decimal yvalue)
         {
             string CompleteOrder = CreateChildCommand("l", "stig " + xvalue.ToString("0000") + " " + yvalue.ToString("0000") + "\r");
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,20);
         }
 
         private bool lens_wobble(decimal value)
         {
             string CompleteOrder = CreateChildCommand("l", "wobbel 0 " + value.ToString() + "\r");
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,100);
         }
 
         private void UD_Lens_CON1_ValueChanged(object sender, EventArgs e)
@@ -2950,13 +2873,13 @@ namespace HelloWorld
         private bool se_pmt(decimal value)
         {
             string CompleteOrder = CreateChildCommand("se", "pmt " + value.ToString() + "\r");
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,100);
         }
 
         private bool se_faraday(decimal value)
         {
             string CompleteOrder = CreateChildCommand("se", "faraday " + value.ToString() + "\r");
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,50);
         }
 
         private void UD_SE_PMT_ValueChanged(object sender, EventArgs e)
@@ -2973,6 +2896,7 @@ namespace HelloWorld
                 UD_SE_PMT.Value = Decimal.Parse(UD_SE_PMT.Tag.ToString());
                 this.UD_SE_PMT.ValueChanged += new System.EventHandler(this.UD_SE_PMT_ValueChanged);
             }
+            Thread.Sleep(50);
         }
 
         private void UD_dSE_PMT_ValueChanged(object sender, EventArgs e)
@@ -3004,7 +2928,13 @@ namespace HelloWorld
         public bool dactimer(int state)
         {
             string CompleteOrder = "dactimer " + state.ToString() + "\r";
-            return SendAndReceiveOK(CompleteOrder);
+            bool res= SendAndReceiveOK(CompleteOrder,20);
+            if (res == true)
+            {
+                if (state == 1) isUDPConnected = true; else isUDPConnected = false;
+            }
+                
+            return res;
         }
 
         private void Btn_UDPDisconnect_Click(object sender, EventArgs e)
@@ -3012,54 +2942,20 @@ namespace HelloWorld
 
             dactimer(0);
             // Array.Clear(receivedData, 2, 512);
-            Thread.Sleep(100); Stop();
+//Thread.Sleep(100); Stop();
             LabelUDPConnected.Visible = isUDPConnected;
             LabelUDPConnected.Update();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         { }
-        private void UDP_Timer_Tick(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            // ProcessFrame(null, null);
-            string info = "";
-
-            if (isUDPConnected) frame.Bytes = receivedData_frame;
-            if (isAcquire)
-            {
-                imageform.ViewPort.Image = SetFilter(frame);
-            }
-            else
-            {
-                if (StartMove)
-                {
-                    frame.DrawPolyline(SelectionRec, true, new Gray(255), 1);
-                    frame.DrawPolyline(SelectionRec2, true, new Gray(1), 1);
-                }
-                if (overallMotionPixelCount++ == 10)
-                {
-                    overallMotionPixelCount = 0;
-
-                }
-                
-                info = String.Format("{0:0000.0}FPS", FPS);
-
-                Image<Gray,byte> frame0= SetFilter(frame);
-                frame0.Draw(overallMotionPixelCount.ToString("0.0"), ref format, new System.Drawing.Point(100, 100), new Gray(200)); //Draw on the image using the specific font
-
-                if (isformmode)
-                    formmode.ViewPort.Image = frame0;
-                else
-                    ViewPort.Image = frame0;
-            }
-        }
-
+       
         private void button1_Click(object sender, EventArgs e)
         {
             if (button1.Text == "Start")
             {
                 string CompleteOrder = CreateChildCommand("se", "kv 1" + "\r");
-                if (SendAndReceiveOK(CompleteOrder))
+                if (SendAndReceiveOK(CompleteOrder,1000))
                 {
                     button1.Text = "Stop";
                     button1.BackColor = Color.Beige;
@@ -3069,7 +2965,7 @@ namespace HelloWorld
             if (button1.Text == "Stop")
             {
                 string CompleteOrder = CreateChildCommand("se", "kv 0" + "\r");
-                if (SendAndReceiveOK(CompleteOrder))
+                if (SendAndReceiveOK(CompleteOrder,1000))
                 {
                     button1.Text = "Start";
                     button1.BackColor = Color.Azure;
@@ -3117,47 +3013,58 @@ namespace HelloWorld
         private int SelectedScannerPort()
         {
             int state = Scanner_ISelect.SelectedIndex;
-            if (state == 0) return 0;
-            if (state == 1) return 4;
-            if (state == 2) return 2;
-            if (state == 3) return 1;
-            return 0;
+            int mode = MicroscopyMode.SelectedIndex;
+            int relay = 0;
+            if (state == 0) relay = 0;
+                if (state == 1) relay = 4;
+                if (state == 2) relay = 2;
+                if (state == 3) relay = 1;
+            if (mode == 0)
+            {
+                relay |= relay << 3;
+            }
+            //else if(mode==2)
+            return relay;
         }
 
         private bool sisel(int state)
         {
             string CompleteOrder = "sisel " + state.ToString() + "\r";
-            SendAndReceiveOK(CompleteOrder);
+            SendAndReceiveOK(CompleteOrder,100);
             return true;
         }
 
         private bool strim(int state, int val)
         {
+            if (val < 0) val = 0;
+            if (val > 4095) val = 4095;
             string CompleteOrder = "strim " + state.ToString() + " " + val.ToString() + "\r";
-            SendAndReceiveOK(CompleteOrder);
+            SendAndReceiveOK(CompleteOrder,20);
             return true;
         }
 
         private bool dtrim(int state, int val)
         {
+            if (val < 0) val = 0;
+            if (val > 4095) val = 4095;
             string CompleteOrder = "dtrim " + state.ToString() + " " + val.ToString() + "\r";
-            SendAndReceiveOK(CompleteOrder);
+            SendAndReceiveOK(CompleteOrder,20);
             return true;
         }
 
         private bool acquire(int state)
         {
             string CompleteOrder = "acquire " + state.ToString() + "\r";
-            SendAndReceiveOK(CompleteOrder);
+            SendAndReceiveOK(CompleteOrder,10000);
             return true;
         }
 
         private void UpdateScanner()
         {
             
-            int xtrim = (int)UD_STrim_Val1.Value + 2047 - (-445);
+            int xtrim = (int)UD_STrim_Val1.Value + 2047 - (-Settings1.Default.OBJ_CNT_X_offset);
             int xtrimf = (int)UD_STrim_Val2.Value + 2047;
-            int ytrim = (int)UD_STrim_Val3.Value + 2047 - (-415);
+            int ytrim = (int)UD_STrim_Val3.Value + 2047 - (-Settings1.Default.OBJ_CNT_Y_offset);
             int ytrimf = (int)UD_STrim_Val4.Value + 2047;
             int x2trim = (int)UD_STrim_Val5.Value + 2047;
             int y2trim = (int)UD_STrim_Val6.Value + 2047;
@@ -3182,25 +3089,25 @@ namespace HelloWorld
             switch (Scanner_ISelect.SelectedIndex)
             {
                 case 1:
-                    UD_STrim_Val2.Value = 1100;
-                    UD_STrim_Val4.Value = 800;
+                    UD_STrim_Val2.Value = 100;
+                    UD_STrim_Val4.Value = 38;
 
-                    UD_STrim_Val5.Value = -501;
-                    UD_STrim_Val6.Value = -520;
+                    UD_STrim_Val5.Value = 70;
+                    UD_STrim_Val6.Value = 20;
                     break;
                 case 2:
-                    UD_STrim_Val2.Value = 875;
-                    UD_STrim_Val4.Value = 634;
+                    UD_STrim_Val2.Value = 100;
+                    UD_STrim_Val4.Value = 38;
 
-                    UD_STrim_Val5.Value = -501;
-                    UD_STrim_Val6.Value = -520;
+                    UD_STrim_Val5.Value = 70;
+                    UD_STrim_Val6.Value = 20;
                     break;
                 case 3:
-                    UD_STrim_Val2.Value = 85;
-                    UD_STrim_Val4.Value = 5;
+                    UD_STrim_Val2.Value = 100;
+                    UD_STrim_Val4.Value = 38;
 
-                    UD_STrim_Val5.Value = -501;
-                    UD_STrim_Val6.Value = -520;
+                    UD_STrim_Val5.Value = 70;
+                    UD_STrim_Val6.Value = 20;
                     break;
             }
             UpdateScanner();
@@ -3231,7 +3138,7 @@ namespace HelloWorld
             userControl13.X = (int)this.UD_STrim_Val1.Value;
             // UpdateScanner();
             
-            int xtrim = (int)UD_STrim_Val1.Value + 2047 -(-445);
+            int xtrim = (int)UD_STrim_Val1.Value + 2047 -(-Settings1.Default.OBJ_CNT_X_offset);
             
             
             strim(0, xtrim);
@@ -3253,7 +3160,7 @@ namespace HelloWorld
             //UpdateScanner();
 
             
-            int ytrim = (int)UD_STrim_Val3.Value + 2047 - (-415);
+            int ytrim = (int)UD_STrim_Val3.Value + 2047 - (-Settings1.Default.OBJ_CNT_Y_offset);
       
             strim(2, ytrim);
             
@@ -3500,6 +3407,11 @@ namespace HelloWorld
                 TB_Wobbler.Value = Int32.Parse(TB_Wobbler.Tag.ToString());
                 this.TB_Wobbler.ValueChanged += new System.EventHandler(this.TB_Wobbler_Scroll);
             }
+            Thread.Sleep(20);
+            if(TB_Wobbler.Value != 0)
+            wob_is_on = true;
+            else
+            wob_is_on = false;
         }
 
         private void ConvertToUD(ref int shift, ref int tilt, ref int u, ref int d)
@@ -3791,11 +3703,11 @@ namespace HelloWorld
         {
             UD_HV_HV.Value = 0; counter = 0;
             string CompleteOrder = CreateChildCommand("hv", "hv 0" + "\r");
-            if (SendAndReceiveOK(CompleteOrder) == false) return;
+            if (SendAndReceiveOK(CompleteOrder,500) == false) return;
             if (button4.Text == "HV is OFF")
             {
                 CompleteOrder = CreateChildCommand("hv", "kv 1" + "\r");
-                if (SendAndReceiveOK(CompleteOrder) == true)
+                if (SendAndReceiveOK(CompleteOrder,500) == true)
                 {
                     button4.Text = "HV is ON";
                     button4.BackColor = Color.Coral;
@@ -3805,7 +3717,7 @@ namespace HelloWorld
                 if (button4.Text == "HV is ON")
             {
                 CompleteOrder = CreateChildCommand("hv", "kv 0" + "\r");
-                if (SendAndReceiveOK(CompleteOrder) == true)
+                if (SendAndReceiveOK(CompleteOrder,500) == true)
                 {
                     button4.Text = "HV is OFF";
                     button4.BackColor = SystemColors.Menu;
@@ -3818,11 +3730,12 @@ namespace HelloWorld
         {
             //  UD_HV_Filament.Value = 0;
             string CompleteOrder;// = CreateChildCommand("hv", " filament 255" + "\r");
-                                 // SendAndReceiveOK(CompleteOrder);
+                                 // SendAndReceiveOK(CompleteOrder,1000);
             if (button5.Text == "FB is OFF")
             {
+
                 CompleteOrder = CreateChildCommand("hv", "fb 1" + "\r");
-                if (SendAndReceiveOK(CompleteOrder) == true)
+                if (SendAndReceiveOK(CompleteOrder,500) == true)
                 {
                     button5.Text = "FB is ON";
                     button5.BackColor = Color.Coral;
@@ -3831,8 +3744,18 @@ namespace HelloWorld
             else
                 if (button5.Text == "FB is ON")
             {
+                //if (button4.Text == "HV is ON")
+                {
+                    CompleteOrder = CreateChildCommand("hv", "kv 0" + "\r");
+                    if (SendAndReceiveOK(CompleteOrder, 500) == true)
+                    {
+                        button4.Text = "HV is OFF";
+                        button4.BackColor = SystemColors.Menu;
+                    }
+                    Thread.Sleep(500);
+                }
                 CompleteOrder = CreateChildCommand("hv", "fb 0" + "\r");
-                if (SendAndReceiveOK(CompleteOrder) == true)
+                if (SendAndReceiveOK(CompleteOrder,500) == true)
                 {
                     button5.Text = "FB is OFF";
                     button5.BackColor = SystemColors.Menu;
@@ -3972,7 +3895,7 @@ namespace HelloWorld
         {
             string CompleteOrder = CreateChildCommand("l", "ss " + terminal.ToString("0") + " " + stepnumber.ToString("000") + " " + step.ToString("000") + " " + xmin.ToString("000") + " " + ymin.ToString("000") + "\r");
             //string CompleteOrder = CreateChildCommand("l", "ss " + terminal.ToString() + " " + stepnumber.ToString() + " " + step.ToString("000") + "\r");
-            string response = SendAndReceiveResponse(CompleteOrder);
+            string response = SendAndReceiveResponse(CompleteOrder,2000);
         }
 
         private void SSWindow_ValueChanged(object sender, EventArgs e)
@@ -4079,13 +4002,13 @@ namespace HelloWorld
         private bool u2itmode(decimal val)
         {
             string CompleteOrder = "u2itmode " + val.ToString() + "\r";
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,20);
         }
 
         private bool u6itmode(decimal val)
         {
             string CompleteOrder = "u6itmode " + val.ToString() + "\r";
-            return SendAndReceiveOK(CompleteOrder);
+            return SendAndReceiveOK(CompleteOrder,20);
         }
         
         private void textBox3_TextChanged(object sender, EventArgs e)
@@ -4142,7 +4065,7 @@ namespace HelloWorld
         {
             string CompleteOrder = CreateChildCommand("l", "cs " + window.ToString("000") + " " + terminal.ToString() + "\r");
             //string CompleteOrder = CreateChildCommand("l", "ss " + terminal.ToString() + " " + stepnumber.ToString() + " " + step.ToString("000") + "\r");
-            string response = SendAndReceiveResponse(CompleteOrder);
+            string response = SendAndReceiveResponse(CompleteOrder,2000);
         }
 
         private void panel20_Scroll(object sender, ScrollEventArgs e)
@@ -4333,9 +4256,9 @@ namespace HelloWorld
             this.UD_STrim_Val1.ValueChanged += new System.EventHandler(this.UD_STrim_Val1_ValueChanged);
             this.UD_STrim_Val3.ValueChanged += new System.EventHandler(this.UD_STrim_Val3_ValueChanged);
             
-            strim(0, (int)UD_STrim_Val1.Value + 2047 - (-445));
+            strim(0, (int)UD_STrim_Val1.Value + 2047 - (-Settings1.Default.OBJ_CNT_X_offset));
             Thread.Sleep(1);
-            strim(2, (int)UD_STrim_Val3.Value + 2047 - (-415));
+            strim(2, (int)UD_STrim_Val3.Value + 2047 - (-Settings1.Default.OBJ_CNT_Y_offset));
         }
         private void u4_valueChanged(object sender, EventArgs e)
         {
@@ -4528,7 +4451,7 @@ namespace HelloWorld
         private void clkdelay_ValueChanged(object sender, EventArgs e)
         {
             string CompleteOrder = "adctime " + clkdelay.Value.ToString() + " " + clkdelay.Value.ToString() + "\r";
-            SendAndReceiveOK(CompleteOrder);
+            SendAndReceiveOK(CompleteOrder,100);
         }
 
         private void numericUpDown11_ValueChanged(object sender, EventArgs e)
@@ -4706,12 +4629,13 @@ namespace HelloWorld
         private void label92_Click(object sender, EventArgs e)
         {
             isformmode = true;
-
+           /*
             if (tcp != null)
             {
                 if(tcp.Connected)
                 dactimer(1);
             }
+            */
             Thread t = new Thread(OpenNewForm);t.SetApartmentState(ApartmentState.STA);
             t.Start();
         }
@@ -4920,7 +4844,7 @@ namespace HelloWorld
 
         private void Ctrl2D_Gain_Load(object sender, EventArgs e)
         {
-
+          
         }
 
         private void groupBox38_Enter(object sender, EventArgs e)
@@ -5120,10 +5044,12 @@ namespace HelloWorld
             else if (mode == 1) //Wide-Field mode
             {
                 FocusFine = (int)(IIML / Settings1.Default.Coef_IML_fine);
+                FocusCourse = 100;
             }
             else if (mode == 2) //Field mode
             {
                 FocusFine = (int)(IIML / Settings1.Default.Coef_IML_fine);
+                FocusCourse = 0;
             }
             else //Rokveld mode
             {
@@ -5217,11 +5143,11 @@ namespace HelloWorld
         {
             UD_HV_HV.Value = 0; counter = 0;
             string CompleteOrder = CreateChildCommand("hv", "hv 0" + "\r");
-            if (SendAndReceiveOK(CompleteOrder) == false) return;
+            if (SendAndReceiveOK(CompleteOrder,500) == false) return;
             if (buttonHV.Text == "HV")
             {
                 CompleteOrder = CreateChildCommand("hv", "kv 1" + "\r");
-                if (SendAndReceiveOK(CompleteOrder) == true)
+                if (SendAndReceiveOK(CompleteOrder,500) == true)
                 {
                     buttonHV.Text = "HV is ON";
                     buttonHV.BackColor = Color.Coral;
@@ -5240,7 +5166,7 @@ namespace HelloWorld
             //>>>>>>> master
             {
                 CompleteOrder = CreateChildCommand("hv", "kv 0" + "\r");
-                if (SendAndReceiveOK(CompleteOrder) == true)
+                if (SendAndReceiveOK(CompleteOrder,500) == true)
                 {
                     buttonHV.Text = "HV";
                     //<<<<<<< master
@@ -5258,7 +5184,7 @@ namespace HelloWorld
             button1_Click(null, null);
             UD_SE_Faraday.Value = 1000;
             UD_SE_PMT.Value = 2500;
-            counter_hv = 0;
+            counter_hv = 9;
             //<<<<<<< master
             //            buttonFB_Click(null, null);
             //=======
@@ -5270,11 +5196,11 @@ namespace HelloWorld
         {
             //  UD_HV_Filament.Value = 0;
             string CompleteOrder;// = CreateChildCommand("hv", " filament 255" + "\r");
-                                 // SendAndReceiveOK(CompleteOrder);
+                                 // SendAndReceiveOK(CompleteOrder,1000);
             if (buttonFB.Text == "HEAT")
             {
                 CompleteOrder = CreateChildCommand("hv", "fb 1" + "\r");
-                if (SendAndReceiveOK(CompleteOrder) == true)
+                if (SendAndReceiveOK(CompleteOrder,500) == true)
                 {
                     buttonFB.Text = "HEAT is ON";
                     buttonFB.BackColor = Color.Coral;
@@ -5285,6 +5211,7 @@ namespace HelloWorld
                     //                if (buttonFB.Text == "HEAT is ON")
                     //            {
                     //=======
+                    Thread.Sleep(1000);
                     hv_init();
                 }
             }
@@ -5294,7 +5221,7 @@ namespace HelloWorld
 
                 //>>>>>>> master
                 CompleteOrder = CreateChildCommand("hv", "fb 0" + "\r");
-                if (SendAndReceiveOK(CompleteOrder) == true)
+                if (SendAndReceiveOK(CompleteOrder,500) == true)
                 {
                     buttonFB.Text = "HEAT";
                     //<<<<<<< master
@@ -5412,20 +5339,22 @@ namespace HelloWorld
 
         private void button_VAC_Click(object sender, EventArgs e)
         {
+            track_ball_enumeration();
+
             if (button_VAC.Text == "START")
             {
                 button_VAC.Text = "Pumping ...";
                 button_VAC.Refresh();
-                Thread.Sleep(5000);
+                //Thread.Sleep(5000);
                 button_VAC.Text = "Ready";
-                buttonHV.Enabled = true;
-                buttonFB.Enabled = true;
+               // buttonHV.Enabled = true;
+               // buttonFB.Enabled = true;
             }
             else
             {
                 button_VAC.Text = "START";
-                buttonHV.Enabled = false;
-                buttonFB.Enabled = false;
+               // buttonHV.Enabled = false;
+               // buttonFB.Enabled = false;
             }
 
         }
@@ -5462,7 +5391,7 @@ namespace HelloWorld
                     //fb = (int)((numericFilament.Value * (counter_hv - 10)) / 10);
                     //progressBar_FB.Value = fb;
                     //if (!(hv_filament(fb * 256 / 100))) throw new Exception("filament");
-                    if (buttonFB.Text != "HEAT is ON") return;
+                    if (buttonFB.Text != "HEAT is ON") { counter_hv = 20; return; }
 
                     fb = (int)((double)numericFilament.Value * (double)(counter_hv - 10) / 10.0);
                     int val = (int)((double)fb * (double)Settings1.Default.fb_raw_max / (double)numericFilament.Maximum);
@@ -5520,6 +5449,11 @@ namespace HelloWorld
                 numericFocus.ValueChanged -= numericFocus_ValueChanged;
                 numericFocus.Value = (decimal)WDReal_To_WDPrint(mode, WD_real);
                 numericFocus.ValueChanged += numericFocus_ValueChanged;
+                numericUpDown_objc.Value = trackBar_focus_course.Value;
+                UpdateZoom();
+            }
+            else
+            {
                 numericUpDown_objc.Value = trackBar_focus_course.Value;
                 UpdateZoom();
             }
@@ -5638,6 +5572,7 @@ namespace HelloWorld
         private void trackBar_wob_Scroll(object sender, EventArgs e)
         {
             TB_Wobbler.Value = trackBar_wob.Value;
+            TB_Wobbler_Scroll(this, null);
         }
 
         private void FormMain_Activated(object sender, EventArgs e)
@@ -5723,9 +5658,12 @@ namespace HelloWorld
             HVProfileLastIndex = HVProfile.SelectedIndex;
             MicroscopyModeLastIndex = AllUserSettings[HVindex].MicroscopyMode;
 
-            AllUserSettings[HVindex].Focus_course = trackBar_focus_course.Value;
+
             if (microscopy_mode == 0)
+            {
+                AllUserSettings[HVindex].Focus_course = trackBar_focus_course.Value;
                 AllUserSettings[HVindex].FocusFine_Resolution = Ctrl1D_Focus.Value;
+            }
             else if (microscopy_mode == 1)
                 AllUserSettings[HVindex].FocusFine_WideField = Ctrl1D_Focus.Value;
             else if (microscopy_mode == 2)
@@ -5816,13 +5754,20 @@ namespace HelloWorld
 
         //<<<<<<< master
         //=======
-        public bool Connect_TCP()
+        public bool Check_LAN()
         {
+#if UDPCOM
+            string response = SendAndReceiveResponse("name?", 200);
+            response = SendAndReceiveResponse("name?", 200);
+            if (response != "SEM") return false;
+            return true;
+#else
             Btn_TCPConnect_Click(null, null);
             if (tcp != null)
                 return tcp.Connected;
             else
                 return false;
+#endif
         }
 
         public bool Connect_UDP()
@@ -5837,42 +5782,44 @@ namespace HelloWorld
             return isUDPConnected;
         }
 
-        public bool Connect_Lens()
+        public bool Check_Lens()
         {
-            if (tcp == null) return false;
-            if (!tcp.Connected) return false;
+        
             string CompleteOrder = CreateChildCommand("l", "you?\r");
-            string response = SendAndReceiveResponse(CompleteOrder);
+            string response = SendAndReceiveResponse(CompleteOrder,200);
+                   response = SendAndReceiveResponse(CompleteOrder,200);
             if (response != "lens") return false;
             return true;
         }
 
-        public bool Connect_HV()
+        public bool Check_HV()
         {
-            if (tcp == null) return false;
-            if (!tcp.Connected) return false;
+            
             string CompleteOrder = CreateChildCommand("hv", "you?\r");
-            string response = SendAndReceiveResponse(CompleteOrder);
+            string response = SendAndReceiveResponse(CompleteOrder,200);
+                   response = SendAndReceiveResponse(CompleteOrder,200);
             if (response != "hv") return false;
             return true;
         }
 
-        public bool Connect_FB()
+        public bool Check_FB()
         {
-            if (tcp == null) return false;
-            if (!tcp.Connected) return false;
+            bool isOK = false;
+            
             string CompleteOrder = CreateChildCommand("hv", "fb 1" + "\r");
-            SendAndReceiveOK(CompleteOrder);
-            bool isOK = hv_filament(0);
-            CompleteOrder = CreateChildCommand("hv", "fb 0" + "\r");
-            SendAndReceiveOK(CompleteOrder);
+            isOK = SendAndReceiveOK(CompleteOrder,100);
+            isOK = SendAndReceiveOK(CompleteOrder,100);
+            //bool isOK = hv_filament(0);
+            //CompleteOrder = CreateChildCommand("hv", "fb 0" + "\r");
+            //SendAndReceiveOK(CompleteOrder,1000);
             return isOK;
         }
 
-        public bool Connect_Stage()
+        public bool Check_Stage()
         {
             string CompleteOrder = CreateChildCommand("st", "you?\r");
-            string response = SendAndReceiveResponse(CompleteOrder);
+            string response = SendAndReceiveResponse(CompleteOrder,200);
+                   response = SendAndReceiveResponse(CompleteOrder,200);
             if (!response.StartsWith("Spray")) return false;
             return true;
         }
@@ -5880,8 +5827,8 @@ namespace HelloWorld
         //>>>>>>> master
         public void UpdateUserName(bool isSwitchBetweenMode)
         {
+            if (UserName=="") UserName="Guest";
             UserInfo = "  |  Logged in as: " + UserName;
-
             string filename = ".\\Accounts\\" + UserName + ".xml";
             XmlSerializer mySerializer = new XmlSerializer(typeof(List<UserSettings>));
             StreamReader xmlReader = new StreamReader(filename);
@@ -5906,30 +5853,39 @@ namespace HelloWorld
 
             if (microscopy_mode == 0)
             {
-                trackBar_focus_course.Enabled = true;
-                numericFocus.Maximum = (int)Settings1.Default.q_max;
+               
                 //Ctrl1D_Focus.Minimum = Settings1.Default.Focus_Min_res_fine;
                 //Ctrl1D_Focus.Maximum = Settings1.Default.Focus_Max_res_fine;
                 //Ctrl1D_Zoom.Minimum = Settings1.Default.Zoom_Min_res;
                 //Ctrl1D_Zoom.Maximum = Settings1.Default.Zoom_Max_res;
             }
-            else
-            {
-                trackBar_focus_course.Enabled = false;
-                numericFocus.Maximum = (int)(Settings1.Default.WD_real_IML - Settings1.Default.WD_offset_IML + 1);
-                //Ctrl1D_Focus.Minimum = Settings1.Default.Focus_Min_IML_fine;
-                //Ctrl1D_Focus.Maximum = Settings1.Default.Focus_Max_IML_fine;
-                //Ctrl1D_Zoom.Minimum = Settings1.Default.Zoom_Min_IML;
-                //Ctrl1D_Zoom.Maximum = Settings1.Default.Zoom_Max_IML;
-            }
+           
 
-            trackBar_focus_course.Value = AllUserSettings[HVindex].Focus_course;
             if (microscopy_mode == 0)
+            {
+                numericFocus.Maximum = (int)Settings1.Default.q_max;
+                trackBar_focus_course.Enabled = true;
+                trackBar_focus_course.Value = AllUserSettings[HVindex].Focus_course;
                 Ctrl1D_Focus.Value = AllUserSettings[HVindex].FocusFine_Resolution;
+                
+               
+            }
             else if (microscopy_mode == 1)
+            {
+                numericFocus.Maximum = (int)(Settings1.Default.WD_real_IML - Settings1.Default.WD_offset_IML + 1);
+                trackBar_focus_course.Value = 100;
                 Ctrl1D_Focus.Value = AllUserSettings[HVindex].FocusFine_WideField;
+                trackBar_focus_course.Enabled = false;
+               
+            }
             else if (microscopy_mode == 2)
+            {
+                numericFocus.Maximum = (int)(Settings1.Default.WD_real_IML - Settings1.Default.WD_offset_IML + 1);
+                trackBar_focus_course.Value = 0;
                 Ctrl1D_Focus.Value = AllUserSettings[HVindex].FocusFine_Field;
+                trackBar_focus_course.Enabled = false;
+                
+            }
             else if (microscopy_mode == 3)
                 Ctrl1D_Focus.Value = AllUserSettings[HVindex].FocusFine_Rokveld;
             dCtrl1D_Focus.Value = AllUserSettings[HVindex].DFocus;
@@ -5942,7 +5898,7 @@ namespace HelloWorld
                 Ctrl1D_Zoom.Value = AllUserSettings[HVindex].Vf_Field;
             else if (microscopy_mode == 3)
                 Ctrl1D_Zoom.Value = AllUserSettings[HVindex].Vf_Rokveld;
-
+            Scanner_ISelect_SelectedIndexChanged(this, null);//update current selection
             dCtrl1D_Zoom.Value = AllUserSettings[HVindex].DZoom;
 
             userControl12.X = AllUserSettings[HVindex].Stig_x;
@@ -6015,6 +5971,7 @@ namespace HelloWorld
             string filename = ".\\Accounts\\" + UserName + ".xml";
             XmlSerializer mySerializer = new XmlSerializer(typeof(List<UserSettings>));
             StreamWriter xmlWriter = new StreamWriter(filename);
+            xmlWriter.AutoFlush = true;
             mySerializer.Serialize(xmlWriter, AllUserSettings);
             xmlWriter.Close();
         }
@@ -6125,7 +6082,21 @@ namespace HelloWorld
 
             Ctrl2D_Gain.Value = new Point(Ctrl2D_Gain.Value.X, y);
         }
+        public void set_gain_offset(int gain,int offset)
+        {
+            if (offset > 100) offset = 100;
+            if (offset < 0) offset = 0;
+            if (gain > 100) gain = 100;
+            if (gain < 0) gain = 0;
+            num_gain_x.Value = offset;
+            num_gain_y.Value = gain;
+        }
+        public int get_gain_offset()
+        {
 
+            return ((int)num_gain_x.Value+256*(int)num_gain_y.Value);
+            
+        }
         private void num_obj_x_ValueChanged(object sender, EventArgs e)
         {
             double coef = (double)(Settings1.Default.num_obj_max - Settings1.Default.num_obj_min) / 4095.0;
@@ -6226,9 +6197,26 @@ namespace HelloWorld
 
         private void numeric_Speed_ValueChanged(object sender, EventArgs e)
         {
-            speed_multiply.Value = numeric_Speed.Value;
+            if (numeric_Speed.Value <= 4)
+            { speed_multiply.Value = numeric_Speed.Value; UD_Speed.Value = 100; }
+            else 
+            if ((numeric_Speed.Value > 4) &&(numeric_Speed.Value <=8))
+            { speed_multiply.Value = numeric_Speed.Value-1; UD_Speed.Value = 200; }
+            else
+            if ((numeric_Speed.Value > 8) && (numeric_Speed.Value <= 10))
+            { speed_multiply.Value = 7; UD_Speed.Value = (numeric_Speed.Value-8)*400; }
+           // if (RB_ADG.Checked && numeric_Speed.Value >= 5 && CB_ADG_Terminal.SelectedIndex == 1) CB_ADG_Terminal.SelectedIndex = 2;
+           // if (RB_ADG.Checked && numeric_Speed.Value < 5 && CB_ADG_Terminal.SelectedIndex == 2) CB_ADG_Terminal.SelectedIndex = 1;
         }
+        internal void speed_up(int s)
+        {
 
+            decimal newspeed=numeric_Speed.Value + s;
+            if (newspeed > 10) newspeed = 10;
+            if (newspeed < 0) newspeed = 0;
+            numeric_Speed.Value = newspeed;
+
+        }
         //<<<<<<< master
         //        private void label44_Click(object sender, EventArgs e)
         //        {
@@ -6306,14 +6294,15 @@ namespace HelloWorld
 
         private void TimerHVUpdater_Tick(object sender, EventArgs e)
         {
-            if (numericHV.Value == progressBar_HV.Value)
+            decimal hvvalue = numericHV.Value;
+            if (hvvalue == progressBar_HV.Value)
                 TimerHVUpdater.Stop();
             else if (buttonHV.Text != "HV is ON")
                 TimerHVUpdater.Stop();
             else
             {
                 int newHV = 0;
-                if (progressBar_HV.Value < numericHV.Value)
+                if (progressBar_HV.Value < hvvalue)
                     newHV = (int)progressBar_HV.Value + 1;
                 else
                     newHV = (int)progressBar_HV.Value - 1;
@@ -6377,6 +6366,9 @@ namespace HelloWorld
         private int lens_ok_error;
         private int[] tcp_ok_error= new int[10];
         private int tcp_readytosend;
+        private bool wob_is_on;
+        private int trackball_dx;
+        private int trackball_dy;
 
         private void TCP_Connection_Listener_Tick(object sender, EventArgs e)
         {
@@ -6546,6 +6538,8 @@ namespace HelloWorld
         {
             //<<<<<<< master
             Settings1.Default.kV = (double) numericHV.Value;
+            if (Settings1.Default.kV > 27)
+                Settings1.Default.kV = 27;
             numericFocus_ValueChanged(this, null);
             //=======
             //Settings1.Default.kV = (double) numericHV.Value; 
@@ -6557,37 +6551,59 @@ namespace HelloWorld
         {
             num_gain_x.ValueChanged -= num_gain_x_ValueChanged;
             num_gain_y.ValueChanged -= num_gain_y_ValueChanged;
-            double coef = (double)(Settings1.Default.num_stig_max - Settings1.Default.num_stig_min) / 4095.0;
-            num_gain_x.Value = (decimal)((double)Settings1.Default.num_stig_min + coef * ((double)Ctrl2D_Gain.Value.X + 2047.0));
-            num_gain_y.Value = (decimal)((double)Settings1.Default.num_stig_max - coef * ((double)Ctrl2D_Gain.Value.Y + 2047.0));
+            double coef = (double)(Settings1.Default.num_gain_max - Settings1.Default.num_gain_min) / 4095.0;
+            num_gain_x.Value = (decimal)((double)Settings1.Default.num_gain_min + coef * ((double)Ctrl2D_Gain.Value.X + 2047.0));
+            num_gain_y.Value = (decimal)((double)Settings1.Default.num_gain_max - coef * ((double)Ctrl2D_Gain.Value.Y + 2047.0));
             num_gain_x.ValueChanged += num_gain_x_ValueChanged;
             num_gain_y.ValueChanged += num_gain_y_ValueChanged;
 
             UD_DetectorTrim_Coarse.Value = Ctrl2D_Gain.X + 2047;
-            UD_SE_PMT.Value = Ctrl2D_Gain.Y + 2047;
+            UD_SE_PMT.Value = - Ctrl2D_Gain.Y + 2047 + 1;
         }
 
         private void spead_multiply_ValueChanged(object sender, EventArgs e)
-        {
-            if (dactimer(0))
+        {;
+            bool udpstate = isUDPConnected;
+           
+           // if (dactimer(0))
             {
                 Thread.Sleep(100);
                 multiply = (UInt16)Math.Pow(2, (UInt16)speed_multiply.Value);
                 multiply_count = 0;
                 if (formmode != null)
                 {
-                    formmode.multiply_count = 0;
-                    formmode.multiply = multiply;
+                    iX = ImageForm.iX;
+                    iY = ImageForm.iY;
+                    nX = ImageForm.nX;
+                    nY = ImageForm.nY;
+                    ImageForm.APD_count = 0;
+                    ImageForm.APD = multiply;
+                    ImageForm.threshold = (multiply)  / 4;
+                  /*   formmode.BPF = 512 * 512 *  formmode.APD *  formmode.BPA;
+                     formmode.frame_cap = 512 * 512 * 128 /  formmode.BPF;
+                     formmode.frame_num =  formmode.frame_cap - 1;
+                    // formmode.PPF = (int)Math.Ceiling((double)(nX * nY *  formmode.APD *  formmode.BPA) / (double) formmode.PackageSize);
+                   
+                    int BPSF = nX * nY *  formmode.APD *  formmode.BPA;
+                     formmode.PPF = BPSF /  formmode.PackageSize;
+                    if (( formmode.PPF *  formmode.PackageSize) < BPSF)  formmode.PPF += 1;*/
                 }
                 string CompleteOrder = "multiply " + multiply.ToString() + "\r";
-                SendAndReceiveOK(CompleteOrder);
+                SendAndReceiveOK(CompleteOrder,100);
+               /* CompleteOrder = "window " + iX.ToString() + " " + iY.ToString() + " " + nX.ToString() + " " + nY.ToString() + "\r";
+                SendAndReceiveOK(CompleteOrder, 100);
+                formmode.package_type_changed = true;*/
             }
-            Thread.Sleep(5);
+            
+               
+            Thread.Sleep(10);
+            if(udpstate)
             dactimer(1);
-
+            /*
             numeric_Speed.ValueChanged -= numeric_Speed_ValueChanged;
             numeric_Speed.Value = speed_multiply.Value;
             numeric_Speed.ValueChanged += numeric_Speed_ValueChanged;
+            */
         }
 
         private void userControl11_Load_1(object sender, EventArgs e)
@@ -6617,29 +6633,32 @@ namespace HelloWorld
 
         private void button_lens_init_Click(object sender, EventArgs e)
         {
+            SendAndReceiveResponse("u6.l.reset\r",3000);
+            //Thread.Sleep(3000);
             lensInitialize();
         }
 
         private void lensInitialize()
         {
+            Thread.Sleep(10);
             u1_valueChanged(this, null);
-            Thread.Sleep(5);
+            Thread.Sleep(10);
             u2_valueChanged(this, null);
-            Thread.Sleep(5);
+            Thread.Sleep(10);
             u4_valueChanged(this, null);
-            Thread.Sleep(5);
+            Thread.Sleep(10);
             u5_valueChanged(this, null);
-            Thread.Sleep(5);
+            Thread.Sleep(10);
             UD_Lens_CON1_ValueChanged(this, null);
-            Thread.Sleep(5);
+            Thread.Sleep(10);
             UD_Lens_CON2_ValueChanged(this, null);
-            Thread.Sleep(5);
+            Thread.Sleep(10);
             UD_Lens_IML_ValueChanged(this, null);
-            Thread.Sleep(5);
+            Thread.Sleep(10);
             UD_Lens_OBJ_ValueChanged(this, null);
-            Thread.Sleep(5);
+            Thread.Sleep(10);
             numericUpDown_objc_ValueChanged(this, null);
-            Thread.Sleep(5);
+            Thread.Sleep(10);
             trackBar_wob_Scroll(this, null);
 
 
@@ -6664,6 +6683,48 @@ namespace HelloWorld
                 
 
 
+        }
+
+        private void dCtrl1D_Zoom_Scroll(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dCtrl2D_Stig_Scroll_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Ctrl2D_Gain_Paint(object sender, PaintEventArgs e)
+        {
+
+            // Create a path that consists of a single ellipse.
+            // System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
+            // path.AddRectangle(Rectangle.FromLTRB(0, 0, 100, 100));
+
+            // Use the path to construct a brush.
+            // System.Drawing.Drawing2D.LinearGradientBrush pthGrBrush = new System.Drawing.Drawing2D.LinearGradientBrush(Rectangle.FromLTRB(0, 0, 100, 100),Color.White,Color.Black,(float)0);
+
+
+            // Set the color at the center of the path to blue.
+            // pthGrBrush.CenterColor = Color.FromArgb(250, 192, 192, 192);
+
+            // Set the color along the entire boundary 
+            // of the path to aqua.
+            // Color[] colors = { Color.FromArgb(0, 192, 192, 192) };
+            // pthGrBrush.SurroundColors = colors;
+            //e.Graphics.Flush();
+           // e.Graphics.FillRectangle(pthGrBrush, 0, 0, 100,100);
+            Pen pp = new Pen(Color.Silver, 1);
+            e.Graphics.DrawLine(pp, 5, 0, 45, 100);
+            e.Graphics.DrawLine(pp, 95, 0, 55, 100);
+            //e.Graphics.DrawLine(pp, 0, 0, 40, 100);
+            //e.Graphics.DrawLine(pp, 100, 0, 60, 100);
+        }
+
+        private void button_mem_Click(object sender, EventArgs e)
+        {
+            SaveCurrentAccountSettings();
         }
 
         private void backgroundWorker2_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

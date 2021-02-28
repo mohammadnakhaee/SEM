@@ -14,7 +14,7 @@ namespace HelloWorld
     public partial class Form5 : Form
     {
         FormMain main;
-        int tcp = -1;
+        int lan = -1;
         int udp = -1;
         int lens = -1;
         int hv = -1;
@@ -40,15 +40,15 @@ namespace HelloWorld
         private void Form5_Shown(object sender, EventArgs e)
         {
             Refresh();
-            counter = 0;
+            counter = 3;
             timer1.Start();
         }
 
         private void Form5_Paint(object sender, PaintEventArgs e)
         {
-            if (tcp == 1)
+            if (lan == 1)
                 DrawString("LAN", Color.Green, 160, 340, 20, e.Graphics);
-            else if (tcp == 0)
+            else if (lan == 0)
                 DrawString("LAN", Color.Maroon, 160, 340, 20, e.Graphics);
             else
                 DrawString("LAN", Color.Gray, 160, 340, 20, e.Graphics);
@@ -116,10 +116,10 @@ namespace HelloWorld
                 if (!is4)
                 {
                     is4 = true;
-                    if (main.Connect_TCP())
-                        tcp = 1;
+                    if (main.Check_LAN())
+                        lan = 1;
                     else
-                        tcp = 0;
+                        lan = 0;
                     Refresh();
                     counter++;
                 }
@@ -129,14 +129,8 @@ namespace HelloWorld
                 if (!is5)
                 {
                     is5 = true;
-                    if (tcp == 1)
-                        if (main.Connect_HV())
-                            hv = 1;
-                        else
-                            if (main.Connect_HV())
-                            hv = 1;
-                        else
-                            if (main.Connect_HV())
+                    if (lan == 1)
+                        if (main.Check_HV())
                             hv = 1;
                         else
                             hv = 0;
@@ -149,14 +143,8 @@ namespace HelloWorld
                 if (!is6)
                 {
                     is6 = true;
-                    if (tcp == 1)
-                        if (main.Connect_FB())
-                            fb = 1;
-                        else
-                            if (main.Connect_FB())
-                            fb = 1;
-                        else
-                            if (main.Connect_FB())
+                    if (lan == 1)
+                        if (main.Check_FB())
                             fb = 1;
                         else
                             fb = 0;
@@ -169,14 +157,8 @@ namespace HelloWorld
                 if (!is7)
                 {
                     is7 = true;
-                    if (tcp == 1)
-                        if (main.Connect_Lens())
-                            lens = 1;
-                        else
-                            if (main.Connect_Lens())
-                            lens = 1;
-                        else
-                            if (main.Connect_Lens())
+                    if (lan == 1)
+                        if (main.Check_Lens())
                             lens = 1;
                         else
                             lens = 0;
@@ -189,14 +171,8 @@ namespace HelloWorld
                 if (!is8)
                 {
                     is8 = true;
-                    if (tcp == 1)
-                        if (main.Connect_Stage())
-                            stage = 1;
-                        else
-                            if (main.Connect_Stage())
-                            stage = 1;
-                        else
-                            if (main.Connect_Stage())
+                    if (lan == 1)
+                        if (main.Check_Stage())
                             stage = 1;
                         else
                             stage = 0;
@@ -209,21 +185,21 @@ namespace HelloWorld
                 if (!is9)
                 {
                     is9 = true;
-                    if (tcp == 1)
-                        if (main.Connect_UDP())
+                    if (lan == 1)
+                      //  if (main.Connect_UDP())
                             udp = 1;
-                        else
-                            udp = 0;
+                     //   else
+                      //      udp = 0;
                     Refresh();
-                    main.DisConnect_UDP();
+                   // main.DisConnect_UDP();
                     counter++;
                 }
             }
-            else if (counter > 9 && counter < 14)
+            else if (counter > 9 && counter < 10)
             {
                 counter++;
             }
-            else if (counter == 14)
+            else if (counter == 10)
             {
                 timer1.Stop();
                 Close();

@@ -61,11 +61,13 @@ namespace HelloWorld
                 
                 if ((last_x * x) < 0) x += (x / Math.Abs(x)) * hys;
                 if ((last_y * y) < 0) y += (y / Math.Abs(y)) * hys;
-
+                if (Control.ModifierKeys == Keys.Control) x = 0;
+                if (Control.ModifierKeys == Keys.Alt) y = 0;
                 last_x = x;
                 last_y = y;
+              
                 string CompleteOrder = mainform.CreateChildCommand("st", "us " + x.ToString("+00000;-00000") + " " + y.ToString("+00000;-00000") + "\r");
-                if (mainform.SendAndReceiveOK(CompleteOrder))
+                if (mainform.SendAndReceiveOK(CompleteOrder,1000))
                 { }
                     //FormMain.ComPorts[0].Write("us " + x.ToString("000") + "  " + y.ToString("000") + "\r");
                     Text = CompleteOrder;// x.ToString("+000;-000") + " " + y.ToString("+000;-000");//;+#;-#;+0= "Stage (" + x.ToString("000") + " " + y.ToString("000") + ")";
@@ -97,7 +99,7 @@ namespace HelloWorld
             try
             {
                 string CompleteOrder = mainform.CreateChildCommand("st", "set " + numericUpDown_delay.Value.ToString("000") + " " + "4000" + "\r");
-                mainform.SendAndReceiveOK(CompleteOrder);
+                mainform.SendAndReceiveOK(CompleteOrder,1000);
                 Text = CompleteOrder;
                 // FormMain.ComPorts[0].Write("set " + numericUpDown_delay.Value.ToString("00") + " " + numericUpDown_step.Value.ToString("000") + "\r");
             }

@@ -80,6 +80,10 @@
             this.LeftToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
             this.Border = new System.Windows.Forms.PictureBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.autoSignalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label_lostpackage = new System.Windows.Forms.Label();
+            this.timer_lostpackage = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scalebar)).BeginInit();
             this.group1.SuspendLayout();
@@ -95,6 +99,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.UD_AcquireNumber)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar11)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Border)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -148,6 +153,7 @@
             this.group1.AutoSize = true;
             this.group1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(105)))), ((int)(((byte)(128)))));
             this.group1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.group1.Controls.Add(this.label_lostpackage);
             this.group1.Controls.Add(this.label92);
             this.group1.Controls.Add(this.button_distance);
             this.group1.Controls.Add(this.checkBox_Measure);
@@ -741,6 +747,36 @@
             this.Border.TabIndex = 8;
             this.Border.TabStop = false;
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.autoSignalToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(133, 26);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            // 
+            // autoSignalToolStripMenuItem
+            // 
+            this.autoSignalToolStripMenuItem.Name = "autoSignalToolStripMenuItem";
+            this.autoSignalToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.autoSignalToolStripMenuItem.Text = "auto signal";
+            this.autoSignalToolStripMenuItem.Click += new System.EventHandler(this.autoSignalToolStripMenuItem_Click);
+            // 
+            // label_lostpackage
+            // 
+            this.label_lostpackage.AutoSize = true;
+            this.label_lostpackage.ForeColor = System.Drawing.Color.Red;
+            this.label_lostpackage.Location = new System.Drawing.Point(43, 565);
+            this.label_lostpackage.Name = "label_lostpackage";
+            this.label_lostpackage.Size = new System.Drawing.Size(0, 13);
+            this.label_lostpackage.TabIndex = 94;
+            // 
+            // timer_lostpackage
+            // 
+            this.timer_lostpackage.Enabled = true;
+            this.timer_lostpackage.Interval = 1000;
+            this.timer_lostpackage.Tick += new System.EventHandler(this.timer_lostpackage_Tick);
+            // 
             // ImageForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -780,6 +816,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.UD_AcquireNumber)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar11)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Border)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -825,7 +862,6 @@
         private System.Windows.Forms.Label label52;
         private System.Windows.Forms.OpenFileDialog openFileDialog_Images;
         private System.Windows.Forms.Label labelscalekx;
-        private System.Windows.Forms.PictureBox scalebar;
         private System.Windows.Forms.Label scalelabel;
         private System.Windows.Forms.ToolStripPanel BottomToolStripPanel;
         private System.Windows.Forms.ToolStripPanel TopToolStripPanel;
@@ -837,5 +873,10 @@
         private System.Windows.Forms.Button button_distance;
         private System.Windows.Forms.PictureBox Border;
         private System.Windows.Forms.Label label92;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem autoSignalToolStripMenuItem;
+        public System.Windows.Forms.PictureBox scalebar;
+        private System.Windows.Forms.Label label_lostpackage;
+        private System.Windows.Forms.Timer timer_lostpackage;
     }
 }

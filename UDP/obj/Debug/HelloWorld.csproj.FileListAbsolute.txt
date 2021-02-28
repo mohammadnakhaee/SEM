@@ -1,25 +1,3 @@
-C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\bin\Example.HelloWorld.exe.config
-C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\bin\Example.HelloWorld.exe
-C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\bin\Example.HelloWorld.pdb
-C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.Form1.resources
-C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.Analyse.resources
-C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.Settings.resources
-C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.Form4.resources
-C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.Form5.resources
-C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.FormMain.resources
-C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.ImageForm.resources
-C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.PictureForm.resources
-C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.Properties.Resources.resources
-C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.Stage.resources
-C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.StageForm.resources
-C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.UserControl1.resources
-C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.UserControl2.resources
-C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.csproj.GenerateResource.cache
-C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.csproj.CoreCompileInputs.cache
-C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.csproj.CopyComplete
-C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\Example.HelloWorld.exe
-C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\Example.HelloWorld.pdb
-C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.csprojAssemblyReference.cache
 C:\Users\mohammad\Documents\GitProjects\libemgucv-windows-universal-2.4.10.1940\bin\Example.HelloWorld.exe.config
 C:\Users\mohammad\Documents\GitProjects\libemgucv-windows-universal-2.4.10.1940\bin\Example.HelloWorld.exe
 C:\Users\mohammad\Documents\GitProjects\libemgucv-windows-universal-2.4.10.1940\bin\Example.HelloWorld.pdb
@@ -42,3 +20,31 @@ C:\Users\mohammad\Documents\GitProjects\libemgucv-windows-universal-2.4.10.1940\
 C:\Users\mohammad\Documents\GitProjects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\Example.HelloWorld.exe
 C:\Users\mohammad\Documents\GitProjects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\Example.HelloWorld.pdb
 C:\Users\mohammad\Documents\GitProjects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.csprojAssemblyReference.cache
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\bin\Example.HelloWorld.exe.config
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\bin\Example.HelloWorld.exe
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\bin\Example.HelloWorld.pdb
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.csprojAssemblyReference.cache
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.Form1.resources
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.Analyse.resources
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.Settings.resources
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.Form4.resources
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.Form5.resources
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.FormMain.resources
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.ImageForm.resources
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.PictureForm.resources
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.Properties.Resources.resources
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.Stage.resources
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.StageForm.resources
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.UserControl1.resources
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.UserControl2.resources
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.csproj.GenerateResource.cache
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.csproj.CoreCompileInputs.cache
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.csproj.CopyComplete
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\Example.HelloWorld.exe
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\Example.HelloWorld.pdb
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\Interop.WSManAutomation.dll
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\HelloWorld.csproj.ResolveComReference.cache
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\bin\Example.HelloWorld.exe.manifest
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\bin\Example.HelloWorld.application
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\Example.HelloWorld.exe.manifest
+C:\Users\DELL\Documents\acer\Documents\Visual Studio 2012\Projects\libemgucv-windows-universal-2.4.10.1940\SEM\UDP\obj\Debug\Example.HelloWorld.application

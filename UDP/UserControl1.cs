@@ -15,6 +15,7 @@ namespace HelloWorld
         {
             InitializeComponent();
             pictureBox1.Visible = false;
+            autocross = true;
         }
 
         private Point p, vp;
@@ -54,6 +55,9 @@ namespace HelloWorld
                 pictureBox1.Location = p;
             }
         }
+
+        public bool autocross { get; set; }
+
         public void FireChangesEvent()
         {
             Refresh();
@@ -202,9 +206,11 @@ namespace HelloWorld
         {
             Pen myPen = new Pen(Color.Beige);
             myPen.Width = 1;
-            e.Graphics.DrawLine(myPen, 0, 50, 100, 50);
-            e.Graphics.DrawLine(myPen, 50, 0, 50, 100);
-
+            if (autocross == true)
+            {
+                e.Graphics.DrawLine(myPen, 0, 50, 100, 50);
+                e.Graphics.DrawLine(myPen, 50, 0, 50, 100);
+            }
             Pen myPen2 = new Pen(Color.DeepPink, 1);
             int ix = (int)Math.Round((double)pictureBox1.Location.X + (double)pictureBox1.Size.Width / 2.0);
             int iy = (int)Math.Round((double)pictureBox1.Location.Y + (double)pictureBox1.Size.Height / 2.0);

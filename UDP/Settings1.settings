@@ -185,5 +185,11 @@
     <Setting Name="vf_coeff" Type="System.Double" Scope="User">
       <Value Profile="(Default)">14.25</Value>
     </Setting>
+    <Setting Name="OBJ_CNT_Y_offset" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">59</Value>
+    </Setting>
+    <Setting Name="OBJ_CNT_X_offset" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">53</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

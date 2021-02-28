@@ -103,6 +103,36 @@ namespace HelloWorld.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap gradient {
+            get {
+                object obj = ResourceManager.GetObject("gradient", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gradient__1_ {
+            get {
+                object obj = ResourceManager.GetObject("gradient (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gradient2 {
+            get {
+                object obj = ResourceManager.GetObject("gradient2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap greenbuttonoff {
             get {
                 object obj = ResourceManager.GetObject("greenbuttonoff", resourceCulture);

@@ -754,5 +754,29 @@ namespace HelloWorld {
                 this["vf_coeff"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("59")]
+        public int OBJ_CNT_Y_offset {
+            get {
+                return ((int)(this["OBJ_CNT_Y_offset"]));
+            }
+            set {
+                this["OBJ_CNT_Y_offset"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("53")]
+        public int OBJ_CNT_X_offset {
+            get {
+                return ((int)(this["OBJ_CNT_X_offset"]));
+            }
+            set {
+                this["OBJ_CNT_X_offset"] = value;
+            }
+        }
     }
 }

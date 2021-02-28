@@ -16,7 +16,9 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <PublishUrl>publish\</PublishUrl>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
+    <PublishUrl>C:\Users\DELL\Documents\sempub\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -26,12 +28,12 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
+    <AutorunEnabled>true</AutorunEnabled>
+    <ApplicationRevision>1</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,6 +57,18 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>61A30E6E9C7EFBEDD4745A2A99366BFB8FC54835</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>HelloWorld_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Emgu.CV, Version=2.4.10.1939, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
@@ -87,6 +101,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Messaging" />
     <Reference Include="System.Runtime.InteropServices.WindowsRuntime" />
     <Reference Include="System.Runtime.WindowsRuntime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -285,6 +300,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="HelloWorld_TemporaryKey.pfx" />
     <None Include="HV_settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>HV_settings.Designer.cs</LastGenOutput>
@@ -358,6 +374,26 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Connection.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gradient.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gradient2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gradient %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="WSManAutomation">
+      <Guid>{F010BE25-296D-4036-980F-5A0669A17577}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -55,22 +55,45 @@ namespace HelloWorld
         int ControllerPort = 152;
         
         
+       
+        
+        private bool udp_updated;
+        private bool autosignal_start;
+        private int autosignal_ready;
+        private byte signal_min;
+        private byte signal_max;
+       
+
+
         int x = 0;
         int y = 0;
-        public int iX = 0;
-        public int iY = 0;
-        public int nX = 512;
-        public int nY = 512;
         int nRow = 512;
         double FPS = 0;
         Int16 old_row = 32000, row = 0, row_ready = 0;
         UInt16 image_size = 512;
-        public  UInt16 multiply = 1, changed_multiply = 0, multiply_count = 0, line_ready = 0;
-        UInt16 sum = 0;
+       
+        UInt32 sum = 0;
         int package_number = 0;
-        public byte[] receivedData = new byte[512 * 512 * 128];
-        byte[] receivedData_frame = new byte[512 * 512];
-        int[] window_row = new int[512 * 128];
+        private int package_number_old;
+
+        // statc members
+        public static bool package_type_changed = false;
+        public static int Pixel_in_frame,Pixel_count,Pixel_in_subframe,row_in_subframe,pixel_in_row_in_subframe;
+        public static int PPF, frame_num, frame_cap, BPF, threshold = 0;
+        public static int BPA = 1; // byte per adc = 1 or 2
+        public static int PackageSize = 512;//1024;
+        public static int iX = 0;
+        public static int iY = 0;
+        public static int nX = 512;
+        public static int nY = 512;
+        public static int APD = 1, changed_multiply = 0, APD_count = 0, line_ready = 0;
+        public static byte[] receivedData = new byte[512 * 512 * 128];
+        //public byte[] receivedData = new byte[1024 * 512 * 128];
+        public static int[] window_row = new int[512 * 128];
+        public static byte[] receivedData_frame = new byte[512 * 512];
+        //int[] window_row = new int[1024 * 128];
+        //byte[] Packet = new byte[1024 + 2];
+        
         byte[] Packet = new byte[512 + 2];
         MCvFont format = new MCvFont(FONT.CV_FONT_HERSHEY_PLAIN, 1, 1); //Create the font
         //Terminal Tab Begin
@@ -112,12 +135,12 @@ namespace HelloWorld
         
         bool isUDPConnected = false;
         public IList<DrawObject> drawObj = new List<DrawObject>();
-        
+        System.Timers.Timer timeouttimer = new System.Timers.Timer();
 
         public ImageForm()
         {
             InitializeComponent();
-
+            
             /*  Panel border = new Panel();
               panel1.Controls.Add(border);
               border.Size = new System.Drawing.Size(2, 2);
@@ -127,7 +150,9 @@ namespace HelloWorld
               border.Dock = System.Windows.Forms.DockStyle.Top;
               */
             this.Owner = ownerform;
-
+            //timeouttimer.Elapsed += new System.Timers.ElapsedEventHandler(OnTimedEvent);
+            timeouttimer.AutoReset = false;
+            timeouttimer.Interval = 2000;
             SetCustomBorder();
 
             InitializeUDP();
@@ -152,9 +177,11 @@ namespace HelloWorld
             ViewPort.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ViewPort_MouseUp);
             ViewPort.MouseClick+= new System.Windows.Forms.MouseEventHandler(this.ViewPort_MouseClick);
             ViewPort.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ViewPort_MouseDoubleClick);
-            ViewPort.KeyPress += ViewPort_KeyPress;
+            ViewPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ViewPort_KeyPress);
+            ViewPort.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.ViewPort_MouseWheel);
             ViewPort.Paint += new PaintEventHandler(this.ViewPort_paint);
-
+            //contextMenuStrip1.Container(
+                ViewPort.ContextMenuStrip = contextMenuStrip1;
             points = new Point[4];
             points[0].X = 0; points[0].Y = 513; points[1].X = 512; points[1].Y = 513;
             points[3].X = 0; points[3].Y = 512+50; points[2].X = 512; points[2].Y = 512+50;
@@ -171,6 +198,15 @@ namespace HelloWorld
             //frame.DrawPolyline()
         }
 
+        private void ViewPort_MouseWheel(object sender, MouseEventArgs e)
+        {
+            
+            object[] parms = new object[] { e.Delta/(SystemInformation.MouseWheelScrollDelta) };
+            Invoke(new _speed_up(((FormMain)(this.ownerform)).speed_up), parms);
+         
+    
+        }
+        public delegate void _speed_up(int s);
         private void SetCustomBorder()
         {
             //this.FormBorderStyle = FormBorderStyle.None;
@@ -347,19 +383,24 @@ namespace HelloWorld
         {
             
             isUDPConnected = true;
+            //socket.ReceiveBufferSize = (1024 + 2) * 512;
             socket.ReceiveBufferSize = (512 + 2) * 512;
             try
             {
-                socket.BeginReceive(Packet, 0, 512 + 2, SocketFlags.None, new AsyncCallback(RecieveComplete), socket);
+                //word-> socket.BeginReceive(Packet, 0, 1024 + 2, SocketFlags.None, new AsyncCallback(RecieveComplete_word), socket);
+                socket.BeginReceive(Packet, 0, 512 + 2, SocketFlags.None, new AsyncCallback(RecieveComplete_Byte), socket);
             }
             catch
             {
 
             }
-            
+            object[] parms = new object[] { -1 };
+            Invoke(new _speed_up(((FormMain)(this.ownerform)).speed_up), parms);
+
+
             frame_refresh_timer.Start();
 
-            object[] parms = new object[] { 1 };
+            parms = new object[] { 1 };
             Invoke(new _dactimer(((FormMain)(this.ownerform)).dactimer), parms);
 
         }
@@ -373,18 +414,19 @@ namespace HelloWorld
                     row = (Int16)(Packet[nX + 1] | (Packet[nX] << 8));
 
                     if ((old_row == row))
-                        multiply_count++;
+                        APD_count++;
                     else
-                        multiply_count = 0;
-                    if (multiply_count >= multiply) multiply_count = 0;
+                        APD_count = 0;
+                    if (APD_count >= APD) APD_count = 0;
                     if (row < old_row)
                     {
-
+                        /*
                         watch.Stop();
                         FPS += 1000.0 / watch.ElapsedMilliseconds;
                         FPS /= 2;
                         watch.Reset();
                         watch.Start();
+                        */
                     }
                     old_row = row;
 
@@ -393,7 +435,7 @@ namespace HelloWorld
                    
                     Buffer.BlockCopy(Packet, 0, receivedData, package_number * 512, nX);
                     window_row[package_number] = row;
-                    if (multiply_count == (multiply - 1)) line_ready = multiply;
+                    if (APD_count == (APD - 1)) line_ready = APD;
                     if (line_ready > 0)
                     {
                         int num = 0;
@@ -406,10 +448,11 @@ namespace HelloWorld
                             sum = 0;
                             for (int j = 0; j < line_ready; j++)
                             {
+                                if(j>=threshold)
                                 sum += receivedData[linestart * 512 + num];
                                 if ((++num) >= nX) { num = 0; linestart++; if (linestart >= 65536) linestart = 0; }
                             }
-                            receivedData_frame[pos + i] = (byte)(sum / line_ready);
+                            receivedData_frame[pos + i] = (byte)(sum / (line_ready-threshold));
                         }
                         line_ready = 0;
                     }
@@ -422,20 +465,266 @@ namespace HelloWorld
             }
             catch (Exception Exception)
             {
-                MessageBox.Show(Exception.Message);
+               // MessageBox.Show(Exception.Message);
             }
 
         }
+        public void RecieveComplete_word(IAsyncResult result)
+        {
+            try
+            {
+                {
+                    socket.EndReceive(result);
+                    ;
+                    row = (Int16)(Packet[2*nX] | (Packet[2*nX+1] << 8));
+                    if (row < 0 || row >= nY)
+                    { row = 0; return; }
+                    if ((old_row == row))
+                        APD_count++;
+                    else
+                        APD_count = 0;
+                    if (APD_count >= APD) APD_count = 0;
+                    if (row < old_row)
+                    {
+                        /*
+                        watch.Stop();
+                        FPS += 1000.0 / watch.ElapsedMilliseconds;
+                        FPS /= 2;
+                        watch.Reset();
+                        watch.Start();
+                        */
+                    }
+                    old_row = row;
 
+                    
+
+                    Buffer.BlockCopy(Packet, 0, receivedData, package_number * 1024, 2*nX);
+                    window_row[package_number] = row;
+                    if (APD_count == (APD - 1)) line_ready = APD;
+                    if (line_ready > 0)
+                    {
+                        int num = 0;
+                        int linestart = (package_number - line_ready + 1);// * 512;
+                        if (linestart < 0) linestart += 65536;// 33554432;
+                        int pos = (row + iY) * 512 + iX;
+
+                        for (int i = 0; i < (nX); i++)
+                        {
+                            sum = 0;
+                            for (int j = 0; j < line_ready; j++)
+                            {
+                                if (j >= threshold)
+                                    sum += (UInt32)((receivedData[linestart * 1024 + 2 * num]) | (receivedData[linestart * 1024 + 2 * num + 1]<<8));
+                                if ((++num) >= nX) { num = 0; linestart++; if (linestart >= 65536) linestart = 0; }
+                            }
+                            receivedData_frame[pos + i] = (byte)((sum / (line_ready - threshold))>>4);
+                        }
+                        line_ready = 0;
+                    }
+
+                    if ((++package_number) >= 65536) package_number = 0;
+
+                }
+                // watch.Reset(); watch.Start();// label26.Text= watch.ElapsedMilliseconds.ToString();
+                socket.BeginReceive(Packet, 0, 2 * nX + 2, SocketFlags.None, new AsyncCallback(RecieveComplete_word), socket);
+            }
+            catch (Exception Exception)
+            {
+                // MessageBox.Show(Exception.Message);
+            }
+
+        }
+        public void RecieveComplete_Byte(IAsyncResult result)
+        {
+            try
+            {
+                {
+                    socket.EndReceive(result);
+                    if(autosignal_start)
+                    {
+                        Buffer.BlockCopy(Packet, 0, receivedData, (package_number) * nX, nX);
+                        if ((++package_number) >= 65536) package_number = 0;
+                        if (package_number >= nY * APD)
+                        {
+                            autosignal_ready++;
+                            
+                            autosignal_start = false;
+                        }
+                        socket.BeginReceive(Packet, 0, 512 + 2, SocketFlags.None, new AsyncCallback(RecieveComplete_Byte), socket);
+                        return;
+                    }
+                    ;
+                    row = (Int16)(Packet[nX] | (Packet[nX + 1] << 8));
+                    if (row < 0 || row >= nY)
+                    { row = 0; }
+                    if ((old_row == row))
+                        APD_count++;
+                    else
+                        APD_count = 0;
+                    if (APD_count >= APD) APD_count = 0;
+                    if (row < old_row)
+                    {
+                        /*
+                        watch.Stop();
+                        FPS += 1000.0 / watch.ElapsedMilliseconds;
+                        FPS /= 2;
+                        watch.Reset();
+                        watch.Start();
+                        */
+                    }
+                    old_row = row;
+
+
+
+                    Buffer.BlockCopy(Packet, 0, receivedData, package_number * 512,nX);
+                    window_row[package_number] = row;
+                    if (APD_count == (APD - 1)) line_ready = APD;
+                    if (line_ready > 0)
+                    {
+                        int num = 0;
+                        int linestart = (package_number - line_ready + 1);// * 512;
+                        if (linestart < 0) linestart += 65536;// 33554432;
+                        int pos = (row + iY) * 512 + iX;
+
+                        for (int i = 0; i < (nX); i++)
+                        {
+                            sum = 0;
+                            for (int j = 0; j < line_ready; j++)
+                            {
+                                if (j >= threshold)
+                                    sum += (UInt32)((receivedData[linestart * 512 + num]));
+                                if ((++num) >= nX) { num = 0; linestart++; if (linestart >= 65536) linestart = 0; }
+                            }
+                            receivedData_frame[pos + i] = (byte)((sum / (line_ready - threshold)));
+                        }
+                        line_ready = 0;
+                    }
+
+                    if ((++package_number) >= 65536) package_number = 0;
+
+                }
+                // watch.Reset(); watch.Start();// label26.Text= watch.ElapsedMilliseconds.ToString();
+                socket.BeginReceive(Packet, 0, 512 + 2, SocketFlags.None, new AsyncCallback(RecieveComplete_Byte), socket);
+            }
+            catch (Exception Exception)
+            {
+                // MessageBox.Show(Exception.Message);
+            }
+
+        }
+        /*
+        public void RecieveComplete_new(IAsyncResult result)
+        {
+            try
+            {
+                int valid_row_in_pack;
+                {
+                    socket.EndReceive(result);
+                    ;
+                    package_number = (Int16)(Packet[PackageSize] | (Packet[PackageSize+1] << 8));
+                    int row_offset = package_number * RowpPack + iY;
+                    if ((package_number + 1) * RowpPack <= nY)
+                        valid_row_in_pack = RowpPack;
+                    else
+                        valid_row_in_pack = nY - package_number * RowpPack;
+                    //RowpPack*PixelpRow(Wx)*DatapPixel*BytepData = BytepPack
+                    //RowpPack              *BytepRow             = BytepPack
+                    //PixelpFrame=WX*WY
+                    //BytepData*DatapPixel*PixelpFrame = BytepFrame
+                    //BytepFrame/Wy=BytepRow
+                    //BytepData*DatapPixel*PixelpRow(Wx) = BytepRow
+                    //1024/BytepRow->RowpPack_Capacity
+                    //WY/RowpPack_Capacity ->
+                    //Min(RowpPack_Max,WY)->RowpPack
+                    //
+                    for (row_index=0; row_index<(valid_row_in_pack); row_index++)
+                    Buffer.BlockCopy(Packet, row_index, receivedData, (row_index + row_offset) * BytepRow + iX * BytepPixel, BytepRow);
+
+                    udp_updated = true;
+
+                }
+                // watch.Reset(); watch.Start();// label26.Text= watch.ElapsedMilliseconds.ToString();
+                socket.BeginReceive(Packet, 0, PackageSize + 2, SocketFlags.None, new AsyncCallback(RecieveComplete), socket);
+            }
+            catch
+            {
+                // MessageBox.Show(Exception.Message);
+            }
+            
+        }
+        */
+        public void RecieveComplete_full(IAsyncResult result)
+        {
+            try
+            {
+
+                    int pixel_number;
+                    socket.EndReceive(result);
+
+                
+
+                    package_number = (Int16)(Packet[PackageSize] | (Packet[PackageSize + 1] << 8));
+                if ((package_number - package_number_old) > 1) package_lost++;
+                    package_number_old = package_number;
+                if (false)
+                {
+                    if (package_number == 0) package_type_changed = false;
+                    else
+                    { socket.BeginReceive(Packet, 0, PackageSize + 2, SocketFlags.None, new AsyncCallback(RecieveComplete_full), socket); return; }
+                }
+                
+
+                if (package_number >= PPF) { package_number = 0; socket.BeginReceive(Packet, 0, PackageSize + 2, SocketFlags.None, new AsyncCallback(RecieveComplete_full), socket); return; }
+                    if (package_number == 0) frame_num++;
+                    if (frame_num >= frame_cap) frame_num = 0;
+                    int receive_offset = frame_num * BPF + package_number * (PackageSize);
+                    Buffer.BlockCopy(Packet, 0, receivedData, receive_offset, PackageSize);
+                    sum = 0;
+                    for (int i=0;i< PackageSize;i++)
+                    {
+                        pixel_number = i / APD;
+                        APD_count = i - APD * pixel_number;
+                    if (APD_count >= threshold)
+                        sum += Packet[i];// receivedData[receive_offset + i];
+                        if (APD_count == (APD - 1))
+                        {
+                         Pixel_in_subframe = package_number * PackageSize / APD + pixel_number;
+                         row_in_subframe = Pixel_in_subframe / nX;
+                         pixel_in_row_in_subframe = Pixel_in_subframe - nX * row_in_subframe;
+                         if(row_in_subframe<nY)
+                         receivedData_frame[(iY+ row_in_subframe)*512 + iX + pixel_in_row_in_subframe] = (byte)((sum / (APD - threshold)));//512 -> frame size of X
+                         sum = 0;
+                        }
+                
+                    }
+                    udp_updated = true;
+                // watch.Reset(); watch.Start();// label26.Text= watch.ElapsedMilliseconds.ToString();
+                socket.BeginReceive(Packet, 0, PackageSize + 2, SocketFlags.None, new AsyncCallback(RecieveComplete_full), socket);
+            }
+            catch
+            {
+                // MessageBox.Show(Exception.Message);
+            }
+        }
+        private void Recieve_Init()
+        {
+            BPF = 512 * 512 * APD * BPA;
+            frame_cap = 512 * 512 * 128 / BPF;
+            frame_num = frame_cap - 1;
+
+            //PPF = (int) Math.Ceiling((double)(nX * nY * APD * BPA) / (double)PackageSize);
+            int BPSF = nX * nY * APD * BPA;
+            PPF = BPSF / PackageSize;
+            if ((PPF * PackageSize) < BPSF) PPF += 1;
+        }
         private void Stop()
         {
             
-            // dactimer(0);
+            // 
             try
             {
-                object[] parms = new object[] { 0 };
-                Invoke(new _dactimer(((FormMain)(this.ownerform)).dactimer), parms);
-                // Array.Clear(receivedData, 2, 512);
+                dactimer(0);
+               
                 System.Threading.Thread.Sleep(200);
                 isUDPConnected = false;
                // Stop();
@@ -563,6 +852,8 @@ namespace HelloWorld
         private void button23_Click(object sender, EventArgs e)
         {
             Analyse an = new Analyse();
+            an.receivedData = receivedData;
+            an.window_row = window_row;
             an.Show();
         }
 
@@ -589,6 +880,7 @@ namespace HelloWorld
         private bool Edit_mode;
         private double viewfield;
         private bool hided;
+        private int package_lost;
 
         private Image<Gray, Byte> SetFilter(Image<Gray, Byte> frame)
         {
@@ -834,7 +1126,7 @@ namespace HelloWorld
                 }
 
 
-                info = String.Format("{0:0000.0}FPS", FPS);
+               // info = String.Format("{0:0000.0}FPS", FPS);
 
                 Image<Gray, byte> frame0 = SetFilter(frame);
                 // frame0.Draw(info, MCvFon, new System.Drawing.Point(100, 100), new Gray(200)); //Draw on the image using the specific font
@@ -847,6 +1139,7 @@ namespace HelloWorld
             {
                 
             }
+        
         private void ViewPort_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if(e.Button==MouseButtons.Right)
@@ -859,8 +1152,11 @@ namespace HelloWorld
 
         private void ViewPort_MouseDown(object sender, MouseEventArgs e)
         {
-            P1 = new Point((int)(e.X / Image_multiply), (int)(e.Y / Image_multiply));
-            StartClick = true;
+            if (e.Button == MouseButtons.Left)
+            {
+                P1 = new Point((int)(e.X / Image_multiply), (int)(e.Y / Image_multiply));
+                StartClick = true;
+            }
         }
 
         private void ImageSize_ValueChanged(object sender, EventArgs e)
@@ -963,16 +1259,18 @@ namespace HelloWorld
 
         private void ViewPort_MouseUp(object sender, MouseEventArgs e)
             {
+            if (e.Button == MouseButtons.Left)
+            {
 
                 StartClick = false;
-            
 
-                if (StartMove && (SelectionRec[2].X > SelectionRec[0].X) && (SelectionRec[2].Y > SelectionRec[0].Y))
+
+                if (StartMove && (SelectionRec[2].X > 10+SelectionRec[0].X) && (SelectionRec[2].Y > 10+SelectionRec[0].Y))
                 {
                     StartMove = false;
                     ChangeWindow(SelectionRec[0].X, SelectionRec[0].Y, SelectionRec[2].X - SelectionRec[0].X, SelectionRec[2].Y - SelectionRec[0].Y);
                 }
-            
+            }
             }
 
         private bool Window(decimal wix, decimal wiy, decimal wnx, decimal wny)
@@ -982,7 +1280,7 @@ namespace HelloWorld
             // Invoke()
             // ((FormMain)(this.ParentForm)).in.SendAndReceiveOK(CompleteOrder);
             //Onnotify(CompleteOrder);
-            object[] parms = new object[] { CompleteOrder };
+            object[] parms = new object[] { CompleteOrder , 10 };
             return (bool)Invoke(new tcpcommand(((FormMain)(this.ownerform)).SendAndReceiveOK), parms);
             // you'll get a new value of 'x' here (incremented by 10)
             return true;// SendAndReceiveOK(CompleteOrder);
@@ -992,8 +1290,9 @@ namespace HelloWorld
             {
                 try
                 {
-                    //        dactimer(0);
-                    bool isOK = Window(wix, wiy, wnx, wny);
+                            dactimer(0);
+                System.Threading.Thread.Sleep(100);
+                bool isOK = Window(wix, wiy, wnx, wny);
                     if (!isOK) throw new Exception("Error in changing window");
 
 
@@ -1001,9 +1300,13 @@ namespace HelloWorld
                     iY = (int)wiy;
                     nX = (int)wnx;
                     nY = (int)wny;
-                    //nRow = (int)wny;
+                //nRow = (int)wny;
+                //word-> socket.BeginReceive(Packet, 0, 2 * nX + 2, SocketFlags.None, new AsyncCallback(RecieveComplete_word), socket);
+                // socket.BeginReceive(Packet, 0, 512 + 2, SocketFlags.None, new AsyncCallback(RecieveComplete_Byte), socket);
 
-                    //      dactimer(1);
+              //  Recieve_Init();
+                package_type_changed = true;
+                dactimer(1);
                     return true;
                 }
                 catch (Exception ex)
@@ -1011,7 +1314,11 @@ namespace HelloWorld
                     return false;
                 }
             }
-
+        private void dactimer(int mode)
+        {
+            object[] parms = new object[] { mode };
+            Invoke(new _dactimer(((FormMain)(this.ownerform)).dactimer), parms);
+        }
         private void checkBox_Measure_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox_Measure.Checked)
@@ -1087,7 +1394,7 @@ namespace HelloWorld
 
 
 
-        public delegate bool tcpcommand(string command);  // delegate
+        public delegate bool tcpcommand(string command,int timeout);  // delegate
 
 
 
@@ -1108,9 +1415,103 @@ namespace HelloWorld
             label92.ForeColor = Color.Moccasin;
         }
 
-        void Onnotify(string command)
+        private void timer_lostpackage_Tick(object sender, EventArgs e)
         {
-            tcpavailable?.Invoke(command);
+            label_lostpackage.Text = package_lost.ToString();
+        }
+
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+
+        }
+        public delegate void setsig(int gain,int offset);
+        public delegate int getsig();
+        private void setsignal(int gain, int offset)
+        {
+            object[] parms = new object[] { gain,offset };
+            Invoke(new setsig(((FormMain)(this.ownerform)).set_gain_offset), parms);
+        }
+        private void getsignal(out int gain,out int offset)
+        {
+           
+           int go = (int) Invoke(new getsig(((FormMain)(this.ownerform)).get_gain_offset));
+            gain = go / 256;
+            offset = go - 256 * gain;
+        }
+        private void autoSignalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int offset;
+            int gain;
+            getsignal(out gain, out offset);
+            setsignal(gain, 30);
+            dactimer(0);
+            System.Threading.Thread.Sleep(200);
+            autosignal_ready = 0;
+            autosignal_start = true;
+            package_number = 0;
+            dactimer(1);
+            timeouttimer.Start();
+            while (timeouttimer.Enabled)
+            {
+                if(autosignal_ready>0)
+                {
+                    dactimer(0);
+                    autosignal_ready--;
+                    Array.Sort(receivedData, 0, nX * nY * APD);
+                    signal_min = receivedData[nX * nY * APD / 10];
+                    signal_max = receivedData[9 * nX * nY * APD / 10];
+                    autosignal(signal_min, signal_max);
+                   // signal_max - signal_min;
+                }
+            }
+            // autosignal_ready = 0;
+            package_number = 0;
+             autosignal_start = false;
+            ChangeWindow(iX, iY, nX, nY);
+        }
+        private void autoSignalToolStripMenuItem_Click_old(object sender, EventArgs e)
+        {
+            int offset;
+            int gain;
+            getsignal(out gain, out offset);
+
+            byte[] last_frame = new byte[nX * nY * APD * BPA];
+            int last_frame_num = frame_num - 1;
+            if (last_frame_num < 0) last_frame_num = frame_cap;
+
+            int receive_start = last_frame_num * BPF;// + package_number * (PackageSize);
+            Buffer.BlockCopy(receivedData, receive_start, last_frame, 0, nX * nY * APD * BPA);
+            
+            Array.Sort(last_frame);
+            signal_min = receivedData[nX * nY * APD / 10];
+            signal_max = receivedData[9 * nX * nY * APD / 10];
+            autosignal(signal_min, signal_max);
+           
+        }
+        private void autosignal(int s_min,int s_max)
+        {
+            int offset,new_offset ;
+            int gain, new_gain;
+            getsignal(out gain,out offset);
+            int delta = s_max - s_min;
+            int mid = (s_max + s_min) / 2;
+            if (delta > 250)
+                new_gain = gain / 2;
+            else
+            if (delta < 50)
+                new_gain = gain * 4;
+            else
+                new_gain = gain * 220 / delta;
+            if (new_gain > 95) new_gain = 95;
+            new_offset=offset-(128 - new_gain * mid / gain)*100/256;
+            setsignal(new_gain, new_offset);
+
+
+        }
+        
+        void Onnotify(string command,int timeout)
+        {
+            tcpavailable?.Invoke(command,timeout);
         }
         private void ViewPort_MouseClick(object sender, MouseEventArgs e)
         {
@@ -1304,6 +1705,7 @@ namespace HelloWorld
         }
 
     }
+
     public class DrawObject:Object
     {
         public IList<Point> points = new List<Point>();
